@@ -8,11 +8,17 @@ table:
     requried: Is the column value required
     default: default value for the column
     note: note for the column
+    valueEnum:
+    - value: value
+      desc: description
   - name: column name
     type: data type
     requried: Is the column value required
     default: default value for the column
     note: note for the column
+    valueEnum:
+    - value: value
+      desc: description
   constraint:
   - name: constraint name
     type: constraint type, e.g. PRIMARY KEY
