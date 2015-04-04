@@ -38,6 +38,7 @@ table:
       order: DESC
 
 -------Generate Result
+<pre>
 USE db_6_216cb;
 
 IF EXISTS (SELECT * FROM SYS.TABLES WHERE NAME = 'department' AND TYPE = 'U'AND SCHEMA_NAME(SCHEMA_ID) = 'dbo')
@@ -54,3 +55,4 @@ CREATE TABLE dbo.department(
 CREATE UNIQUE INDEX test_dept_name_idx ON dbo.department (
   name DESC
 );
+</pre>
