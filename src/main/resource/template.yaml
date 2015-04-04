@@ -6,7 +6,7 @@ table:
   - name: column name
     type: data type
     requried: Is the column value required
-    default: default value for the column
+    defaultVal: default value for the column
     note: note for the column
     valueEnum:
     - value: value
@@ -14,7 +14,7 @@ table:
   - name: column name
     type: data type
     requried: Is the column value required
-    default: default value for the column
+    defaultVal: default value for the column
     note: note for the column
     valueEnum:
     - value: value

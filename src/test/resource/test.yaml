@@ -1,0 +1,33 @@
+database: test
+schema: dev
+table:
+- name: department
+  column:
+  - name: id
+    type: varchar(16)
+    requried: true
+    note: uuid for the department
+  - name: name
+    type: varchar(16)
+    requried: true
+    note: name for the department
+  - name: type
+    type: integer
+    requried: true
+    note: the type for the department
+    valueEnum:
+    - value: 1
+      desc: real department
+    - value: 2
+      desc: virtual department
+  constraint:
+  - name: test_dept_pk
+    type: PRIMARY KEY
+    column:
+    - id
+  index:
+  - name: test_dept_name_idx
+    type: UNIQUE
+    column:
+    - name: name
+      order: DESC
