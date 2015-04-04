@@ -25,17 +25,17 @@ public class ColumnGeneratorImpl implements ColumnGenerator {
 		}
 
 		if (null != column.getNote() && column.getNote().length() > 0) {
-			sb.append(OutputUtil.TAB_SEPERATOR).append(" -- ").append(column.getNote());
+			sb.append(OutputUtil.INDENT_SIZE).append(" -- ").append(column.getNote());
 
 			if (null != column.getValueEnum() && column.getValueEnum().size() > 0) {
-				sb.append(OutputUtil.TAB_SEPERATOR).append("[");
+				sb.append(OutputUtil.INDENT_SIZE).append("[");
 				for (ValueEnum ve : column.getValueEnum()) {
 					sb.append("(").append(ve.getValue()).append(":").append(ve.getDesc()).append(") ");
 				}
 				sb.append("]");
 			}
 		} else if (null != column.getValueEnum() && column.getValueEnum().size() > 0) {
-			sb.append(OutputUtil.TAB_SEPERATOR).append(" -- [");
+			sb.append(OutputUtil.INDENT_SIZE).append(" -- [");
 			for (ValueEnum ve : column.getValueEnum()) {
 				sb.append("(").append(ve.getValue()).append(":").append(ve.getDesc()).append(") ");
 			}

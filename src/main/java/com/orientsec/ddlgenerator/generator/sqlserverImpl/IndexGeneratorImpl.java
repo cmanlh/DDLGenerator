@@ -23,11 +23,11 @@ public class IndexGeneratorImpl implements IndexGenerator {
 		sb.append(config.getTable()).append(" (").append(OutputUtil.LINE_SEPERATOR);
 
 		List<IndexColumn> indexColumnList = index.getColumn();
-		sb.append(OutputUtil.TAB_SEPERATOR).append(indexColumnList.get(0).getName()).append(" ")
+		sb.append(OutputUtil.INDENT_SIZE).append(indexColumnList.get(0).getName()).append(" ")
 				.append(indexColumnList.get(0).getOrder()).append(OutputUtil.LINE_SEPERATOR);
 		for (int i = 1; i < indexColumnList.size(); i++) {
-			sb.append(OutputUtil.TAB_SEPERATOR).append(",").append(indexColumnList.get(i).getName()).append(" ")
-					.append(indexColumnList.get(i).getOrder()).append(OutputUtil.TAB_SEPERATOR);
+			sb.append(OutputUtil.INDENT_SIZE).append(",").append(indexColumnList.get(i).getName()).append(" ")
+					.append(indexColumnList.get(i).getOrder()).append(OutputUtil.INDENT_SIZE);
 		}
 		sb.append(");");
 
