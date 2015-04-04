@@ -5,23 +5,23 @@ import java.io.Serializable;
 public class IndexColumn implements Serializable {
 	private static final long serialVersionUID = 6105003221662256777L;
 
-	private String value;
+	private String name;
 
-	private String desc;
+	private String order;
 
-	public String getValue() {
-		return value;
+	public String getName() {
+		return name;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getOrder() {
+		return order;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setOrder(String order) {
+		this.order = order;
 	}
 }

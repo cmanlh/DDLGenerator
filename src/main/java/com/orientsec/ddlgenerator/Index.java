@@ -10,7 +10,7 @@ public class Index implements Serializable {
 
 	private String type;
 
-	private List<String> column;
+	private List<IndexColumn> column;
 
 	public String getName() {
 		return name;
@@ -28,11 +28,11 @@ public class Index implements Serializable {
 		this.type = type;
 	}
 
-	public List<String> getColumn() {
+	public List<IndexColumn> getColumn() {
 		return column;
 	}
 
-	public void setColumn(List<String> column) {
+	public void setColumn(List<IndexColumn> column) {
 		this.column = column;
 	}
 }

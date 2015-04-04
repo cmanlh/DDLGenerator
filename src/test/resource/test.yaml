@@ -1,5 +1,6 @@
-database: test
-schema: dev
+config:
+  database: db_6_216cb
+  schema: dbo
 table:
 - name: department
   column:

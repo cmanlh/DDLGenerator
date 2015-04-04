@@ -1,5 +1,6 @@
-database: database name
-schema: schema name
+config:
+  database: database name
+  schema: schema name
 table:
 - name: table name
   column:
