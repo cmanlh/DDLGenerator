@@ -1,7 +1,8 @@
 # DDLGenerator
 
---------config file in YAML.
+##config file in YAML.
 
+<pre>
 config:
   database: db_6_216cb
   schema: dbo
@@ -36,8 +37,10 @@ table:
     column:
     - name: name
       order: DESC
+</pre>
 
--------Generate Result
+##Generate Result
+
 <pre>
 USE db_6_216cb;
 
