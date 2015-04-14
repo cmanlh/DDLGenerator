@@ -4,46 +4,55 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Table implements Serializable {
-	private static final long serialVersionUID = 1698905977625460915L;
+    private static final long serialVersionUID = 1698905977625460915L;
 
-	private String name;
+    private String name;
 
-	private List<Column> column;
+    private String comment;
 
-	private List<Constraint> constraint;
+    private List<Column> column;
 
-	private List<Index> index;
+    private List<Constraint> constraint;
 
-	public String getName() {
-		return name;
-	}
+    private List<Index> index;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public List<Column> getColumn() {
-		return column;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setColumn(List<Column> column) {
-		this.column = column;
-	}
+    public List<Column> getColumn() {
+        return column;
+    }
 
-	public List<Constraint> getConstraint() {
-		return constraint;
-	}
+    public void setColumn(List<Column> column) {
+        this.column = column;
+    }
 
-	public void setConstraint(List<Constraint> constraint) {
-		this.constraint = constraint;
-	}
+    public List<Constraint> getConstraint() {
+        return constraint;
+    }
 
-	public List<Index> getIndex() {
-		return index;
-	}
+    public void setConstraint(List<Constraint> constraint) {
+        this.constraint = constraint;
+    }
 
-	public void setIndex(List<Index> index) {
-		this.index = index;
-	}
+    public List<Index> getIndex() {
+        return index;
+    }
 
+    public void setIndex(List<Index> index) {
+        this.index = index;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }

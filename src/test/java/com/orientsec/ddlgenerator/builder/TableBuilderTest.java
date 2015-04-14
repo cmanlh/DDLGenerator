@@ -15,11 +15,11 @@ import com.orientsec.ddlgenerator.config.TableBuildingConfig;
 public class TableBuilderTest {
 	@Test
 	public void build() throws IOException {
-		YamlReader reader = new YamlReader(new FileReader("src//test//resource//test.yaml"));
+		YamlReader reader = new YamlReader(new FileReader("src//test//resource//cashmgmt.yml"));
 		TableBuildingConfig tableBuildingConfig = reader.read(TableBuildingConfig.class, Table.class);
 		tableBuildingConfig = JSON.parseObject(JSON.toJSONString(tableBuildingConfig), TableBuildingConfig.class);
 		TableBuilder tableBuilder = new TableBuilder();
-		FileOutputStream fos = new FileOutputStream(new File("target//result.json"));
+		FileOutputStream fos = new FileOutputStream(new File("target//result.sql"));
 		fos.write(tableBuilder.build(tableBuildingConfig).getBytes());
 		fos.close();
 	}
