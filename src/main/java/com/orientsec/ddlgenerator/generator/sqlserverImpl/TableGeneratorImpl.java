@@ -28,6 +28,7 @@ public class TableGeneratorImpl implements TableGenerator {
         sb.append(")").append(OutputUtil.LINE_SEPERATOR);
         sb.append(OutputUtil.INDENT_SIZE).append("DROP TABLE ").append(schemaPrefix).append(table.getName()).append(";")
                 .append(OutputUtil.LINE_SEPERATOR);
+        sb.append("GO").append(OutputUtil.LINE_SEPERATOR);
         sb.append(OutputUtil.LINE_SEPERATOR);
 
         ColumnGenerator columnGenerator = new ColumnGeneratorImpl();
@@ -37,10 +38,11 @@ public class TableGeneratorImpl implements TableGenerator {
         for (int i = 1; i < columnList.size(); i++) {
             sb.append(OutputUtil.INDENT_SIZE).append(",").append(columnGenerator.generator(columnList.get(i))).append(OutputUtil.LINE_SEPERATOR);
         }
-
-        ConstraintGeneratorImpl constraintGenerator = new ConstraintGeneratorImpl();
-        for (Constraint constraint : table.getConstraint()) {
-            sb.append(OutputUtil.INDENT_SIZE).append(",").append(constraintGenerator.generator(constraint)).append(OutputUtil.LINE_SEPERATOR);
+        if (null != table.getConstraint()) {
+            ConstraintGeneratorImpl constraintGenerator = new ConstraintGeneratorImpl();
+            for (Constraint constraint : table.getConstraint()) {
+                sb.append(OutputUtil.INDENT_SIZE).append(",").append(constraintGenerator.generator(constraint)).append(OutputUtil.LINE_SEPERATOR);
+            }
         }
         sb.append(");").append(OutputUtil.LINE_SEPERATOR);
         sb.append(OutputUtil.LINE_SEPERATOR);
@@ -54,7 +56,6 @@ public class TableGeneratorImpl implements TableGenerator {
                 sb.append(indexGenerator.generator(index, indexCommon)).append(OutputUtil.LINE_SEPERATOR);
             }
         }
-        sb.append("GO").append(OutputUtil.LINE_SEPERATOR);
         sb.append(OutputUtil.LINE_SEPERATOR);
         return sb.toString();
     }

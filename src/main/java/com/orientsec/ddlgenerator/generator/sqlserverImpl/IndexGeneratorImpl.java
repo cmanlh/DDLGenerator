@@ -27,7 +27,7 @@ public class IndexGeneratorImpl implements IndexGenerator {
 				.append(indexColumnList.get(0).getOrder()).append(OutputUtil.LINE_SEPERATOR);
 		for (int i = 1; i < indexColumnList.size(); i++) {
 			sb.append(OutputUtil.INDENT_SIZE).append(",").append(indexColumnList.get(i).getName()).append(" ")
-					.append(indexColumnList.get(i).getOrder()).append(OutputUtil.INDENT_SIZE);
+					.append(indexColumnList.get(i).getOrder()).append(OutputUtil.LINE_SEPERATOR);
 		}
 		sb.append(");");
 
