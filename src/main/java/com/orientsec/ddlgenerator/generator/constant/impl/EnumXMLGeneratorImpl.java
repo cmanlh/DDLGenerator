@@ -51,6 +51,7 @@ public class EnumXMLGeneratorImpl implements EnumXMLGenerator {
         OutputStreamWriter osw = null;
         try {
             File path = new File(config.getOutputPath());
+            System.out.println(path.getPath());
             osw = new OutputStreamWriter(new FileOutputStream(path.getPath() + "/Enums.xml"), "UTF-8");
             osw.write(builder.toString().toCharArray(), 0, builder.length());
         } catch (UnsupportedEncodingException e) {
