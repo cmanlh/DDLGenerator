@@ -2,6 +2,7 @@ package com.orientsec.ddlgenerator.generator.constant.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.lang.model.element.Modifier;
@@ -26,6 +27,9 @@ public class EnumJavaClassGeneratorImpl implements EnumJavaClassGenerator {
         Builder enumTypeBuilder = TypeSpec.enumBuilder(enumConfig.getName()).addModifiers(Modifier.PUBLIC);
         ClassName enumClass = ClassName.get(packageName, enumConfig.getName());
 
+        if (null != enumConfig.getDesc()) {
+            enumTypeBuilder.addJavadoc(enumConfig.getDesc());
+        }
 
         for (ValueEnum valueEnum : enumConfig.getOptions()) {
             String enumConstantName = valueEnum.getName() == null ? "NULL" : valueEnum.getName();
@@ -37,24 +41,23 @@ public class EnumJavaClassGeneratorImpl implements EnumJavaClassGenerator {
 
         }
 
-        enumTypeBuilder.addJavadoc(enumConfig.getDesc());
         enumTypeBuilder.addField(String.class, "name", Modifier.PRIVATE).addField(int.class, "value", Modifier.PRIVATE)
                 .addField(String.class, "desc", Modifier.PRIVATE).addField(String.class, "note", Modifier.PRIVATE);
 
         enumTypeBuilder.addField(FieldSpec
                 .builder(ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(Integer.class), enumClass), "valueMapping",
                         Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
-                .initializer(CodeBlock.builder().add("new $L<$L, $L>()", "HashMap", "Integer", enumConfig.getName()).build()).build());
+                .initializer(CodeBlock.builder().add("new $T<$L, $L>()", HashMap.class, "Integer", enumConfig.getName()).build()).build());
 
         enumTypeBuilder.addField(FieldSpec
                 .builder(ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(String.class), enumClass), "nameMapping",
                         Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
-                .initializer(CodeBlock.builder().add("new $L<$L, $L>()", "HashMap", "String", enumConfig.getName()).build()).build());
+                .initializer(CodeBlock.builder().add("new $T<$L, $L>()", HashMap.class, "String", enumConfig.getName()).build()).build());
 
         enumTypeBuilder.addField(FieldSpec
                 .builder(ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(String.class), enumClass), "descMapping",
                         Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
-                .initializer(CodeBlock.builder().add("new $L<$L, $L>()", "HashMap", "String", enumConfig.getName()).build()).build());
+                .initializer(CodeBlock.builder().add("new $T<$L, $L>()", HashMap.class, "String", enumConfig.getName()).build()).build());
 
 
         enumTypeBuilder.addMethod(MethodSpec.constructorBuilder().addModifiers(Modifier.PRIVATE).addParameter(String.class, "name")
