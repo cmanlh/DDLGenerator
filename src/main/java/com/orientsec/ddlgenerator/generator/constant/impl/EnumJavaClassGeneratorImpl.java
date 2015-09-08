@@ -36,6 +36,8 @@ public class EnumJavaClassGeneratorImpl implements EnumJavaClassGenerator {
                             .addJavadoc("$${@$L@$L.getValue()}", enumClass.toString(), enumConstantName).build());
 
         }
+
+        enumTypeBuilder.addJavadoc(enumConfig.getDesc());
         enumTypeBuilder.addField(String.class, "name", Modifier.PRIVATE).addField(int.class, "value", Modifier.PRIVATE)
                 .addField(String.class, "desc", Modifier.PRIVATE).addField(String.class, "note", Modifier.PRIVATE);
 
