@@ -10,6 +10,8 @@ public class EnumConfig implements Serializable {
 
     private String name;
 
+    private String desc;
+
     private List<ValueEnum> options;
 
     public String getName() {
@@ -18,6 +20,14 @@ public class EnumConfig implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public List<ValueEnum> getOptions() {

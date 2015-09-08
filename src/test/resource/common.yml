@@ -1,0 +1,28 @@
+outputPath: ./
+packageName: com.test
+enums:
+- name: TestEnum
+  desc: 测试
+  options:
+  - name: NIL
+    value: 0
+    desc: 空值
+  - name: HELLO
+    value: 1
+    desc: 描述
+    note: 备注
+  - name: WORLD
+    value: 2
+    desc: 描述
+- name: TestEnum2
+  options:
+  - name: NIL
+    value: 0
+    desc: 空值
+  - name: HELLO
+    value: 1
+    desc: 描述
+    note: 备注
+  - name: WORLD
+    value: 2
+    desc: 描述
