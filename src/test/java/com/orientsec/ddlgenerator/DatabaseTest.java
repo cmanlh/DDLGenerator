@@ -13,6 +13,7 @@ import com.orientsec.ddlgenerator.config.CommonObjectConfig;
 import com.orientsec.ddlgenerator.config.EnumConfig;
 import com.orientsec.ddlgenerator.config.TableBuildingConfig;
 import com.orientsec.ddlgenerator.generator.constant.impl.EnumJavaClassGeneratorImpl;
+import com.orientsec.ddlgenerator.generator.constant.impl.EnumSQLGeneratorImpl;
 import com.orientsec.ddlgenerator.generator.constant.impl.EnumXMLGeneratorImpl;
 
 public class DatabaseTest {
@@ -36,8 +37,10 @@ public class DatabaseTest {
         commonObjectConfigBuilder = JSON.parseObject(JSON.toJSONString(commonObjectConfigBuilder), CommonObjectConfig.class);
         EnumJavaClassGeneratorImpl hel = new EnumJavaClassGeneratorImpl();
         EnumXMLGeneratorImpl hel2 = new EnumXMLGeneratorImpl();
+        EnumSQLGeneratorImpl hel3 = new EnumSQLGeneratorImpl();
         for (EnumConfig enumConfig : commonObjectConfigBuilder.getEnums())
             hel.generate(enumConfig, commonObjectConfigBuilder.getPackageName(), commonObjectConfigBuilder.getOutputPath());
         hel2.generate(commonObjectConfigBuilder);
+        hel3.generate(commonObjectConfigBuilder);
     }
 }

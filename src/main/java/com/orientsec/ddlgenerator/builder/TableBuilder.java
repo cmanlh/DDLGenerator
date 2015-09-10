@@ -13,6 +13,7 @@ import com.orientsec.ddlgenerator.config.EnumConfig;
 import com.orientsec.ddlgenerator.config.TableBuildingConfig;
 import com.orientsec.ddlgenerator.generator.TableGenerator;
 import com.orientsec.ddlgenerator.generator.constant.impl.EnumJavaClassGeneratorImpl;
+import com.orientsec.ddlgenerator.generator.constant.impl.EnumSQLGeneratorImpl;
 import com.orientsec.ddlgenerator.generator.constant.impl.EnumXMLGeneratorImpl;
 import com.orientsec.ddlgenerator.generator.sqlserverImpl.TableGeneratorImpl;
 import com.orientsec.ddlgenerator.generator.util.OutputUtil;
@@ -60,6 +61,8 @@ public class TableBuilder {
 
             EnumXMLGeneratorImpl xmlEnum = new EnumXMLGeneratorImpl();
             xmlEnum.generate(commonObjectConfigBuilder);
+            EnumSQLGeneratorImpl sqlEnum = new EnumSQLGeneratorImpl();
+            sqlEnum.generate(commonObjectConfigBuilder);
         }
     }
 }
