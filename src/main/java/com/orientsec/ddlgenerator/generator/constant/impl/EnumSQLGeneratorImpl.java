@@ -27,7 +27,7 @@ public class EnumSQLGeneratorImpl implements EnumSQLGenerator {
             builder.append("CREATE TABLE ").append(tableName).append("(").append(OutputUtil.LINE_SEPERATOR);
             builder.append(OutputUtil.INDENT_SIZE).append("id int NOT NULL").append(OutputUtil.LINE_SEPERATOR);
             builder.append(OutputUtil.INDENT_SIZE).append(",name varchar(32) NOT NULL").append(OutputUtil.LINE_SEPERATOR);
-            builder.append(OutputUtil.INDENT_SIZE).append(",desc nvarchar(32) NOT NULL").append(OutputUtil.LINE_SEPERATOR);
+            builder.append(OutputUtil.INDENT_SIZE).append(",description nvarchar(32) NOT NULL").append(OutputUtil.LINE_SEPERATOR);
             builder.append(OutputUtil.INDENT_SIZE).append(",note nvarchar(128)").append(OutputUtil.LINE_SEPERATOR);
             builder.append(OutputUtil.INDENT_SIZE).append(",createUser varchar(16) NOT NULL").append(OutputUtil.LINE_SEPERATOR);
             builder.append(OutputUtil.INDENT_SIZE).append(",createTime datetime NOT NULL").append(OutputUtil.LINE_SEPERATOR);
