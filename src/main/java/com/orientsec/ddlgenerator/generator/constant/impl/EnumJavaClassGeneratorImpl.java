@@ -35,9 +35,11 @@ public class EnumJavaClassGeneratorImpl implements EnumJavaClassGenerator {
             String enumConstantName = valueEnum.getName() == null ? "NULL" : valueEnum.getName();
             String enumConstantNote = valueEnum.getNote() == null ? "" : valueEnum.getNote();
             String enumConstantDesc = valueEnum.getDesc() == null ? "" : valueEnum.getDesc();
-            enumTypeBuilder.addEnumConstant(enumConstantName,
+            enumTypeBuilder.addEnumConstant(
+                    enumConstantName,
                     TypeSpec.anonymousClassBuilder("$S, $L, $S, $S", enumConstantName, valueEnum.getValue(), enumConstantDesc, enumConstantNote)
-                            .addJavadoc("$${@$L@$L.getValue()}", enumClass.toString(), enumConstantName).build());
+                            .addJavadoc("$${@$L@$L.getValue()}\n\n", enumClass.toString(), enumConstantName).addJavadoc(enumConstantDesc)
+                            .addJavadoc("\n").build());
 
         }
 

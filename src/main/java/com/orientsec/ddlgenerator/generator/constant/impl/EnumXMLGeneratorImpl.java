@@ -43,7 +43,7 @@ public class EnumXMLGeneratorImpl implements EnumXMLGenerator {
                         .append(valueEnum.getValue()).append("\" description=\"").append(valueEnum.getDesc()).append("\"/>")
                         .append(OutputUtil.LINE_SEPERATOR);
             }
-            builder.append(OutputUtil.INDENT_SIZE).append(OutputUtil.INDENT_SIZE).append("<Items>").append(OutputUtil.LINE_SEPERATOR);
+            builder.append(OutputUtil.INDENT_SIZE).append(OutputUtil.INDENT_SIZE).append("</Items>").append(OutputUtil.LINE_SEPERATOR);
             builder.append(OutputUtil.INDENT_SIZE).append("</EnumSource>").append(OutputUtil.LINE_SEPERATOR).append(OutputUtil.LINE_SEPERATOR);
         }
         builder.append("</Enums>");
