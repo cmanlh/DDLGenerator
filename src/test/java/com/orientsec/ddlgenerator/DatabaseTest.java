@@ -12,6 +12,7 @@ import com.esotericsoftware.yamlbeans.YamlReader;
 import com.orientsec.ddlgenerator.config.CommonObjectConfig;
 import com.orientsec.ddlgenerator.config.EnumConfig;
 import com.orientsec.ddlgenerator.config.TableBuildingConfig;
+import com.orientsec.ddlgenerator.generator.constant.impl.EnumCSClassGeneratorImpl;
 import com.orientsec.ddlgenerator.generator.constant.impl.EnumJavaClassGeneratorImpl;
 import com.orientsec.ddlgenerator.generator.constant.impl.EnumSQLGeneratorImpl;
 import com.orientsec.ddlgenerator.generator.constant.impl.EnumXMLGeneratorImpl;
@@ -38,9 +39,11 @@ public class DatabaseTest {
         EnumJavaClassGeneratorImpl hel = new EnumJavaClassGeneratorImpl();
         EnumXMLGeneratorImpl hel2 = new EnumXMLGeneratorImpl();
         EnumSQLGeneratorImpl hel3 = new EnumSQLGeneratorImpl();
+        EnumCSClassGeneratorImpl hel4 = new EnumCSClassGeneratorImpl();
         for (EnumConfig enumConfig : commonObjectConfigBuilder.getEnums())
             hel.generate(enumConfig, commonObjectConfigBuilder.getPackageName(), commonObjectConfigBuilder.getOutputPath());
         hel2.generate(commonObjectConfigBuilder);
         hel3.generate(commonObjectConfigBuilder);
+        hel4.generate(commonObjectConfigBuilder);
     }
 }

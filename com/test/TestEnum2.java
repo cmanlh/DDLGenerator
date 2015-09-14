@@ -7,15 +7,24 @@ import java.util.Map;
 
 public enum TestEnum2 {
   /**
-   * ${@com.test.TestEnum2@NIL.getValue()} */
+   * ${@com.test.TestEnum2@NIL.getValue()}
+   *
+   * 空值
+   */
   NIL("NIL", 0, "空值", ""),
 
   /**
-   * ${@com.test.TestEnum2@HELLO.getValue()} */
+   * ${@com.test.TestEnum2@HELLO.getValue()}
+   *
+   * 描述
+   */
   HELLO("HELLO", 1, "描述", "备注"),
 
   /**
-   * ${@com.test.TestEnum2@WORLD.getValue()} */
+   * ${@com.test.TestEnum2@WORLD.getValue()}
+   *
+   * 描述
+   */
   WORLD("WORLD", 2, "描述", "");
 
   private static final Map<Integer, TestEnum2> valueMapping = new HashMap<Integer, TestEnum2>();

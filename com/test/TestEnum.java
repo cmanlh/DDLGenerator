@@ -9,15 +9,24 @@ import java.util.Map;
  * 测试 */
 public enum TestEnum {
   /**
-   * ${@com.test.TestEnum@NIL.getValue()} */
+   * ${@com.test.TestEnum@NIL.getValue()}
+   *
+   * 空值
+   */
   NIL("NIL", 0, "空值", ""),
 
   /**
-   * ${@com.test.TestEnum@HELLO.getValue()} */
+   * ${@com.test.TestEnum@HELLO.getValue()}
+   *
+   * 描述
+   */
   HELLO("HELLO", 1, "描述", "备注"),
 
   /**
-   * ${@com.test.TestEnum@WORLD.getValue()} */
+   * ${@com.test.TestEnum@WORLD.getValue()}
+   *
+   * 描述
+   */
   WORLD("WORLD", 2, "描述", "");
 
   private static final Map<Integer, TestEnum> valueMapping = new HashMap<Integer, TestEnum>();
