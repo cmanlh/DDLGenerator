@@ -32,6 +32,10 @@ public class EnumCSClassGeneratorImpl implements EnumCSClassGenerator {
             builder.append(OutputUtil.INDENT_SIZE).append("{").append(OutputUtil.LINE_SEPERATOR);
             for (ValueEnum valueEnum : enumConfig.getOptions()) {
                 if (!valueEnum.getValue().equals("0")) {
+                    builder.append(OutputUtil.INDENT_SIZE).append(OutputUtil.INDENT_SIZE).append("/// <summary>").append(OutputUtil.LINE_SEPERATOR)
+                            .append(OutputUtil.INDENT_SIZE).append(OutputUtil.INDENT_SIZE).append("/// ").append(valueEnum.getDesc())
+                            .append(OutputUtil.LINE_SEPERATOR).append(OutputUtil.INDENT_SIZE).append(OutputUtil.INDENT_SIZE).append("/// </summary>")
+                            .append(OutputUtil.LINE_SEPERATOR);
                     builder.append(OutputUtil.INDENT_SIZE).append(OutputUtil.INDENT_SIZE).append("[Description(\"").append(valueEnum.getDesc())
                             .append("\")]").append(OutputUtil.LINE_SEPERATOR);
                 }
