@@ -19,7 +19,8 @@ public class EnumCSClassGeneratorImpl implements EnumCSClassGenerator {
     public void generate(CommonObjectConfig config) {
         StringBuilder builder = new StringBuilder();
 
-        builder.append("namespace com.orientsec.cashmgmt.pb").append(OutputUtil.LINE_SEPERATOR).append("{").append(OutputUtil.LINE_SEPERATOR);
+        builder.append("namespace OrientSec.FinancialBizSystem.Common").append(OutputUtil.LINE_SEPERATOR).append("{")
+                .append(OutputUtil.LINE_SEPERATOR);
 
         for (EnumConfig enumConfig : config.getEnums()) {
             if (null != enumConfig.getDesc()) {
