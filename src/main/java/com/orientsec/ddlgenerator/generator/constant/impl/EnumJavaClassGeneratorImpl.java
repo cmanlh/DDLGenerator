@@ -80,13 +80,16 @@ public class EnumJavaClassGeneratorImpl implements EnumJavaClassGenerator {
                 .addStatement("return this.$N", "note").build());
 
         enumTypeBuilder.addMethod(MethodSpec.methodBuilder("valueOf").addModifiers(Modifier.PUBLIC, Modifier.STATIC).returns(enumClass)
-                .addParameter(int.class, "value").addStatement("return $L.get($L)", "valueMapping", "value").build());
+                .addParameter(int.class, "value").addStatement("$T valEnum = $L.get($L)", enumClass, "valueMapping", "value")
+                .addStatement("return null == valEnum ? NIL : valEnum").build());
 
         enumTypeBuilder.addMethod(MethodSpec.methodBuilder("nameOf").addModifiers(Modifier.PUBLIC, Modifier.STATIC).returns(enumClass)
-                .addParameter(String.class, "name").addStatement("return $L.get($L)", "nameMapping", "name").build());
+                .addParameter(String.class, "name").addStatement("$T valEnum = $L.get($L)", enumClass, "nameMapping", "name")
+                .addStatement("return null == valEnum ? NIL : valEnum").build());
 
         enumTypeBuilder.addMethod(MethodSpec.methodBuilder("descOf").addModifiers(Modifier.PUBLIC, Modifier.STATIC).returns(enumClass)
-                .addParameter(String.class, "desc").addStatement("return $L.get($L)", "descMapping", "desc").build());
+                .addParameter(String.class, "desc").addStatement("$T valEnum = $L.get($L)", enumClass, "descMapping", "desc")
+                .addStatement("return null == valEnum ? NIL : valEnum").build());
 
         enumTypeBuilder.addStaticBlock(CodeBlock.builder().addStatement("$L[] enumArray = $L.values()", enumConfig.getName(), enumConfig.getName())
                 .beginControlFlow("for ($L _enum : enumArray)", enumConfig.getName())
