@@ -24,6 +24,8 @@ public class EnumCSClassGeneratorImpl implements EnumCSClassGenerator {
                 .append(OutputUtil.LINE_SEPERATOR);
 
         for (EnumConfig enumConfig : config.getEnums()) {
+            String prefix = null == enumConfig.getPrefix() ? "" : enumConfig.getPrefix();
+
             if (null != enumConfig.getDesc()) {
                 builder.append(OutputUtil.INDENT_SIZE).append("/// <summary>").append(OutputUtil.LINE_SEPERATOR).append(OutputUtil.INDENT_SIZE)
                         .append("/// ").append(enumConfig.getDesc()).append(OutputUtil.LINE_SEPERATOR).append(OutputUtil.INDENT_SIZE)
@@ -41,7 +43,8 @@ public class EnumCSClassGeneratorImpl implements EnumCSClassGenerator {
                     builder.append(OutputUtil.INDENT_SIZE).append(OutputUtil.INDENT_SIZE).append("[Description(\"").append(valueEnum.getDesc())
                             .append("\")]").append(OutputUtil.LINE_SEPERATOR);
                 }
-                builder.append(OutputUtil.INDENT_SIZE).append(OutputUtil.INDENT_SIZE).append(valueEnum.getName()).append(" = ")
+                builder.append(OutputUtil.INDENT_SIZE).append(OutputUtil.INDENT_SIZE)
+                        .append(valueEnum.getName().equals("NIL") ? valueEnum.getName() : prefix + valueEnum.getName()).append(" = ")
                         .append(valueEnum.getValue()).append(",").append(OutputUtil.LINE_SEPERATOR);
             }
             builder.append(OutputUtil.INDENT_SIZE).append("}").append(OutputUtil.LINE_SEPERATOR).append(OutputUtil.LINE_SEPERATOR);

@@ -20,6 +20,8 @@ public class EnumSQLGeneratorImpl implements EnumSQLGenerator {
         StringBuilder builder = new StringBuilder();
 
         for (EnumConfig enumConfig : config.getEnums()) {
+            String prefix = null == enumConfig.getPrefix() ? "" : enumConfig.getPrefix();
+
             String tableName = enumConfig.getName();
             if (enumConfig.getName().endsWith("Enum")) {
                 tableName = tableName.substring(0, tableName.length() - 4);
@@ -38,8 +40,8 @@ public class EnumSQLGeneratorImpl implements EnumSQLGenerator {
 
             for (ValueEnum valueEnum : enumConfig.getOptions()) {
                 builder.append("insert into ").append(tableName).append(" values(").append(valueEnum.getValue()).append(", '")
-                        .append(valueEnum.getName()).append("', '").append(valueEnum.getDesc()).append("', '")
-                        .append(null == valueEnum.getNote() ? "" : valueEnum.getNote())
+                        .append(valueEnum.getName().equals("NIL") ? valueEnum.getName() : prefix + valueEnum.getName()).append("', '")
+                        .append(valueEnum.getDesc()).append("', '").append(null == valueEnum.getNote() ? "" : valueEnum.getNote())
                         .append("', 'luhong', current_timestamp, 'luhong', current_timestamp);").append(OutputUtil.LINE_SEPERATOR);
             }
             builder.append(OutputUtil.LINE_SEPERATOR);
