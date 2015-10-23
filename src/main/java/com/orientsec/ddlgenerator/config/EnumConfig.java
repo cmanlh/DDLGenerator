@@ -8,11 +8,21 @@ import com.orientsec.ddlgenerator.ValueEnum;
 public class EnumConfig implements Serializable {
     private static final long serialVersionUID = 6465057479151969210L;
 
+    private String prefix;
+
     private String name;
 
     private String desc;
 
     private List<ValueEnum> options;
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
 
     public String getName() {
         return name;

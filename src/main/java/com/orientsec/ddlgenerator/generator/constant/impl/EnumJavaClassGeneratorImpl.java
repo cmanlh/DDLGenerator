@@ -23,6 +23,7 @@ public class EnumJavaClassGeneratorImpl implements EnumJavaClassGenerator {
 
     @Override
     public void generate(EnumConfig enumConfig, String packageName, String outputPath) {
+        String prefix = null == enumConfig.getPrefix() ? "" : enumConfig.getPrefix();
 
         Builder enumTypeBuilder = TypeSpec.enumBuilder(enumConfig.getName()).addModifiers(Modifier.PUBLIC);
         ClassName enumClass = ClassName.get(packageName, enumConfig.getName());
@@ -32,11 +33,13 @@ public class EnumJavaClassGeneratorImpl implements EnumJavaClassGenerator {
         }
 
         for (ValueEnum valueEnum : enumConfig.getOptions()) {
+            String enumConstantInstanseName =
+                    valueEnum.getName() == null ? "NULL" : (valueEnum.getName().equals("NIL") ? valueEnum.getName() : prefix + valueEnum.getName());
             String enumConstantName = valueEnum.getName() == null ? "NULL" : valueEnum.getName();
             String enumConstantNote = valueEnum.getNote() == null ? "" : valueEnum.getNote();
             String enumConstantDesc = valueEnum.getDesc() == null ? "" : valueEnum.getDesc();
             enumTypeBuilder.addEnumConstant(
-                    enumConstantName,
+                    enumConstantInstanseName,
                     TypeSpec.anonymousClassBuilder("$S, $L, $S, $S", enumConstantName, valueEnum.getValue(), enumConstantDesc, enumConstantNote)
                             .addJavadoc("$${@$L@$L.getValue()}\n\n", enumClass.toString(), enumConstantName).addJavadoc(enumConstantDesc)
                             .addJavadoc("\n").build());
