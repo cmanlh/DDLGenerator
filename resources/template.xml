@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <generator>
-	<config>
+	<config outputLocation="C:\Users\HongLu\git\DDLGenerator\target">
 		<enumInfo packageName="com.test.const" folderName="enum" />
 		<daoInfo packageName="com.test.dao" folderName="dao" />
 		<dtoInfo packageName="com.test.dto" folderName="dto" />

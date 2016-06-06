@@ -24,13 +24,16 @@ public class Document {
 
   private XmlElement rootElement;
 
+  private String encoding;
+
   /**
    *  
    */
-  public Document(String publicId, String systemId) {
+  public Document(String publicId, String systemId, String encoding) {
     super();
     this.publicId = publicId;
     this.systemId = systemId;
+    this.encoding = encoding;
   }
 
   public Document() {
@@ -68,7 +71,7 @@ public class Document {
   public String getFormattedContent() {
     StringBuilder sb = new StringBuilder();
 
-    sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"); //$NON-NLS-1$
+    sb.append("<?xml version=\"1.0\" encoding=\"").append(encoding).append("\" ?>"); //$NON-NLS-1$
 
     if (publicId != null && systemId != null) {
       OutputUtilities.newLine(sb);

@@ -3,14 +3,17 @@ package com.lifeonwalden.codeGenerator.bean.config;
 import java.io.Serializable;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 @XStreamAlias(value = "config")
 public class Config implements Serializable {
   private static final long serialVersionUID = 1539262741181799480L;
 
-  @XStreamOmitField
+  @XStreamAsAttribute
   private String outputLocation;
+
+  @XStreamAsAttribute
+  private String encoding;
 
   private EnumInfo enumInfo;
 
@@ -26,6 +29,14 @@ public class Config implements Serializable {
 
   public void setOutputLocation(String outputLocation) {
     this.outputLocation = outputLocation;
+  }
+
+  public String getEncoding() {
+    return null == encoding ? "UTF-8" : encoding;
+  }
+
+  public void setEncoding(String encoding) {
+    this.encoding = encoding;
   }
 
   public EnumInfo getEnumInfo() {

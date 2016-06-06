@@ -37,7 +37,8 @@ public class JsEnumGeneratorImpl implements JsEnumGenerator {
     try {
       File outputFile = new File(new File(config.getOutputLocation()).getPath() + "\\"
           + config.getEnumInfo().getFolderName() + "\\" + config.getEnumInfo().getPackageName() + ".js");
-      BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "UTF-8"));
+      BufferedWriter bw =
+          new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), config.getEncoding()));
       bw.write(sb.toString());
       bw.close();
     } catch (IOException e) {

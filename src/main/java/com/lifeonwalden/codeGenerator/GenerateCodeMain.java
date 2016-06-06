@@ -33,13 +33,15 @@ import com.thoughtworks.xstream.XStream;
 
 public class GenerateCodeMain {
   public static void main(String[] args) {
-    String[][] argList = {{"C:\\Users\\HongLu\\git\\DDLGenerator\\src\\main\\resource\\template.xml",
-        "C:\\Users\\HongLu\\git\\DDLGenerator\\target"}};
-    for (String[] _args : argList) {
+    File configFileLocation = new File(args[0]);
+    if (!configFileLocation.exists() && !configFileLocation.isDirectory()) {
+      System.out.println("The directory is not exist.");
+    }
+
+    for (File templateFile : configFileLocation.listFiles()) {
       XStream xStream = new XStream();
       xStream.processAnnotations(Generator.class);
-      Generator generator = (Generator) xStream.fromXML(new File(_args[0]));
-      generator.getConfig().setOutputLocation(_args[1]);
+      Generator generator = (Generator) xStream.fromXML(templateFile);
       init(generator);
       Database database = generator.getDatabase();
       if (null != database.getConstPool()) {
@@ -67,7 +69,8 @@ public class GenerateCodeMain {
       try {
         String file =
             new File(generator.getConfig().getOutputLocation()).getPath() + "\\" + database.getName() + ".sql";
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+        BufferedWriter bw =
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), generator.getConfig().getEncoding()));
         bw.write(sqlBuilder.toString());
         bw.close();
       } catch (IOException e) {
