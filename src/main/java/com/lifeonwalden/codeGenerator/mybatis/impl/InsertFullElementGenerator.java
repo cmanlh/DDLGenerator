@@ -14,7 +14,8 @@ public class InsertFullElementGenerator implements TableElementGenerator {
 
   public XmlElement getElement(Table table, Config config) {
     XmlElement element = new XmlElement(XMLTag.INSERT.getName());
-    String className = config.getDtoInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
+    String className =
+        config.getDtoInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
 
     element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "insert"));
     element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));

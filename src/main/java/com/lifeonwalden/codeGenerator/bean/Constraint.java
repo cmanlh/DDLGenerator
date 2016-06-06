@@ -8,37 +8,37 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 @XStreamAlias(value = "constraint")
 public class Constraint implements Serializable {
-	private static final long serialVersionUID = 2268185885474984309L;
+  private static final long serialVersionUID = 2268185885474984309L;
 
-	@XStreamAsAttribute
-	private String name;
+  @XStreamAsAttribute
+  private String name;
 
-	@XStreamAsAttribute
-	private String type;
+  @XStreamAsAttribute
+  private String type;
 
-	private List<IndexColumn> column;
+  private List<IndexColumn> columns;
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public String getType() {
-		return type;
-	}
+  public String getType() {
+    return type;
+  }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+  public void setType(String type) {
+    this.type = type;
+  }
 
-	public List<IndexColumn> getColumn() {
-		return column;
-	}
+  public List<IndexColumn> getColumns() {
+    return columns;
+  }
 
-	public void setColumn(List<IndexColumn> column) {
-		this.column = column;
-	}
+  public void setColumns(List<IndexColumn> columns) {
+    this.columns = columns;
+  }
 }

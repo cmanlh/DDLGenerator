@@ -17,7 +17,8 @@ public class ResultMapElementXcludeDBFieldGenerator implements TableElementGener
   public XmlElement getElement(Table table, Config config) {
     XmlElement element = new XmlElement(XMLTag.RESULT_MAP.getName());
 
-    String className = config.getDtoInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
+    String className =
+        config.getDtoInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
 
     element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "resultMapXcludeDBField"));
     element.addAttribute(new Attribute(XMLAttribute.TYPE.getName(), className));
@@ -32,7 +33,8 @@ public class ResultMapElementXcludeDBFieldGenerator implements TableElementGener
         continue;
       }
 
-      if (ColumnConstraintEnum.PRIMARY_KEY == column.getConstraintType() || ColumnConstraintEnum.UNION_PRIMARY_KEY == column.getConstraintType()) {
+      if (ColumnConstraintEnum.PRIMARY_KEY == column.getConstraintType()
+          || ColumnConstraintEnum.UNION_PRIMARY_KEY == column.getConstraintType()) {
         element.addElement(idGenerator.getElement(column, config));
       } else {
         element.addElement(resultGenerator.getElement(column, config));

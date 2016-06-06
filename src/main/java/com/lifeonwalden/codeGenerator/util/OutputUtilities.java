@@ -1,39 +1,39 @@
 package com.lifeonwalden.codeGenerator.util;
 
 public class OutputUtilities {
-	private static final String lineSeparator;
+  private static final String lineSeparator;
 
-	static {
-		String ls = System.getProperty("line.separator");
-		if (ls == null) {
-			ls = "\n";
-		}
-		lineSeparator = ls;
-	}
+  static {
+    String ls = System.getProperty("line.separator");
+    if (ls == null) {
+      ls = "\n";
+    }
+    lineSeparator = ls;
+  }
 
-	private OutputUtilities() {
-		super();
-	}
+  private OutputUtilities() {
+    super();
+  }
 
-	public static StringBuilder javaIndent(StringBuilder sb, int indentLevel) {
-		for (int i = 0; i < indentLevel; i++) {
-			sb.append("    ");
-		}
+  public static StringBuilder javaIndent(StringBuilder sb, int indentLevel) {
+    for (int i = 0; i < indentLevel; i++) {
+      sb.append("    ");
+    }
 
-		return sb;
-	}
+    return sb;
+  }
 
-	public static StringBuilder textIndent(StringBuilder sb, int indentLevel) {
-		for (int i = 0; i < indentLevel; i++) {
-			sb.append("  ");
-		}
+  public static StringBuilder textIndent(StringBuilder sb, int indentLevel) {
+    for (int i = 0; i < indentLevel; i++) {
+      sb.append("  ");
+    }
 
-		return sb;
-	}
+    return sb;
+  }
 
-	public static StringBuilder newLine(StringBuilder sb) {
-		sb.append(lineSeparator);
+  public static StringBuilder newLine(StringBuilder sb) {
+    sb.append(lineSeparator);
 
-		return sb;
-	}
+    return sb;
+  }
 }

@@ -21,22 +21,26 @@ public class MySQLTableGeneratorImpl implements TableGenerator {
     ColumnGenerator columnGenerator = new MySQLColumnGeneratorImpl();
     OutputUtilities.newLine(sb.append("CREATE TABLE ").append(table.getName()).append(" ("));
     List<Column> columnList = table.getColumns();
-    OutputUtilities.newLine(OutputUtilities.textIndent(sb, 1).append(columnGenerator.generator(columnList.get(0), config)));
+    OutputUtilities
+        .newLine(OutputUtilities.textIndent(sb, 1).append(columnGenerator.generator(columnList.get(0), config)));
     for (int i = 1; i < columnList.size(); i++) {
-      OutputUtilities.newLine(OutputUtilities.textIndent(sb, 1).append(",").append(columnGenerator.generator(columnList.get(i), config)));
+      OutputUtilities.newLine(
+          OutputUtilities.textIndent(sb, 1).append(",").append(columnGenerator.generator(columnList.get(i), config)));
     }
 
     if (null != table.getConstraints()) {
       MySQLConstraintGeneratorImpl constraintGenerator = new MySQLConstraintGeneratorImpl();
       for (Constraint constraint : table.getConstraints()) {
-        OutputUtilities.newLine(OutputUtilities.textIndent(sb, 1).append(",").append(constraintGenerator.generator(constraint, config)));
+        OutputUtilities.newLine(
+            OutputUtilities.textIndent(sb, 1).append(",").append(constraintGenerator.generator(constraint, config)));
       }
     }
 
     if (null != table.getIndexs()) {
       MySQLIndexGeneratorImpl indexGenerator = new MySQLIndexGeneratorImpl();
       for (Index index : table.getIndexs()) {
-        OutputUtilities.newLine(OutputUtilities.textIndent(sb, 1).append(",").append(indexGenerator.generator(index, config)));
+        OutputUtilities
+            .newLine(OutputUtilities.textIndent(sb, 1).append(",").append(indexGenerator.generator(index, config)));
       }
     }
     sb.append(")");

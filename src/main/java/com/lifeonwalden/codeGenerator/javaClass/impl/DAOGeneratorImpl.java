@@ -23,21 +23,22 @@ public class DAOGeneratorImpl implements DAOGenerator {
     Builder daoTypeBuilder = TypeSpec.interfaceBuilder(className + "Mapper").addModifiers(Modifier.PUBLIC);
     ClassName dtoClass = ClassName.get(config.getDtoInfo().getPackageName(), className + "DTO");
 
-    daoTypeBuilder.addMethod(MethodSpec.methodBuilder("insert").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
-        .addParameter(dtoClass, "param").build());
+    daoTypeBuilder.addMethod(MethodSpec.methodBuilder("insert").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+        .returns(Integer.class).addParameter(dtoClass, "param").build());
 
     if (null != table.getPrimaryColumns()) {
-      daoTypeBuilder.addMethod(MethodSpec.methodBuilder("update").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
-          .addParameter(dtoClass, "param").build());
+      daoTypeBuilder.addMethod(MethodSpec.methodBuilder("update").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+          .returns(Integer.class).addParameter(dtoClass, "param").build());
 
-      daoTypeBuilder.addMethod(MethodSpec.methodBuilder("updateDynamic").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
-          .addParameter(dtoClass, "param").build());
+      daoTypeBuilder
+          .addMethod(MethodSpec.methodBuilder("updateDynamic").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+              .returns(Integer.class).addParameter(dtoClass, "param").build());
 
-      com.squareup.javapoet.MethodSpec.Builder getBuilder = MethodSpec.methodBuilder("get").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-          .addParameter(dtoClass, "param").returns(dtoClass);
+      com.squareup.javapoet.MethodSpec.Builder getBuilder = MethodSpec.methodBuilder("get")
+          .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).addParameter(dtoClass, "param").returns(dtoClass);
 
-      com.squareup.javapoet.MethodSpec.Builder deleteBuilder = MethodSpec.methodBuilder("delete").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-          .addParameter(dtoClass, "param").returns(Integer.class);
+      com.squareup.javapoet.MethodSpec.Builder deleteBuilder = MethodSpec.methodBuilder("delete")
+          .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).addParameter(dtoClass, "param").returns(Integer.class);
 
       daoTypeBuilder.addMethod(getBuilder.build());
       daoTypeBuilder.addMethod(deleteBuilder.build());
@@ -51,8 +52,8 @@ public class DAOGeneratorImpl implements DAOGenerator {
     }
 
     try {
-      JavaFile.builder(config.getDaoInfo().getPackageName(), daoTypeBuilder.build()).build()
-          .writeTo(new File(new File(config.getOutputLocation()).getPath() + "\\" + config.getDaoInfo().getFolderName()));
+      JavaFile.builder(config.getDaoInfo().getPackageName(), daoTypeBuilder.build()).build().writeTo(
+          new File(new File(config.getOutputLocation()).getPath() + "\\" + config.getDaoInfo().getFolderName()));
     } catch (IOException e) {
       e.printStackTrace();
     }

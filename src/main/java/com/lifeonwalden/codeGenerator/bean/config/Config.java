@@ -7,56 +7,56 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @XStreamAlias(value = "config")
 public class Config implements Serializable {
-	private static final long serialVersionUID = 1539262741181799480L;
+  private static final long serialVersionUID = 1539262741181799480L;
 
-	@XStreamOmitField
-	private String outputLocation;
+  @XStreamOmitField
+  private String outputLocation;
 
-	private EnumInfo enumInfo;
+  private EnumInfo enumInfo;
 
-	private DAOInfo daoInfo;
+  private DAOInfo daoInfo;
 
-	private DTOInfo dtoInfo;
+  private DTOInfo dtoInfo;
 
-	private MybatisInfo mybatisInfo;
+  private MybatisInfo mybatisInfo;
 
-	public String getOutputLocation() {
-		return outputLocation;
-	}
+  public String getOutputLocation() {
+    return outputLocation;
+  }
 
-	public void setOutputLocation(String outputLocation) {
-		this.outputLocation = outputLocation;
-	}
+  public void setOutputLocation(String outputLocation) {
+    this.outputLocation = outputLocation;
+  }
 
-	public EnumInfo getEnumInfo() {
-		return enumInfo;
-	}
+  public EnumInfo getEnumInfo() {
+    return enumInfo;
+  }
 
-	public void setEnumInfo(EnumInfo enumInfo) {
-		this.enumInfo = enumInfo;
-	}
+  public void setEnumInfo(EnumInfo enumInfo) {
+    this.enumInfo = enumInfo;
+  }
 
-	public DAOInfo getDaoInfo() {
-		return daoInfo;
-	}
+  public DAOInfo getDaoInfo() {
+    return daoInfo;
+  }
 
-	public void setDaoInfo(DAOInfo daoInfo) {
-		this.daoInfo = daoInfo;
-	}
+  public void setDaoInfo(DAOInfo daoInfo) {
+    this.daoInfo = daoInfo;
+  }
 
-	public DTOInfo getDtoInfo() {
-		return dtoInfo;
-	}
+  public DTOInfo getDtoInfo() {
+    return dtoInfo;
+  }
 
-	public void setDtoInfo(DTOInfo dtoInfo) {
-		this.dtoInfo = dtoInfo;
-	}
+  public void setDtoInfo(DTOInfo dtoInfo) {
+    this.dtoInfo = dtoInfo;
+  }
 
-	public MybatisInfo getMybatisInfo() {
-		return mybatisInfo;
-	}
+  public MybatisInfo getMybatisInfo() {
+    return mybatisInfo;
+  }
 
-	public void setMybatisInfo(MybatisInfo mybatisInfo) {
-		this.mybatisInfo = mybatisInfo;
-	}
+  public void setMybatisInfo(MybatisInfo mybatisInfo) {
+    this.mybatisInfo = mybatisInfo;
+  }
 }

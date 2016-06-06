@@ -7,26 +7,26 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias(value = "generator")
 public class Generator implements Serializable {
-	private static final long serialVersionUID = 9218661364872624451L;
+  private static final long serialVersionUID = 9218661364872624451L;
 
-	private Config config;
+  private Config config;
 
-	private Database database;
+  private Database database;
 
-	public Config getConfig() {
-		return config;
-	}
+  public Config getConfig() {
+    return config;
+  }
 
-	public void setConfig(Config config) {
-		this.config = config;
-	}
+  public void setConfig(Config config) {
+    this.config = config;
+  }
 
-	public Database getDatabase() {
-		return database;
-	}
+  public Database getDatabase() {
+    return database;
+  }
 
-	public void setDatabase(Database database) {
-		this.database = database;
-	}
+  public void setDatabase(Database database) {
+    this.database = database;
+  }
 
 }

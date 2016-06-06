@@ -19,10 +19,14 @@ public class XMLMapperGenerator implements DomGenerator {
   private RootElementGenerator rootElementGenerator = new RootElementGenerator();
   private BaseResultMapElementGenerator baseResultMapElementGenerator = new BaseResultMapElementGenerator();
   private BaseColumnListElementGenerator baseColumnListElementGenerator = new BaseColumnListElementGenerator();
-  private BaseColumnListWithPrefixElementGenerator baseColumnListWithPrefixElementGenerator = new BaseColumnListWithPrefixElementGenerator();
-  private ResultMapElementXcludeDBFieldGenerator resultMapElementXcludeDBFieldGenerator = new ResultMapElementXcludeDBFieldGenerator();
-  private ColumnListElementXcludeDBFieldGenerator columnListElementXcludeDBFieldGenerator = new ColumnListElementXcludeDBFieldGenerator();
-  private ColumnListWithPrefixElementXcludeDBFieldGenerator columnListWithPrefixElementXcludeDBFieldGenerator = new ColumnListWithPrefixElementXcludeDBFieldGenerator();
+  private BaseColumnListWithPrefixElementGenerator baseColumnListWithPrefixElementGenerator =
+      new BaseColumnListWithPrefixElementGenerator();
+  private ResultMapElementXcludeDBFieldGenerator resultMapElementXcludeDBFieldGenerator =
+      new ResultMapElementXcludeDBFieldGenerator();
+  private ColumnListElementXcludeDBFieldGenerator columnListElementXcludeDBFieldGenerator =
+      new ColumnListElementXcludeDBFieldGenerator();
+  private ColumnListWithPrefixElementXcludeDBFieldGenerator columnListWithPrefixElementXcludeDBFieldGenerator =
+      new ColumnListWithPrefixElementXcludeDBFieldGenerator();
   private SQLDynamicUpdateElementGenerator sqlDynamicUpdateElementGenerator = new SQLDynamicUpdateElementGenerator();
   private SQLUpdateElementGenerator sqlUpdateElementGenerator = new SQLUpdateElementGenerator();
   private SQLInsertElementGenerator sqlInsertElementGenerator = new SQLInsertElementGenerator();
@@ -63,8 +67,8 @@ public class XMLMapperGenerator implements DomGenerator {
     document.setRootElement(root);
 
     try {
-      String file = new File(config.getOutputLocation()).getPath() + "\\" + config.getMybatisInfo().getFolderName() + "\\"
-          + StringUtil.firstAlphToUpper(table.getName()) + "Mapper.xml";
+      String file = new File(config.getOutputLocation()).getPath() + "\\" + config.getMybatisInfo().getFolderName()
+          + "\\" + StringUtil.firstAlphToUpper(table.getName()) + "Mapper.xml";
 
       BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
       bw.write(document.getFormattedContent());

@@ -4,5 +4,5 @@ import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 
 public interface ColumnGenerator {
-	public String generator(Column column, Config config);
+  public String generator(Column column, Config config);
 }

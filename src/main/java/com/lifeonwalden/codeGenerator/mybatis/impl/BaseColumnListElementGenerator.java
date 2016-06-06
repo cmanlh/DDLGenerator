@@ -13,20 +13,20 @@ import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
 
 public class BaseColumnListElementGenerator implements TableElementGenerator {
 
-	public XmlElement getElement(Table table, Config config) {
-		XmlElement element = new XmlElement(XMLTag.SQL.getName());
+  public XmlElement getElement(Table table, Config config) {
+    XmlElement element = new XmlElement(XMLTag.SQL.getName());
 
-		element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "baseColumnList"));
+    element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "baseColumnList"));
 
-		StringBuilder sb = new StringBuilder();
-		for (Column column : table.getColumns()) {
-			sb.append(column.getName()).append(",");
-		}
+    StringBuilder sb = new StringBuilder();
+    for (Column column : table.getColumns()) {
+      sb.append(column.getName()).append(",");
+    }
 
-		if (sb.length() > 0) {
-			element.addElement((new TextElement(sb.substring(0, sb.length() - 1))));
-		}
+    if (sb.length() > 0) {
+      element.addElement((new TextElement(sb.substring(0, sb.length() - 1))));
+    }
 
-		return element;
-	}
+    return element;
+  }
 }

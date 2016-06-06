@@ -35,7 +35,8 @@ public class SQLInsertElementGenerator implements TableElementGenerator {
 
     tmpSize = sb.length();
     for (Column column : table.getColumns()) {
-      sb.append("#{").append(column.getName()).append(", jdbcType=").append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+      sb.append("#{").append(column.getName()).append(", jdbcType=")
+          .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
 
       if (null != column.getTypeHandler()) {
         sb.append(", typeHandler=").append(column.getTypeHandler());

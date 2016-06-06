@@ -12,5 +12,5 @@ import com.lifeonwalden.codeGenerator.bean.config.Config;
  */
 public interface DTOGenerator {
 
-	public void generate(Table table, Config config);
+  public void generate(Table table, Config config);
 }

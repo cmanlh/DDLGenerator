@@ -12,16 +12,16 @@ import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
 
 public class IdArgElementGenerator implements ColumnElementGenerator {
 
-	public XmlElement getElement(Column column, Config config) {
-		XmlElement element = new XmlElement(XMLTag.ID_ARG.getName());
+  public XmlElement getElement(Column column, Config config) {
+    XmlElement element = new XmlElement(XMLTag.ID_ARG.getName());
 
-		element.addAttribute(new Attribute(XMLAttribute.COLUMN.getName(), column.getName()));
-		if (null != column.getJavaType()) {
-			element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), column.getJavaType()));
-		} else {
-			element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), JdbcTypeEnum.nameOf(
-					column.getType().toUpperCase()).getJavaType()));
-		}
-		return element;
-	}
+    element.addAttribute(new Attribute(XMLAttribute.COLUMN.getName(), column.getName()));
+    if (null != column.getJavaType()) {
+      element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), column.getJavaType()));
+    } else {
+      element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(),
+          JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getJavaType()));
+    }
+    return element;
+  }
 }
