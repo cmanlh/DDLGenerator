@@ -87,41 +87,11 @@ public class GenerateCodeMain {
     }
 
     for (Table table : database.getTables()) {
-      if ((database.getAddDBFields() == null || database.getAddDBFields())
-          && (table.getAddDBFields() == null || table.getAddDBFields())) {
+      if (table.getAddDBFields() == null || table.getAddDBFields()) {
         List<Column> columnList = table.getColumns();
-        Column column = new Column();
-        column.setName("createTime");
-        column.setNote("创建时间");
-        column.setType("datetime");
-        columnList.add(column);
-
-        column = new Column();
-        column.setName("createUser");
-        column.setNote("创建者");
-        column.setType("varchar");
-        column.setLength("32");
-        columnList.add(column);
-
-        column = new Column();
-        column.setName("updateTime");
-        column.setNote("更新时间");
-        column.setType("datetime");
-        columnList.add(column);
-
-        column = new Column();
-        column.setName("updateUser");
-        column.setNote("更新者");
-        column.setType("varchar");
-        column.setLength("32");
-        columnList.add(column);
-
-        column = new Column();
-        column.setName("logicalDel");
-        column.setNote("逻辑删除");
-        column.setType("int");
-        column.setDefaultVal("0");
-        columnList.add(column);
+        for (Column column : database.getDbColumns()) {
+          columnList.add(column.copy());
+        }
       }
 
       Map<String, Column> columnMapping = new HashMap<String, Column>();

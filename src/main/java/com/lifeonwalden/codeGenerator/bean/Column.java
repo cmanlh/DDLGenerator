@@ -143,4 +143,21 @@ public class Column implements Serializable {
     this.optionRefObj = optionRefObj;
   }
 
+  public Column copy() {
+    Column column = new Column();
+    column.setConstraintType(this.getConstraintType());
+    column.setDefaultVal(this.getDefaultVal());
+    column.setJavaType(this.getJavaType());
+    column.setLength(this.getLength());
+    column.setName(this.getName());
+    column.setNote(this.getNote());
+    column.setOptionRef(this.getOptionRef());
+    column.setOptionRefObj(this.getOptionRefObj());
+    column.setOptions(this.getOptions());
+    column.setRequired(this.isRequired());
+    column.setType(this.getType());
+    column.setTypeHandler(this.getTypeHandler());
+
+    return column;
+  }
 }

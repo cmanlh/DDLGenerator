@@ -21,15 +21,14 @@ public class Database implements Serializable {
   @XStreamAsAttribute
   private String note;
 
-  @XStreamAsAttribute
-  private Boolean addDBFields = true;
-
   private List<EnumConst> constPool;
 
   @XStreamOmitField
   private Map<String, EnumConst> constMapping;
 
   private List<Table> tables;
+
+  private List<Column> dbColumns;
 
   public String getName() {
     return name;
@@ -79,11 +78,12 @@ public class Database implements Serializable {
     this.tables = tables;
   }
 
-  public Boolean getAddDBFields() {
-    return addDBFields;
+  public List<Column> getDbColumns() {
+    return dbColumns;
   }
 
-  public void setAddDBFields(Boolean addDBFields) {
-    this.addDBFields = addDBFields;
+  public void setDbColumns(List<Column> dbColumns) {
+    this.dbColumns = dbColumns;
   }
+
 }
