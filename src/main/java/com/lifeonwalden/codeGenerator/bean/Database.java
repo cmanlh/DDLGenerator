@@ -28,7 +28,7 @@ public class Database implements Serializable {
 
   private List<Table> tables;
 
-  private List<Column> dbColumns;
+  private List<Column> dbFields;
 
   public String getName() {
     return name;
@@ -76,14 +76,15 @@ public class Database implements Serializable {
 
   public void setTables(List<Table> tables) {
     this.tables = tables;
+
   }
 
-  public List<Column> getDbColumns() {
-    return dbColumns;
+  public List<Column> getDbFields() {
+    return dbFields;
   }
 
-  public void setDbColumns(List<Column> dbColumns) {
-    this.dbColumns = dbColumns;
+  public void setDbFields(List<Column> dbFields) {
+    this.dbFields = dbFields;
   }
 
 }

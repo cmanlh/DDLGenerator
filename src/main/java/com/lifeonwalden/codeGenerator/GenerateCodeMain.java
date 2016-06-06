@@ -92,7 +92,7 @@ public class GenerateCodeMain {
     for (Table table : database.getTables()) {
       if (table.getAddDBFields() == null || table.getAddDBFields()) {
         List<Column> columnList = table.getColumns();
-        for (Column column : database.getDbColumns()) {
+        for (Column column : database.getDbFields()) {
           columnList.add(column.copy());
         }
       }
