@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @XStreamAlias(value = "constraint")
 public class Constraint implements Serializable {
@@ -17,6 +18,9 @@ public class Constraint implements Serializable {
   private String type;
 
   private List<IndexColumn> columns;
+
+  @XStreamOmitField
+  private Table table;
 
   public String getName() {
     return name;
@@ -40,5 +44,13 @@ public class Constraint implements Serializable {
 
   public void setColumns(List<IndexColumn> columns) {
     this.columns = columns;
+  }
+
+  public Table getTable() {
+    return table;
+  }
+
+  public void setTable(Table table) {
+    this.table = table;
   }
 }

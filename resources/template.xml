@@ -40,7 +40,7 @@
 					</column>
 				</columns>
 				<constraints>
-					<constraint type="PRIMARY KEY">
+					<constraint type="PRIMARY KEY" name="PK">
 						<columns>
 							<indexColumn name="testColumn001" order="DESC" />
 						</columns>

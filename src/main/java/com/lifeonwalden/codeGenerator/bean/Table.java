@@ -35,6 +35,9 @@ public class Table implements Serializable {
 
   private List<Option> options;
 
+  @XStreamOmitField
+  private Database database;
+
   public String getName() {
     return name;
   }
@@ -107,4 +110,11 @@ public class Table implements Serializable {
     this.addDBFields = addDBFields;
   }
 
+  public Database getDatabase() {
+    return database;
+  }
+
+  public void setDatabase(Database database) {
+    this.database = database;
+  }
 }

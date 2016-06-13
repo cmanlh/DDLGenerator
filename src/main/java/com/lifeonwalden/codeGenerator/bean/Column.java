@@ -47,6 +47,9 @@ public class Column implements Serializable {
 
   private List<ValueEnum> options;
 
+  @XStreamOmitField
+  private Table table;
+
   public String getName() {
     return name;
   }
@@ -159,5 +162,13 @@ public class Column implements Serializable {
     column.setTypeHandler(this.getTypeHandler());
 
     return column;
+  }
+
+  public Table getTable() {
+    return table;
+  }
+
+  public void setTable(Table table) {
+    this.table = table;
   }
 }

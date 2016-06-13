@@ -14,12 +14,13 @@ import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Constraint;
 import com.lifeonwalden.codeGenerator.bean.Database;
 import com.lifeonwalden.codeGenerator.bean.EnumConst;
+import com.lifeonwalden.codeGenerator.bean.Index;
 import com.lifeonwalden.codeGenerator.bean.IndexColumn;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Generator;
 import com.lifeonwalden.codeGenerator.constant.ColumnConstraintEnum;
 import com.lifeonwalden.codeGenerator.dll.TableGenerator;
-import com.lifeonwalden.codeGenerator.dll.impl.MySQLTableGeneratorImpl;
+import com.lifeonwalden.codeGenerator.dll.impl.MSSQLTableGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.BeanGenerator;
 import com.lifeonwalden.codeGenerator.javaClass.DAOGenerator;
 import com.lifeonwalden.codeGenerator.javaClass.EnumGenerator;
@@ -53,7 +54,7 @@ public class GenerateCodeMain {
         JsEnumGenerator jsEnumGenerator = new JsEnumGeneratorImpl();
         jsEnumGenerator.generate(database.getConstPool(), generator.getConfig());
       }
-      TableGenerator tableGenerator = new MySQLTableGeneratorImpl();
+      TableGenerator tableGenerator = new MSSQLTableGeneratorImpl();
       DAOGenerator daoGenerator = new DAOGeneratorImpl();
       BeanGenerator beanGenerator = new BeanGeneratorImpl();
 
@@ -90,6 +91,7 @@ public class GenerateCodeMain {
     }
 
     for (Table table : database.getTables()) {
+      table.setDatabase(database);
       if (table.getAddDBFields() == null || table.getAddDBFields()) {
         List<Column> columnList = table.getColumns();
         for (Column column : database.getDbFields()) {
@@ -99,18 +101,19 @@ public class GenerateCodeMain {
 
       Map<String, Column> columnMapping = new HashMap<String, Column>();
       for (Column column : table.getColumns()) {
+        column.setTable(table);
         columnMapping.put(column.getName(), column);
 
         if (null != column.getOptionRef()) {
           column.setOptionRefObj(constMapping.get(column.getOptionRef()));
         }
-
       }
       table.setColumnMapping(columnMapping);
 
       if (null != table.getConstraints()) {
         List<Constraint> constraintList = table.getConstraints();
         for (Constraint constraint : constraintList) {
+          constraint.setTable(table);
           ColumnConstraintEnum constraintEnum = ColumnConstraintEnum.forAlias(constraint.getType().toUpperCase());
 
           if (ColumnConstraintEnum.PRIMARY_KEY == constraintEnum) {
@@ -128,6 +131,12 @@ public class GenerateCodeMain {
 
             table.setPrimaryColumns(primaryCols);
           }
+        }
+      }
+
+      if (null != table.getIndexs()) {
+        for (Index index : table.getIndexs()) {
+          index.setTable(table);
         }
       }
     }
