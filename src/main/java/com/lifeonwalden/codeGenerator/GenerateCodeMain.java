@@ -20,9 +20,11 @@ import com.lifeonwalden.codeGenerator.bean.config.Generator;
 import com.lifeonwalden.codeGenerator.constant.ColumnConstraintEnum;
 import com.lifeonwalden.codeGenerator.dll.TableGenerator;
 import com.lifeonwalden.codeGenerator.dll.impl.MySQLTableGeneratorImpl;
+import com.lifeonwalden.codeGenerator.javaClass.BeanGenerator;
 import com.lifeonwalden.codeGenerator.javaClass.DAOGenerator;
 import com.lifeonwalden.codeGenerator.javaClass.DTOGenerator;
 import com.lifeonwalden.codeGenerator.javaClass.EnumGenerator;
+import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.DAOGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.DTOGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.EnumGeneratorImpl;
@@ -56,6 +58,7 @@ public class GenerateCodeMain {
       TableGenerator tableGenerator = new MySQLTableGeneratorImpl();
       DAOGenerator daoGenerator = new DAOGeneratorImpl();
       DTOGenerator dtoGenerator = new DTOGeneratorImpl();
+      BeanGenerator beanGenerator = new BeanGeneratorImpl();
 
       XMLMapperGenerator xmlMapperGenerator = new XMLMapperGenerator();
       StringBuilder sqlBuilder = new StringBuilder();
@@ -63,6 +66,7 @@ public class GenerateCodeMain {
         sqlBuilder.append(tableGenerator.generator(table, generator.getConfig()));
         daoGenerator.generate(table, generator.getConfig());
         dtoGenerator.generate(table, generator.getConfig());
+        beanGenerator.generate(table, generator.getConfig());
 
         xmlMapperGenerator.generate(table, generator.getConfig());
       }

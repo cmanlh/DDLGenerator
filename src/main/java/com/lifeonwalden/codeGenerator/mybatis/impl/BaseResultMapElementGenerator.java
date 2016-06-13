@@ -18,7 +18,7 @@ public class BaseResultMapElementGenerator implements TableElementGenerator {
     XmlElement element = new XmlElement(XMLTag.RESULT_MAP.getName());
 
     String className =
-        config.getDtoInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
+        config.getBeanInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
 
     element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "baseResultMap"));
     element.addAttribute(new Attribute(XMLAttribute.TYPE.getName(), className));

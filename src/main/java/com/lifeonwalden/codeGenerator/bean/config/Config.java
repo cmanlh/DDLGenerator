@@ -19,7 +19,7 @@ public class Config implements Serializable {
 
   private DAOInfo daoInfo;
 
-  private DTOInfo dtoInfo;
+  private BeanInfo beanInfo;
 
   private MybatisInfo mybatisInfo;
 
@@ -55,12 +55,12 @@ public class Config implements Serializable {
     this.daoInfo = daoInfo;
   }
 
-  public DTOInfo getDtoInfo() {
-    return dtoInfo;
+  public BeanInfo getBeanInfo() {
+    return beanInfo;
   }
 
-  public void setDtoInfo(DTOInfo dtoInfo) {
-    this.dtoInfo = dtoInfo;
+  public void setBeanInfo(BeanInfo beanInfo) {
+    this.beanInfo = beanInfo;
   }
 
   public MybatisInfo getMybatisInfo() {

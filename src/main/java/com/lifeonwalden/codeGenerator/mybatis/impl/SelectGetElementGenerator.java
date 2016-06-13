@@ -20,7 +20,7 @@ public class SelectGetElementGenerator implements TableElementGenerator {
   public XmlElement getElement(Table table, Config config) {
     XmlElement element = new XmlElement(XMLTag.SELECT.getName());
     String className =
-        config.getDtoInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
+        config.getBeanInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
 
     element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "get"));
     element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));

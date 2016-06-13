@@ -10,7 +10,7 @@ import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
-import com.lifeonwalden.codeGenerator.javaClass.DTOGenerator;
+import com.lifeonwalden.codeGenerator.javaClass.BeanGenerator;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
@@ -19,11 +19,11 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeSpec.Builder;
 
-public class DTOGeneratorImpl implements DTOGenerator {
+public class BeanGeneratorImpl implements BeanGenerator {
 
   @Override
   public void generate(Table table, Config config) {
-    String className = StringUtil.firstAlphToUpper(table.getName()) + "DTO";
+    String className = StringUtil.firstAlphToUpper(table.getName());
     ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
     Builder dtoTypeBuilder =
         TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC)

@@ -21,7 +21,7 @@ public class UpdateFullElementGenerator implements TableElementGenerator {
     XmlElement element = new XmlElement(XMLTag.UPDATE.getName());
 
     String className =
-        config.getDtoInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
+        config.getBeanInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
 
     element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "update"));
     element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
