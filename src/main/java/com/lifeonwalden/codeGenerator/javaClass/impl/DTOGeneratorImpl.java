@@ -24,12 +24,14 @@ public class DTOGeneratorImpl implements DTOGenerator {
   @Override
   public void generate(Table table, Config config) {
     String className = StringUtil.firstAlphToUpper(table.getName()) + "DTO";
-    Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC)
-        .addSuperinterface(ClassName.get(Serializable.class));
+    ClassName _className = ClassName.get(config.getDtoInfo().getPackageName(), className);
+    Builder dtoTypeBuilder =
+        TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC)
+            .addSuperinterface(ClassName.get(Serializable.class));
 
-    dtoTypeBuilder
-        .addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
-            .initializer("$L$L", System.currentTimeMillis(), "L").build());
+    dtoTypeBuilder.addField(FieldSpec
+        .builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
+        .initializer("$L$L", System.currentTimeMillis(), "L").build());
 
     for (Column column : table.getColumns()) {
       String javaType = column.getJavaType();
@@ -50,13 +52,17 @@ public class DTOGeneratorImpl implements DTOGenerator {
           .addJavadoc("$L", column.getNote()).build());
 
       dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(column.getName()))
-          .addModifiers(Modifier.PUBLIC).addParameter(javaTypeClassName, column.getName())
-          .addStatement("this.$L = $L", column.getName(), column.getName()).addJavadoc("$L", column.getNote()).build());
+          .returns(_className).addModifiers(Modifier.PUBLIC).addParameter(javaTypeClassName, column.getName())
+          .addStatement("this.$L = $L", column.getName(), column.getName()).addStatement("return this")
+          .addJavadoc("$L", column.getNote()).build());
     }
 
     try {
-      JavaFile.builder(config.getDtoInfo().getPackageName(), dtoTypeBuilder.build()).build().writeTo(
-          new File(new File(config.getOutputLocation()).getPath() + "\\" + config.getDtoInfo().getFolderName()));
+      JavaFile
+          .builder(config.getDtoInfo().getPackageName(), dtoTypeBuilder.build())
+          .build()
+          .writeTo(
+              new File(new File(config.getOutputLocation()).getPath() + "\\" + config.getDtoInfo().getFolderName()));
     } catch (IOException e) {
       e.printStackTrace();
     }
