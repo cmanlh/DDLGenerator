@@ -20,9 +20,8 @@ import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Generator;
 import com.lifeonwalden.codeGenerator.constant.ColumnConstraintEnum;
 import com.lifeonwalden.codeGenerator.dll.TableGenerator;
-import com.lifeonwalden.codeGenerator.javaClass.BeanGenerator;
-import com.lifeonwalden.codeGenerator.javaClass.DAOGenerator;
-import com.lifeonwalden.codeGenerator.javaClass.EnumGenerator;
+import com.lifeonwalden.codeGenerator.javaClass.ConstBasedGenerator;
+import com.lifeonwalden.codeGenerator.javaClass.TableBasedGenerator;
 import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.DAOGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.EnumGeneratorImpl;
@@ -47,7 +46,7 @@ public class GenerateCodeMain {
       init(generator);
       Database database = generator.getDatabase();
       if (null != database.getConstPool()) {
-        EnumGenerator enumJavaClassGenerator = new EnumGeneratorImpl();
+        ConstBasedGenerator enumJavaClassGenerator = new EnumGeneratorImpl();
         for (EnumConst enumConst : database.getConstPool()) {
           enumJavaClassGenerator.generate(enumConst, generator.getConfig());
         }
@@ -63,23 +62,21 @@ public class GenerateCodeMain {
 
         System.exit(1);
       }
-      DAOGenerator daoGenerator = new DAOGeneratorImpl();
-      BeanGenerator beanGenerator = new BeanGeneratorImpl();
+      TableBasedGenerator daoGenerator = new DAOGeneratorImpl();
+      TableBasedGenerator beanGenerator = new BeanGeneratorImpl();
 
       XMLMapperGenerator xmlMapperGenerator = new XMLMapperGenerator();
       StringBuilder sqlBuilder = new StringBuilder();
       for (Table table : database.getTables()) {
-        sqlBuilder.append(tableGenerator.generator(table, generator.getConfig()));
+        sqlBuilder.append(tableGenerator.generate(table, generator.getConfig()));
         daoGenerator.generate(table, generator.getConfig());
         beanGenerator.generate(table, generator.getConfig());
 
         xmlMapperGenerator.generate(table, generator.getConfig());
       }
       try {
-        String file =
-            new File(generator.getConfig().getOutputLocation()).getPath() + "\\" + database.getName() + ".sql";
-        BufferedWriter bw =
-            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), generator.getConfig().getEncoding()));
+        String file = new File(generator.getConfig().getOutputLocation()).getPath() + "\\" + database.getName() + ".sql";
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), generator.getConfig().getEncoding()));
         bw.write(sqlBuilder.toString());
         bw.close();
       } catch (IOException e) {

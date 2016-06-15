@@ -20,8 +20,7 @@ public class UpdateFullElementGenerator implements TableElementGenerator {
   public XmlElement getElement(Table table, Config config) {
     XmlElement element = new XmlElement(XMLTag.UPDATE.getName());
 
-    String className =
-        config.getBeanInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
+    String className = config.getBeanInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
 
     element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "update"));
     element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
@@ -36,8 +35,7 @@ public class UpdateFullElementGenerator implements TableElementGenerator {
       sb.append("where ");
       for (Column column : primaryKey) {
         sb.append(column.getName()).append(" = ");
-        sb.append("#{").append(column.getName()).append(", jdbcType=")
-            .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+        sb.append("#{").append(column.getName()).append(", jdbcType=").append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
         if (null != column.getTypeHandler()) {
           sb.append(", typeHandler=").append(column.getTypeHandler());
         }

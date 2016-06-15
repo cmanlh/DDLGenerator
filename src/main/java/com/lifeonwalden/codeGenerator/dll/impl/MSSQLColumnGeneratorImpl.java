@@ -11,7 +11,7 @@ import com.lifeonwalden.codeGenerator.util.OutputUtilities;
 public class MSSQLColumnGeneratorImpl implements ColumnGenerator {
 
   @Override
-  public String generator(Column column, Config config) {
+  public String generate(Column column, Config config) {
     StringBuilder sb = new StringBuilder();
     sb.append(column.getName()).append(" ").append(column.getType());
     if (null != column.getLength()) {

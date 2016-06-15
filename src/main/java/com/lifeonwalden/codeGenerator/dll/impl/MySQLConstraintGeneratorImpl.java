@@ -8,7 +8,7 @@ import com.lifeonwalden.codeGenerator.dll.ConstraintGenerator;
 public class MySQLConstraintGeneratorImpl implements ConstraintGenerator {
 
   @Override
-  public String generator(Constraint constraint, Config config) {
+  public String generate(Constraint constraint, Config config) {
     StringBuilder sb = new StringBuilder();
     sb.append(constraint.getType()).append(" (");
 

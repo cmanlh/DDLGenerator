@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ColumnConstraintEnum {
-  PRIMARY_KEY(1, "PRIMARY KEY", "主键约束"), UNION_PRIMARY_KEY(2, "UNION PRIMARY KEY", "联合主键约束"), UNIQUE_KEY(3,
-      "UNIQUE KEY", "唯一键约束"), FOREIGN_KEY(4, "FOREIGN KEY", "外键约束");
+  PRIMARY_KEY(1, "PRIMARY KEY", "主键约束"), UNION_PRIMARY_KEY(2, "UNION PRIMARY KEY", "联合主键约束"), UNIQUE_KEY(3, "UNIQUE KEY", "唯一键约束"), FOREIGN_KEY(4,
+      "FOREIGN KEY", "外键约束");
 
   public final int value;
 

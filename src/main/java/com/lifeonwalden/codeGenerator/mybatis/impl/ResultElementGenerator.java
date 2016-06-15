@@ -17,8 +17,7 @@ public class ResultElementGenerator implements ColumnElementGenerator {
 
     element.addAttribute(new Attribute(XMLAttribute.COLUMN.getName(), column.getName()));
     element.addAttribute(new Attribute(XMLAttribute.PROPERTY.getName(), column.getName()));
-    element.addAttribute(
-        new Attribute(XMLAttribute.JDBC_TYPE.getName(), JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName()));
+    element.addAttribute(new Attribute(XMLAttribute.JDBC_TYPE.getName(), JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName()));
 
     if (null != column.getTypeHandler()) {
       element.addAttribute(new Attribute(XMLAttribute.TYPE_HANDLER.getName(), column.getTypeHandler()));
@@ -26,8 +25,7 @@ public class ResultElementGenerator implements ColumnElementGenerator {
       if (null != column.getJavaType()) {
         element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), column.getJavaType()));
       } else {
-        element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(),
-            JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getJavaType()));
+        element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getJavaType()));
       }
     }
 

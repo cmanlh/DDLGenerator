@@ -8,7 +8,7 @@ import com.lifeonwalden.codeGenerator.dll.IndexGenerator;
 public class MySQLIndexGeneratorImpl implements IndexGenerator {
 
   @Override
-  public String generator(Index index, Config config) {
+  public String generate(Index index, Config config) {
     StringBuilder sb = new StringBuilder();
 
     sb.append(index.getType());

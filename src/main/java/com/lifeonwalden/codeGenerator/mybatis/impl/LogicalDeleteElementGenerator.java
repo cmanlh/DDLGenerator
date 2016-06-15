@@ -20,8 +20,7 @@ public class LogicalDeleteElementGenerator implements TableElementGenerator {
 
   public XmlElement getElement(Table table, Config config) {
     XmlElement element = new XmlElement(XMLTag.UPDATE.getName());
-    String className =
-        config.getBeanInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
+    String className = config.getBeanInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
 
     element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "logicalDelete"));
     element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
@@ -31,13 +30,11 @@ public class LogicalDeleteElementGenerator implements TableElementGenerator {
     List<Column> primaryKey = table.getPrimaryColumns();
     if (null != primaryKey && primaryKey.size() > 0) {
       sb.append("update ").append(table.getName())
-          .append(
-              " set logicalDel = 1, updateTime = #{updateTime, jdbcType=TIMESTAMP}, updateUser = #{updateUser, jdbcType=VARCHAR}")
+          .append(" set logicalDel = 1, updateTime = #{updateTime, jdbcType=TIMESTAMP}, updateUser = #{updateUser, jdbcType=VARCHAR}")
           .append(" where ");
       for (Column column : primaryKey) {
         sb.append(column.getName()).append(" = ");
-        sb.append("#{").append(column.getName()).append(", jdbcType=")
-            .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+        sb.append("#{").append(column.getName()).append(", jdbcType=").append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
         if (null != column.getTypeHandler()) {
           sb.append(", typeHandler=").append(column.getTypeHandler());
         }

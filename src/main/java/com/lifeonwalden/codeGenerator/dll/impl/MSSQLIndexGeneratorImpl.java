@@ -13,7 +13,7 @@ import com.lifeonwalden.codeGenerator.util.OutputUtilities;
 public class MSSQLIndexGeneratorImpl implements IndexGenerator {
 
   @Override
-  public String generator(Index index, Config config) {
+  public String generate(Index index, Config config) {
     StringBuilder sb = new StringBuilder();
 
     sb.append("CREATE ").append(index.getType()).append(" INDEX ").append(index.getName()).append(" ON ");
@@ -28,12 +28,10 @@ public class MSSQLIndexGeneratorImpl implements IndexGenerator {
 
     List<IndexColumn> indexColumnList = index.getColumns();
     OutputUtilities.textIndent(sb, 1);
-    OutputUtilities.newLine(sb.append(indexColumnList.get(0).getName()).append(" ")
-        .append(indexColumnList.get(0).getOrder()));
+    OutputUtilities.newLine(sb.append(indexColumnList.get(0).getName()).append(" ").append(indexColumnList.get(0).getOrder()));
     for (int i = 1; i < indexColumnList.size(); i++) {
       OutputUtilities.textIndent(sb, 1);
-      OutputUtilities.newLine(sb.append(",").append(indexColumnList.get(i).getName()).append(" ")
-          .append(indexColumnList.get(i).getOrder()));
+      OutputUtilities.newLine(sb.append(",").append(indexColumnList.get(i).getName()).append(" ").append(indexColumnList.get(i).getOrder()));
     }
     sb.append(");");
 

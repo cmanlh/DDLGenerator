@@ -26,19 +26,18 @@ public class JsEnumGeneratorImpl implements JsEnumGenerator {
 
       sb.append("var ").append(enumConst.getName()).append(" = {");
       for (ValueEnum value : enumConst.getOptions()) {
-        sb.append(value.getName()).append(" : { name : '").append(value.getName()).append("', value :")
-            .append(value.getValue()).append(", alias :'").append(value.getAlias()).append("',note:'")
-            .append(value.getDesc()).append("'},");
+        sb.append(value.getName()).append(" : { name : '").append(value.getName()).append("', value :").append(value.getValue()).append(", alias :'")
+            .append(value.getAlias()).append("',note:'").append(value.getDesc()).append("'},");
       }
       sb.deleteCharAt(sb.length() - 1).append("};");
       OutputUtilities.newLine(sb);
     }
 
     try {
-      File outputFile = new File(new File(config.getOutputLocation()).getPath() + "\\"
-          + config.getEnumInfo().getFolderName() + "\\" + config.getEnumInfo().getPackageName() + ".js");
-      BufferedWriter bw =
-          new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), config.getEncoding()));
+      File outputFile =
+          new File(new File(config.getOutputLocation()).getPath() + "\\" + config.getEnumInfo().getFolderName() + "\\"
+              + config.getEnumInfo().getPackageName() + ".js");
+      BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), config.getEncoding()));
       bw.write(sb.toString());
       bw.close();
     } catch (IOException e) {

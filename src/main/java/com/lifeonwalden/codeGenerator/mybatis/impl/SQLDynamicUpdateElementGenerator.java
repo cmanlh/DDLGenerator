@@ -31,8 +31,7 @@ public class SQLDynamicUpdateElementGenerator implements TableElementGenerator {
     element.addElement(trimElement);
 
     for (Column column : table.getColumns()) {
-      if (column.getConstraintType() == ColumnConstraintEnum.PRIMARY_KEY
-          || column.getConstraintType() == ColumnConstraintEnum.UNION_PRIMARY_KEY) {
+      if (column.getConstraintType() == ColumnConstraintEnum.PRIMARY_KEY || column.getConstraintType() == ColumnConstraintEnum.UNION_PRIMARY_KEY) {
         continue;
       }
       XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
@@ -40,8 +39,7 @@ public class SQLDynamicUpdateElementGenerator implements TableElementGenerator {
 
       StringBuilder setValueText = new StringBuilder();
       setValueText.append(column.getName()).append(" = ");
-      setValueText.append("#{").append(column.getName()).append(", jdbcType=")
-          .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+      setValueText.append("#{").append(column.getName()).append(", jdbcType=").append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
       if (null != column.getTypeHandler()) {
         setValueText.append(", typeHandler=").append(column.getTypeHandler());
       }

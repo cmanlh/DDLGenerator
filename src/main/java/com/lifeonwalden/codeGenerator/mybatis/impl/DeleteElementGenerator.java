@@ -19,8 +19,7 @@ public class DeleteElementGenerator implements TableElementGenerator {
 
   public XmlElement getElement(Table table, Config config) {
     XmlElement element = new XmlElement(XMLTag.DELETE.getName());
-    String className =
-        config.getBeanInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
+    String className = config.getBeanInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
 
     element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "delete"));
     element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
@@ -32,8 +31,7 @@ public class DeleteElementGenerator implements TableElementGenerator {
       sb.append("delete from ").append(table.getName()).append(" where ");
       for (Column column : primaryKey) {
         sb.append(column.getName()).append(" = ");
-        sb.append("#{").append(column.getName()).append(", jdbcType=")
-            .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+        sb.append("#{").append(column.getName()).append(", jdbcType=").append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
         if (null != column.getTypeHandler()) {
           sb.append(", typeHandler=").append(column.getTypeHandler());
         }

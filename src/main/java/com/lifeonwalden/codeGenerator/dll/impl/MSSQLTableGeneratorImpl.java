@@ -16,7 +16,7 @@ import com.lifeonwalden.codeGenerator.util.OutputUtilities;
 public class MSSQLTableGeneratorImpl implements TableGenerator {
 
   @Override
-  public String generator(Table table, Config config) {
+  public String generate(Table table, Config config) {
     StringBuilder sb = new StringBuilder();
 
     String schemaPrefix = "";
@@ -28,16 +28,16 @@ public class MSSQLTableGeneratorImpl implements TableGenerator {
     OutputUtilities.newLine(sb.append("CREATE TABLE ").append(schemaPrefix).append(table.getName()).append("("));
     List<Column> columnList = table.getColumns();
     OutputUtilities.textIndent(sb, 1);
-    OutputUtilities.newLine(sb.append(columnGenerator.generator(columnList.get(0), config)));
+    OutputUtilities.newLine(sb.append(columnGenerator.generate(columnList.get(0), config)));
     for (int i = 1; i < columnList.size(); i++) {
       OutputUtilities.textIndent(sb, 1);
-      OutputUtilities.newLine(sb.append(",").append(columnGenerator.generator(columnList.get(i), config)));
+      OutputUtilities.newLine(sb.append(",").append(columnGenerator.generate(columnList.get(i), config)));
     }
     if (null != table.getConstraints()) {
       ConstraintGenerator constraintGenerator = new MSSQLConstraintGeneratorImpl();
       for (Constraint constraint : table.getConstraints()) {
         OutputUtilities.textIndent(sb, 1);
-        OutputUtilities.newLine(sb.append(",").append(constraintGenerator.generator(constraint, config)));
+        OutputUtilities.newLine(sb.append(",").append(constraintGenerator.generate(constraint, config)));
       }
     }
     OutputUtilities.newLine((OutputUtilities.newLine(sb.append(");"))));
@@ -45,7 +45,7 @@ public class MSSQLTableGeneratorImpl implements TableGenerator {
     if (null != table.getIndexs()) {
       IndexGenerator indexGenerator = new MSSQLIndexGeneratorImpl();
       for (Index index : table.getIndexs()) {
-        OutputUtilities.newLine(sb.append(indexGenerator.generator(index, config)));
+        OutputUtilities.newLine(sb.append(indexGenerator.generate(index, config)));
       }
     }
     OutputUtilities.newLine(sb);

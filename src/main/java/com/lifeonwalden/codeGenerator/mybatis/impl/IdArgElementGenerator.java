@@ -19,8 +19,7 @@ public class IdArgElementGenerator implements ColumnElementGenerator {
     if (null != column.getJavaType()) {
       element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), column.getJavaType()));
     } else {
-      element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(),
-          JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getJavaType()));
+      element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getJavaType()));
     }
     return element;
   }

@@ -10,7 +10,7 @@ import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
-import com.lifeonwalden.codeGenerator.javaClass.BeanGenerator;
+import com.lifeonwalden.codeGenerator.javaClass.TableBasedGenerator;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
@@ -19,18 +19,15 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeSpec.Builder;
 
-public class BeanGeneratorImpl implements BeanGenerator {
+public class BeanGeneratorImpl implements TableBasedGenerator {
 
   @Override
   public void generate(Table table, Config config) {
     String className = StringUtil.firstAlphToUpper(table.getName());
     ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
-    Builder dtoTypeBuilder =
-        TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC)
-            .addSuperinterface(ClassName.get(Serializable.class));
+    Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(Serializable.class));
 
-    dtoTypeBuilder.addField(FieldSpec
-        .builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
+    dtoTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
         .initializer("$L$L", System.currentTimeMillis(), "L").build());
 
     for (Column column : table.getColumns()) {
@@ -44,25 +41,19 @@ public class BeanGeneratorImpl implements BeanGenerator {
       }
 
       ClassName javaTypeClassName = ClassName.bestGuess(javaType);
-      dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, column.getName(), Modifier.PRIVATE)
-          .addJavadoc("$L", column.getNote()).build());
+      dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, column.getName(), Modifier.PRIVATE).addJavadoc("$L", column.getNote()).build());
 
-      dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(column.getName()))
-          .addModifiers(Modifier.PUBLIC).returns(javaTypeClassName).addStatement("return this.$L", column.getName())
-          .addJavadoc("$L", column.getNote()).build());
+      dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(column.getName())).addModifiers(Modifier.PUBLIC)
+          .returns(javaTypeClassName).addStatement("return this.$L", column.getName()).addJavadoc("$L", column.getNote()).build());
 
-      dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(column.getName()))
-          .returns(_className).addModifiers(Modifier.PUBLIC).addParameter(javaTypeClassName, column.getName())
-          .addStatement("this.$L = $L", column.getName(), column.getName()).addStatement("return this")
-          .addJavadoc("$L", column.getNote()).build());
+      dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(column.getName())).returns(_className)
+          .addModifiers(Modifier.PUBLIC).addParameter(javaTypeClassName, column.getName())
+          .addStatement("this.$L = $L", column.getName(), column.getName()).addStatement("return this").addJavadoc("$L", column.getNote()).build());
     }
 
     try {
-      JavaFile
-          .builder(config.getBeanInfo().getPackageName(), dtoTypeBuilder.build())
-          .build()
-          .writeTo(
-              new File(new File(config.getOutputLocation()).getPath() + "\\" + config.getBeanInfo().getFolderName()));
+      JavaFile.builder(config.getBeanInfo().getPackageName(), dtoTypeBuilder.build()).build()
+          .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getBeanInfo().getFolderName()));
     } catch (IOException e) {
       e.printStackTrace();
     }

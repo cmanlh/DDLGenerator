@@ -19,12 +19,9 @@ public class XMLMapperGenerator implements DomGenerator {
   private RootElementGenerator rootElementGenerator = new RootElementGenerator();
   private BaseResultMapElementGenerator baseResultMapElementGenerator = new BaseResultMapElementGenerator();
   private BaseColumnListElementGenerator baseColumnListElementGenerator = new BaseColumnListElementGenerator();
-  private BaseColumnListWithPrefixElementGenerator baseColumnListWithPrefixElementGenerator =
-      new BaseColumnListWithPrefixElementGenerator();
-  private ResultMapElementXcludeDBFieldGenerator resultMapElementXcludeDBFieldGenerator =
-      new ResultMapElementXcludeDBFieldGenerator();
-  private ColumnListElementXcludeDBFieldGenerator columnListElementXcludeDBFieldGenerator =
-      new ColumnListElementXcludeDBFieldGenerator();
+  private BaseColumnListWithPrefixElementGenerator baseColumnListWithPrefixElementGenerator = new BaseColumnListWithPrefixElementGenerator();
+  private ResultMapElementXcludeDBFieldGenerator resultMapElementXcludeDBFieldGenerator = new ResultMapElementXcludeDBFieldGenerator();
+  private ColumnListElementXcludeDBFieldGenerator columnListElementXcludeDBFieldGenerator = new ColumnListElementXcludeDBFieldGenerator();
   private ColumnListWithPrefixElementXcludeDBFieldGenerator columnListWithPrefixElementXcludeDBFieldGenerator =
       new ColumnListWithPrefixElementXcludeDBFieldGenerator();
   private SQLDynamicUpdateElementGenerator sqlDynamicUpdateElementGenerator = new SQLDynamicUpdateElementGenerator();
@@ -39,9 +36,7 @@ public class XMLMapperGenerator implements DomGenerator {
 
   @Override
   public void generate(Table table, Config config) {
-    Document document =
-        new Document(XmlConstants.MYBATIS3_MAPPER_PUBLIC_ID, XmlConstants.MYBATIS3_MAPPER_SYSTEM_ID,
-            config.getEncoding());
+    Document document = new Document(XmlConstants.MYBATIS3_MAPPER_PUBLIC_ID, XmlConstants.MYBATIS3_MAPPER_SYSTEM_ID, config.getEncoding());
 
     XmlElement root = rootElementGenerator.getElement(table, config);
     root.addElement(baseResultMapElementGenerator.getElement(table, config));
@@ -69,9 +64,7 @@ public class XMLMapperGenerator implements DomGenerator {
     document.setRootElement(root);
 
     try {
-      File folder =
-          new File(new File(config.getOutputLocation()).getPath() + File.separator
-              + config.getMybatisInfo().getFolderName());
+      File folder = new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getMybatisInfo().getFolderName());
 
       if (!folder.exists()) {
         folder.mkdirs();
