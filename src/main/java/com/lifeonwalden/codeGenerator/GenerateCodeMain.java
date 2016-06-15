@@ -20,7 +20,6 @@ import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Generator;
 import com.lifeonwalden.codeGenerator.constant.ColumnConstraintEnum;
 import com.lifeonwalden.codeGenerator.dll.TableGenerator;
-import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.DAOGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.EnumGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.JsEnumGeneratorImpl;
@@ -63,7 +62,18 @@ public class GenerateCodeMain {
       }
 
       TableBasedGenerator daoGenerator = new DAOGeneratorImpl();
-      TableBasedGenerator beanGenerator = new BeanGeneratorImpl();
+      TableBasedGenerator beanGenerator = null;
+
+      try {
+        String beanGeneratorClass = generator.getConfig().getBeanInfo().getGenerator();
+        beanGenerator =
+            (TableBasedGenerator) Class.forName(
+                null == beanGeneratorClass ? "com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl" : beanGeneratorClass).newInstance();
+      } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+        System.err.println("Not an illegal Bean generator.");
+
+        System.exit(1);
+      }
 
       XMLMapperGenerator xmlMapperGenerator = new XMLMapperGenerator();
       StringBuilder sqlBuilder = new StringBuilder();

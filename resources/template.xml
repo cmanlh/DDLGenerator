@@ -3,7 +3,8 @@
 	<config outputLocation="D:\workspace\DDLGenerator\target">
 		<constInfo packageName="com.test.const" folderName="enum" />
 		<daoInfo packageName="com.test.dao" folderName="dao" namePattern="?Mapper" />
-		<beanInfo packageName="com.test.bean" folderName="bean" generator="com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl" />
+		<beanInfo packageName="com.test.bean" folderName="bean" generator="com.lifeonwalden.codeGenerator.javaClass.impl.HashBeanGeneratorImpl"
+			namePattern="?DTO" />
 		<mybatisInfo namespace="com.test.dao" folderName="xml" />
 	</config>
 	<database name="TestDB" schema="prd" note="test database" generator="com.lifeonwalden.codeGenerator.dll.impl.MSSQLTableGeneratorImpl">
