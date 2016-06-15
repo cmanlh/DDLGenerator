@@ -1,9 +1,12 @@
 package com.lifeonwalden.codeGenerator.bean.config;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @XStreamAlias(value = "config")
 public class Config implements Serializable {
@@ -22,6 +25,11 @@ public class Config implements Serializable {
   private BeanInfo beanInfo;
 
   private MybatisInfo mybatisInfo;
+
+  private List<ExtentionGenerator> extentions;
+
+  @XStreamOmitField
+  private Map<String, ExtentionGenerator> extentionMapping;
 
   public String getOutputLocation() {
     return outputLocation;
@@ -69,5 +77,21 @@ public class Config implements Serializable {
 
   public void setMybatisInfo(MybatisInfo mybatisInfo) {
     this.mybatisInfo = mybatisInfo;
+  }
+
+  public List<ExtentionGenerator> getExtentions() {
+    return extentions;
+  }
+
+  public void setExtentions(List<ExtentionGenerator> extentions) {
+    this.extentions = extentions;
+  }
+
+  public Map<String, ExtentionGenerator> getExtentionMapping() {
+    return extentionMapping;
+  }
+
+  public void setExtentionMapping(Map<String, ExtentionGenerator> extentionMapping) {
+    this.extentionMapping = extentionMapping;
   }
 }

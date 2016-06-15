@@ -18,6 +18,7 @@ import com.lifeonwalden.codeGenerator.bean.Index;
 import com.lifeonwalden.codeGenerator.bean.IndexColumn;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
+import com.lifeonwalden.codeGenerator.bean.config.ExtentionGenerator;
 import com.lifeonwalden.codeGenerator.bean.config.Generator;
 import com.lifeonwalden.codeGenerator.constant.ColumnConstraintEnum;
 import com.lifeonwalden.codeGenerator.dll.TableGenerator;
@@ -104,6 +105,16 @@ public class GenerateCodeMain {
           }
         }
 
+        if (null != config.getExtentions()) {
+          for (ExtentionGenerator extention : config.getExtentions()) {
+            try {
+              generatorList.add((TableBasedGenerator) Class.forName(extention.getGenerator()).newInstance());
+            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+              System.err.println("Not an illegal generator : " + extention.getGenerator());
+            }
+          }
+        }
+
         for (Table table : database.getTables()) {
           for (TableBasedGenerator _generator : generatorList) {
             _generator.generate(table, generator.getConfig());
@@ -170,6 +181,15 @@ public class GenerateCodeMain {
       if (null != table.getIndexs()) {
         for (Index index : table.getIndexs()) {
           index.setTable(table);
+        }
+      }
+
+      Config config = generator.getConfig();
+      if (null != config && null != config.getExtentions()) {
+        Map<String, ExtentionGenerator> extentionMapping = new HashMap<String, ExtentionGenerator>();
+
+        for (ExtentionGenerator extention : config.getExtentions()) {
+          extentionMapping.put(extention.getGenerator(), extention);
         }
       }
     }
