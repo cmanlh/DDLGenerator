@@ -23,8 +23,7 @@ import com.lifeonwalden.codeGenerator.dll.TableGenerator;
 import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.DAOGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.EnumGeneratorImpl;
-import com.lifeonwalden.codeGenerator.js.JsEnumGenerator;
-import com.lifeonwalden.codeGenerator.js.impl.JsEnumGeneratorImpl;
+import com.lifeonwalden.codeGenerator.javaClass.impl.JsEnumGeneratorImpl;
 import com.lifeonwalden.codeGenerator.mybatis.impl.XMLMapperGenerator;
 import com.thoughtworks.xstream.XStream;
 
@@ -45,11 +44,8 @@ public class GenerateCodeMain {
       Database database = generator.getDatabase();
       if (null != database.getConstPool()) {
         ConstBasedGenerator enumJavaClassGenerator = new EnumGeneratorImpl();
-        for (EnumConst enumConst : database.getConstPool()) {
-          enumJavaClassGenerator.generate(enumConst, generator.getConfig());
-        }
-
-        JsEnumGenerator jsEnumGenerator = new JsEnumGeneratorImpl();
+        ConstBasedGenerator jsEnumGenerator = new JsEnumGeneratorImpl();
+        enumJavaClassGenerator.generate(database.getConstPool(), generator.getConfig());
         jsEnumGenerator.generate(database.getConstPool(), generator.getConfig());
       }
       TableGenerator tableGenerator = null;

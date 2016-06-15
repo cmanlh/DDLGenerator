@@ -1,4 +1,4 @@
-package com.lifeonwalden.codeGenerator.js.impl;
+package com.lifeonwalden.codeGenerator.javaClass.impl;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,16 +7,16 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
+import com.lifeonwalden.codeGenerator.ConstBasedGenerator;
 import com.lifeonwalden.codeGenerator.bean.EnumConst;
 import com.lifeonwalden.codeGenerator.bean.ValueEnum;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
-import com.lifeonwalden.codeGenerator.js.JsEnumGenerator;
 import com.lifeonwalden.codeGenerator.util.OutputUtilities;
 
-public class JsEnumGeneratorImpl implements JsEnumGenerator {
+public class JsEnumGeneratorImpl implements ConstBasedGenerator {
 
   @Override
-  public void generate(List<EnumConst> enumConstList, Config config) {
+  public String generate(List<EnumConst> enumConstList, Config config) {
     StringBuilder sb = new StringBuilder();
 
     for (EnumConst enumConst : enumConstList) {
@@ -35,7 +35,7 @@ public class JsEnumGeneratorImpl implements JsEnumGenerator {
 
     try {
       File outputFile =
-          new File(new File(config.getOutputLocation()).getPath() + "\\" + config.getEnumInfo().getFolderName() + "\\"
+          new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getEnumInfo().getFolderName() + "\\"
               + config.getEnumInfo().getPackageName() + ".js");
       BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), config.getEncoding()));
       bw.write(sb.toString());
@@ -43,5 +43,7 @@ public class JsEnumGeneratorImpl implements JsEnumGenerator {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+    return null;
   }
 }
