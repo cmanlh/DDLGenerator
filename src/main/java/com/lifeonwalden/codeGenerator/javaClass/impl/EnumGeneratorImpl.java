@@ -27,7 +27,7 @@ public class EnumGeneratorImpl implements ConstBasedGenerator {
   public String generate(List<EnumConst> enumConstList, Config config) {
     for (EnumConst enumConst : enumConstList) {
       Builder enumTypeBuilder = TypeSpec.enumBuilder(enumConst.getName()).addModifiers(Modifier.PUBLIC);
-      ClassName enumClass = ClassName.get(config.getEnumInfo().getPackageName(), enumConst.getName());
+      ClassName enumClass = ClassName.get(config.getConstInfo().getPackageName(), enumConst.getName());
 
       if (null != enumConst.getNote()) {
         enumTypeBuilder.addJavadoc(enumConst.getNote());
@@ -89,8 +89,8 @@ public class EnumGeneratorImpl implements ConstBasedGenerator {
           .addStatement("$L.put(_enum.get$L(), _enum)", "nameMapping", "Name").endControlFlow().build());
 
       try {
-        JavaFile.builder(config.getEnumInfo().getPackageName(), enumTypeBuilder.build()).build()
-            .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getEnumInfo().getFolderName()));
+        JavaFile.builder(config.getConstInfo().getPackageName(), enumTypeBuilder.build()).build()
+            .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getConstInfo().getFolderName()));
       } catch (IOException e) {
         e.printStackTrace();
       }

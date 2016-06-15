@@ -5,8 +5,8 @@ import java.io.Serializable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
-@XStreamAlias(value = "enumInfo")
-public class EnumInfo implements Serializable {
+@XStreamAlias(value = "constInfo")
+public class ConstInfo implements Serializable {
   private static final long serialVersionUID = 6729183562859310073L;
 
   @XStreamAsAttribute

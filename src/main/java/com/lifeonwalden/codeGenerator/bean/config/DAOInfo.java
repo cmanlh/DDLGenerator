@@ -15,6 +15,12 @@ public class DAOInfo implements Serializable {
   @XStreamAsAttribute
   private String folderName;
 
+  @XStreamAsAttribute
+  private String generator;
+
+  @XStreamAsAttribute
+  private String namePattern;
+
   public String getPackageName() {
     return packageName;
   }
@@ -29,5 +35,21 @@ public class DAOInfo implements Serializable {
 
   public void setFolderName(String folderName) {
     this.folderName = folderName;
+  }
+
+  public String getGenerator() {
+    return generator;
+  }
+
+  public void setGenerator(String generator) {
+    this.generator = generator;
+  }
+
+  public String getNamePattern() {
+    return namePattern;
+  }
+
+  public void setNamePattern(String namePattern) {
+    this.namePattern = namePattern;
   }
 }

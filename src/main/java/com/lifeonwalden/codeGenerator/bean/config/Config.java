@@ -15,7 +15,7 @@ public class Config implements Serializable {
   @XStreamAsAttribute
   private String encoding;
 
-  private EnumInfo enumInfo;
+  private ConstInfo constInfo;
 
   private DAOInfo daoInfo;
 
@@ -39,12 +39,12 @@ public class Config implements Serializable {
     this.encoding = encoding;
   }
 
-  public EnumInfo getEnumInfo() {
-    return enumInfo;
+  public ConstInfo getConstInfo() {
+    return constInfo;
   }
 
-  public void setEnumInfo(EnumInfo enumInfo) {
-    this.enumInfo = enumInfo;
+  public void setConstInfo(ConstInfo constInfo) {
+    this.constInfo = constInfo;
   }
 
   public DAOInfo getDaoInfo() {

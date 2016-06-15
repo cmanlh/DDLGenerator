@@ -50,7 +50,10 @@ public class GenerateCodeMain {
       }
       TableGenerator tableGenerator = null;
       try {
-        tableGenerator = (TableGenerator) Class.forName(database.getGenerator()).newInstance();
+        tableGenerator =
+            (TableGenerator) Class.forName(
+                null == database.getGenerator() ? "com.lifeonwalden.codeGenerator.dll.impl.MySQLTableGeneratorImpl" : database.getGenerator())
+                .newInstance();
       } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
         System.err.println("Not an illegal ddl generator.");
 
