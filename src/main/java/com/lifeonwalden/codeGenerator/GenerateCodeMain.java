@@ -20,7 +20,6 @@ import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Generator;
 import com.lifeonwalden.codeGenerator.constant.ColumnConstraintEnum;
 import com.lifeonwalden.codeGenerator.dll.TableGenerator;
-import com.lifeonwalden.codeGenerator.dll.impl.MSSQLTableGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.BeanGenerator;
 import com.lifeonwalden.codeGenerator.javaClass.DAOGenerator;
 import com.lifeonwalden.codeGenerator.javaClass.EnumGenerator;
@@ -36,7 +35,9 @@ public class GenerateCodeMain {
   public static void main(String[] args) {
     File configFileLocation = new File(args[0]);
     if (!configFileLocation.exists() && !configFileLocation.isDirectory()) {
-      System.out.println("The directory is not exist.");
+      System.err.println("The directory is not exist.");
+
+      System.exit(1);
     }
 
     for (File templateFile : configFileLocation.listFiles()) {
@@ -54,7 +55,14 @@ public class GenerateCodeMain {
         JsEnumGenerator jsEnumGenerator = new JsEnumGeneratorImpl();
         jsEnumGenerator.generate(database.getConstPool(), generator.getConfig());
       }
-      TableGenerator tableGenerator = new MSSQLTableGeneratorImpl();
+      TableGenerator tableGenerator = null;
+      try {
+        tableGenerator = (TableGenerator) Class.forName(database.getGenerator()).newInstance();
+      } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+        System.err.println("Not an illegal ddl generator.");
+
+        System.exit(1);
+      }
       DAOGenerator daoGenerator = new DAOGeneratorImpl();
       BeanGenerator beanGenerator = new BeanGeneratorImpl();
 

@@ -39,8 +39,9 @@ public class XMLMapperGenerator implements DomGenerator {
 
   @Override
   public void generate(Table table, Config config) {
-    Document document = new Document(XmlConstants.MYBATIS3_MAPPER_PUBLIC_ID, XmlConstants.MYBATIS3_MAPPER_SYSTEM_ID,
-        config.getEncoding());
+    Document document =
+        new Document(XmlConstants.MYBATIS3_MAPPER_PUBLIC_ID, XmlConstants.MYBATIS3_MAPPER_SYSTEM_ID,
+            config.getEncoding());
 
     XmlElement root = rootElementGenerator.getElement(table, config);
     root.addElement(baseResultMapElementGenerator.getElement(table, config));
@@ -68,8 +69,15 @@ public class XMLMapperGenerator implements DomGenerator {
     document.setRootElement(root);
 
     try {
-      String file = new File(config.getOutputLocation()).getPath() + "\\" + config.getMybatisInfo().getFolderName()
-          + "\\" + StringUtil.firstAlphToUpper(table.getName()) + "Mapper.xml";
+      File folder =
+          new File(new File(config.getOutputLocation()).getPath() + File.separator
+              + config.getMybatisInfo().getFolderName());
+
+      if (!folder.exists()) {
+        folder.mkdirs();
+      }
+
+      String file = folder.getPath() + File.separator + StringUtil.firstAlphToUpper(table.getName()) + "Mapper.xml";
 
       BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), config.getEncoding()));
       bw.write(document.getFormattedContent());

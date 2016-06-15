@@ -21,6 +21,9 @@ public class Database implements Serializable {
   @XStreamAsAttribute
   private String note;
 
+  @XStreamAsAttribute
+  private String generator;
+
   private List<EnumConst> constPool;
 
   @XStreamOmitField
@@ -87,4 +90,11 @@ public class Database implements Serializable {
     this.dbFields = dbFields;
   }
 
+  public String getGenerator() {
+    return generator;
+  }
+
+  public void setGenerator(String generator) {
+    this.generator = generator;
+  }
 }

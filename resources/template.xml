@@ -6,7 +6,8 @@
 		<beanInfo packageName="com.test.bean" folderName="bean" />
 		<mybatisInfo namespace="com.test.dao" folderName="xml" />
 	</config>
-	<database name="TestDB" schema="prd" note="test database">
+	<database name="TestDB" schema="prd" note="test database"
+		generator="com.lifeonwalden.codeGenerator.dll.impl.MSSQLTableGeneratorImpl">
 		<dbFields>
 			<column name="createTime" type="datetime" note="创建时间" />
 			<column name="createUser" type="varchar" note="创建者" length="32" />
