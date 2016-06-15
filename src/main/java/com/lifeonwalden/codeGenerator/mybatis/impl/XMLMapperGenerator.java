@@ -35,7 +35,7 @@ public class XMLMapperGenerator implements DomGenerator {
   private UpdateFullElementGenerator updateFullElementGenerator = new UpdateFullElementGenerator();
 
   @Override
-  public void generate(Table table, Config config) {
+  public String generate(Table table, Config config) {
     Document document = new Document(XmlConstants.MYBATIS3_MAPPER_PUBLIC_ID, XmlConstants.MYBATIS3_MAPPER_SYSTEM_ID, config.getEncoding());
 
     XmlElement root = rootElementGenerator.getElement(table, config);
@@ -78,5 +78,7 @@ public class XMLMapperGenerator implements DomGenerator {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+    return null;
   }
 }

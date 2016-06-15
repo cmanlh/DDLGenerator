@@ -7,10 +7,10 @@ import java.util.Map;
 
 import javax.lang.model.element.Modifier;
 
+import com.lifeonwalden.codeGenerator.ConstBasedGenerator;
 import com.lifeonwalden.codeGenerator.bean.EnumConst;
 import com.lifeonwalden.codeGenerator.bean.ValueEnum;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
-import com.lifeonwalden.codeGenerator.javaClass.ConstBasedGenerator;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
@@ -23,7 +23,7 @@ import com.squareup.javapoet.TypeSpec.Builder;
 public class EnumGeneratorImpl implements ConstBasedGenerator {
 
   @Override
-  public void generate(EnumConst enumConst, Config config) {
+  public String generate(EnumConst enumConst, Config config) {
 
     Builder enumTypeBuilder = TypeSpec.enumBuilder(enumConst.getName()).addModifiers(Modifier.PUBLIC);
     ClassName enumClass = ClassName.get(config.getEnumInfo().getPackageName(), enumConst.getName());
@@ -94,5 +94,6 @@ public class EnumGeneratorImpl implements ConstBasedGenerator {
       e.printStackTrace();
     }
 
+    return null;
   }
 }

@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import javax.lang.model.element.Modifier;
 
+import com.lifeonwalden.codeGenerator.TableBasedGenerator;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
-import com.lifeonwalden.codeGenerator.javaClass.TableBasedGenerator;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
@@ -18,7 +18,7 @@ import com.squareup.javapoet.TypeSpec.Builder;
 public class DAOGeneratorImpl implements TableBasedGenerator {
 
   @Override
-  public void generate(Table table, Config config) {
+  public String generate(Table table, Config config) {
     String className = StringUtil.firstAlphToUpper(table.getName());
     Builder daoTypeBuilder = TypeSpec.interfaceBuilder(className + "Mapper").addModifiers(Modifier.PUBLIC);
     ClassName beanClass = ClassName.get(config.getBeanInfo().getPackageName(), className);
@@ -57,5 +57,7 @@ public class DAOGeneratorImpl implements TableBasedGenerator {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+    return null;
   }
 }

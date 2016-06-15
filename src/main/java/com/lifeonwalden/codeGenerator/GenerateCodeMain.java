@@ -20,8 +20,6 @@ import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Generator;
 import com.lifeonwalden.codeGenerator.constant.ColumnConstraintEnum;
 import com.lifeonwalden.codeGenerator.dll.TableGenerator;
-import com.lifeonwalden.codeGenerator.javaClass.ConstBasedGenerator;
-import com.lifeonwalden.codeGenerator.javaClass.TableBasedGenerator;
 import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.DAOGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.EnumGeneratorImpl;

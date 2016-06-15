@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.lifeonwalden.codeGenerator.javaClass;
+package com.lifeonwalden.codeGenerator;
 
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
@@ -14,5 +14,5 @@ import com.lifeonwalden.codeGenerator.bean.config.Config;
  */
 public interface TableBasedGenerator {
 
-  public void generate(Table table, Config config);
+  public String generate(Table table, Config config);
 }
