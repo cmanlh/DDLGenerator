@@ -17,6 +17,7 @@ import com.lifeonwalden.codeGenerator.bean.EnumConst;
 import com.lifeonwalden.codeGenerator.bean.Index;
 import com.lifeonwalden.codeGenerator.bean.IndexColumn;
 import com.lifeonwalden.codeGenerator.bean.Table;
+import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.bean.config.Generator;
 import com.lifeonwalden.codeGenerator.constant.ColumnConstraintEnum;
 import com.lifeonwalden.codeGenerator.dll.TableGenerator;
@@ -41,14 +42,17 @@ public class GenerateCodeMain {
       Generator generator = (Generator) xStream.fromXML(templateFile);
       init(generator);
 
+      // constant generate
       Database database = generator.getDatabase();
-      if (null != database.getConstPool() && null != generator.getConfig().getConstInfo()) {
+      Config config = generator.getConfig();
+      if (null != database.getConstPool() && null != config && null != config.getConstInfo()) {
         ConstBasedGenerator enumJavaClassGenerator = new EnumGeneratorImpl();
         ConstBasedGenerator jsEnumGenerator = new JsEnumGeneratorImpl();
         enumJavaClassGenerator.generate(database.getConstPool(), generator.getConfig());
         jsEnumGenerator.generate(database.getConstPool(), generator.getConfig());
       }
 
+      // DDL generate
       TableGenerator tableGenerator = null;
       try {
         tableGenerator =
@@ -60,37 +64,51 @@ public class GenerateCodeMain {
 
         System.exit(1);
       }
-
-      TableBasedGenerator daoGenerator = new DAOGeneratorImpl();
-      TableBasedGenerator beanGenerator = null;
-
-      try {
-        String beanGeneratorClass = generator.getConfig().getBeanInfo().getGenerator();
-        beanGenerator =
-            (TableBasedGenerator) Class.forName(
-                null == beanGeneratorClass ? "com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl" : beanGeneratorClass).newInstance();
-      } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-        System.err.println("Not an illegal Bean generator.");
-
-        System.exit(1);
-      }
-
-      XMLMapperGenerator xmlMapperGenerator = new XMLMapperGenerator();
       StringBuilder sqlBuilder = new StringBuilder();
       for (Table table : database.getTables()) {
         sqlBuilder.append(tableGenerator.generate(table, generator.getConfig()));
-        daoGenerator.generate(table, generator.getConfig());
-        beanGenerator.generate(table, generator.getConfig());
-
-        xmlMapperGenerator.generate(table, generator.getConfig());
       }
       try {
-        String file = new File(generator.getConfig().getOutputLocation()).getPath() + "\\" + database.getName() + ".sql";
+        File folder = new File(generator.getConfig().getOutputLocation());
+        if (!folder.exists()) {
+          folder.mkdirs();
+        }
+        String file = folder.getPath() + File.separator + database.getName() + ".sql";
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), generator.getConfig().getEncoding()));
         bw.write(sqlBuilder.toString());
         bw.close();
       } catch (IOException e) {
         e.printStackTrace();
+      }
+
+      // other generate
+      if (null != config) {
+        List<TableBasedGenerator> generatorList = new ArrayList<TableBasedGenerator>();
+
+        // standard generate
+        if (null != config.getBeanInfo()) {
+          try {
+            String beanGeneratorClass = generator.getConfig().getBeanInfo().getGenerator();
+            generatorList.add((TableBasedGenerator) Class.forName(
+                null == beanGeneratorClass ? "com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl" : beanGeneratorClass).newInstance());
+          } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            System.err.println("Not an illegal Bean generator.");
+
+            System.exit(1);
+          }
+          if (null != config.getDaoInfo()) {
+            generatorList.add(new DAOGeneratorImpl());
+            if (null != config.getMybatisInfo()) {
+              generatorList.add(new XMLMapperGenerator());
+            }
+          }
+        }
+
+        for (Table table : database.getTables()) {
+          for (TableBasedGenerator _generator : generatorList) {
+            _generator.generate(table, generator.getConfig());
+          }
+        }
       }
     }
   }
