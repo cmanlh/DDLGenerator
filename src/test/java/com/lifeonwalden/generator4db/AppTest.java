@@ -7,7 +7,7 @@ import com.lifeonwalden.codeGenerator.GenerateCodeMain;
 public class AppTest {
   @Test
   public void generateCodeMainTest() {
-    String[] param = {"C:\\Users\\HongLu\\git\\DDLGenerator\\resources"};
+    String[] param = {"D:\\workspace\\DDLGenerator\\resources"};
 
     GenerateCodeMain.main(param);
   }
