@@ -42,7 +42,7 @@ public class EnumGeneratorImpl implements ConstBasedGenerator {
         enumTypeBuilder.addEnumConstant(
             enumConstName,
             TypeSpec.anonymousClassBuilder("$S, $L, $S, $S", enumConstName, valueEnum.getValue(), enumConstDesc, enumConstAlias)
-                .addJavadoc(enumConstDesc).addJavadoc("\n").build());
+                .addJavadoc("$${@$L@$L.getValue()}", enumClass, enumConstName).addJavadoc("\n\n").addJavadoc(enumConstDesc).addJavadoc("\n").build());
 
       }
 
