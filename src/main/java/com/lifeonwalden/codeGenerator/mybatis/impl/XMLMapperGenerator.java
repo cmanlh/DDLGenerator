@@ -64,7 +64,9 @@ public class XMLMapperGenerator implements DomGenerator {
     document.setRootElement(root);
 
     try {
-      File folder = new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getMybatisInfo().getFolderName());
+      File folder =
+          new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getMybatisInfo().getFolderName() + File.separator
+              + config.getDaoInfo().getPackageName().replace(".", File.separator));
 
       if (!folder.exists()) {
         folder.mkdirs();

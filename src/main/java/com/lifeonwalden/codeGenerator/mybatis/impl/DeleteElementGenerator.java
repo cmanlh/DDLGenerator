@@ -14,7 +14,6 @@ import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
-import com.lifeonwalden.codeGenerator.util.StringUtil;
 
 public class DeleteElementGenerator implements TableElementGenerator {
 
