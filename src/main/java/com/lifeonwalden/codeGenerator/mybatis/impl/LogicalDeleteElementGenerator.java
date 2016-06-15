@@ -10,17 +10,17 @@ import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
+import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
 import com.lifeonwalden.codeGenerator.util.OutputUtilities;
-import com.lifeonwalden.codeGenerator.util.StringUtil;
 
 public class LogicalDeleteElementGenerator implements TableElementGenerator {
 
   public XmlElement getElement(Table table, Config config) {
     XmlElement element = new XmlElement(XMLTag.UPDATE.getName());
-    String className = config.getBeanInfo().getPackageName() + "." + StringUtil.firstAlphToUpper(table.getName()) + "DTO";
+    String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getBeanName(table, config);
 
     element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "logicalDelete"));
     element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));

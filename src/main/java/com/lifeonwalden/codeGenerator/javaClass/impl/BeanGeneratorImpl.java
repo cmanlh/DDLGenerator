@@ -21,9 +21,20 @@ import com.squareup.javapoet.TypeSpec.Builder;
 
 public class BeanGeneratorImpl implements TableBasedGenerator {
 
+  public static String getBeanName(Table table, Config config) {
+    String namePattern = config.getBeanInfo().getNamePattern(), name;
+    if (null == namePattern) {
+      name = table.getName();
+    } else {
+      name = namePattern.replace("?", StringUtil.firstAlphToUpper(table.getName()));
+    }
+
+    return StringUtil.firstAlphToUpper(name);
+  }
+
   @Override
   public String generate(Table table, Config config) {
-    String className = StringUtil.firstAlphToUpper(table.getName());
+    String className = getBeanName(table, config);
     ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
     Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(Serializable.class));
 

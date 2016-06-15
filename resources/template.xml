@@ -2,7 +2,7 @@
 <generator>
 	<config outputLocation="D:\workspace\DDLGenerator\target">
 		<constInfo packageName="com.test.const" folderName="enum" />
-		<daoInfo packageName="com.test.dao" folderName="dao" />
+		<daoInfo packageName="com.test.dao" folderName="dao" namePattern="?Mapper" />
 		<beanInfo packageName="com.test.bean" folderName="bean" generator="com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl" />
 		<mybatisInfo namespace="com.test.dao" folderName="xml" />
 	</config>

@@ -17,11 +17,22 @@ import com.squareup.javapoet.TypeSpec.Builder;
 
 public class DAOGeneratorImpl implements TableBasedGenerator {
 
+  public static String getBeanName(Table table, Config config) {
+    String namePattern = config.getDaoInfo().getNamePattern(), name;
+    if (null == namePattern) {
+      name = table.getName() + "Mapper";
+    } else {
+      name = namePattern.replace("?", StringUtil.firstAlphToUpper(table.getName()));
+    }
+
+    return StringUtil.firstAlphToUpper(name);
+  }
+
   @Override
   public String generate(Table table, Config config) {
-    String className = StringUtil.firstAlphToUpper(table.getName());
-    Builder daoTypeBuilder = TypeSpec.interfaceBuilder(className + "Mapper").addModifiers(Modifier.PUBLIC);
-    ClassName beanClass = ClassName.get(config.getBeanInfo().getPackageName(), className);
+    String className = getBeanName(table, config);
+    Builder daoTypeBuilder = TypeSpec.interfaceBuilder(className).addModifiers(Modifier.PUBLIC);
+    ClassName beanClass = ClassName.get(config.getBeanInfo().getPackageName(), BeanGeneratorImpl.getBeanName(table, config));
 
     daoTypeBuilder.addMethod(MethodSpec.methodBuilder("insert").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
         .addParameter(beanClass, "param").build());

@@ -41,13 +41,15 @@ public class GenerateCodeMain {
       xStream.processAnnotations(Generator.class);
       Generator generator = (Generator) xStream.fromXML(templateFile);
       init(generator);
+
       Database database = generator.getDatabase();
-      if (null != database.getConstPool()) {
+      if (null != database.getConstPool() && null != generator.getConfig().getConstInfo()) {
         ConstBasedGenerator enumJavaClassGenerator = new EnumGeneratorImpl();
         ConstBasedGenerator jsEnumGenerator = new JsEnumGeneratorImpl();
         enumJavaClassGenerator.generate(database.getConstPool(), generator.getConfig());
         jsEnumGenerator.generate(database.getConstPool(), generator.getConfig());
       }
+
       TableGenerator tableGenerator = null;
       try {
         tableGenerator =
@@ -59,6 +61,7 @@ public class GenerateCodeMain {
 
         System.exit(1);
       }
+
       TableBasedGenerator daoGenerator = new DAOGeneratorImpl();
       TableBasedGenerator beanGenerator = new BeanGeneratorImpl();
 
