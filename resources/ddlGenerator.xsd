@@ -1,11 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.lifeonwalden.com/ddlGenerator" xmlns:ddl="http://www.lifeonwalden.com/ddlGenerator"
 	elementFormDefault="qualified">
+	<element name="generator">
+		<complexType>
+			<sequence>
+				<element ref="ddl:config" />
+				<element ref="ddl:database" />
+			</sequence>
+		</complexType>
+	</element>
+	<element name="database">
+		<complexType>
+			<sequence>
+				<element name="dbFields" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element ref="ddl:column" maxOccurs="unbounded" />
+						</sequence>
+					</complexType>
+				</element>
+				<element name="constPool" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="enumConst" maxOccurs="unbounded">
+								<complexType>
+									<sequence>
+										<element name="options" minOccurs="0">
+											<complexType>
+												<sequence>
+													<element ref="ddl:valueEnum" maxOccurs="unbounded" />
+												</sequence>
+											</complexType>
+										</element>
+									</sequence>
+									<attribute name="name" type="string" use="required" />
+									<attribute name="note" type="string" />
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+				<element name="tables">
+					<complexType>
+						<sequence>
+							<element name="table" maxOccurs="unbounded">
+								<complexType>
+									<sequence>
+										<element name="columns">
+											<complexType>
+												<sequence>
+													<element ref="ddl:column" maxOccurs="unbounded" />
+												</sequence>
+											</complexType>
+										</element>
+										<element name="constraints" minOccurs="0">
+											<complexType>
+												<sequence>
+													<element name="constraint" maxOccurs="unbounded">
+														<complexType>
+															<sequence>
+																<element name="columns">
+																	<complexType>
+																		<sequence>
+																			<element ref="ddl:indexColumn" maxOccurs="unbounded" />
+																		</sequence>
+																	</complexType>
+																</element>
+															</sequence>
+															<attribute name="name" type="string" />
+															<attribute name="type" type="string" />
+														</complexType>
+													</element>
+												</sequence>
+											</complexType>
+										</element>
+										<element name="indexs" minOccurs="0">
+											<complexType>
+												<sequence>
+													<element name="index" maxOccurs="unbounded">
+														<complexType>
+															<sequence>
+																<element name="columns">
+																	<complexType>
+																		<sequence>
+																			<element ref="ddl:indexColumn" maxOccurs="unbounded" />
+																		</sequence>
+																	</complexType>
+																</element>
+															</sequence>
+															<attribute name="name" type="string" />
+															<attribute name="type" type="string" />
+														</complexType>
+													</element>
+												</sequence>
+											</complexType>
+										</element>
+										<element name="options" minOccurs="0">
+											<complexType>
+												<sequence>
+													<element ref="ddl:option" maxOccurs="unbounded" />
+												</sequence>
+											</complexType>
+										</element>
+									</sequence>
+									<attribute name="name" type="string" use="required" />
+									<attribute name="note" type="string" />
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+			<attribute name="name" type="string" use="required" />
+			<attribute name="schema" type="string" />
+			<attribute name="note" type="string" />
+			<attribute name="generator" type="string" />
+		</complexType>
+	</element>
+
+	<element name="indexColumn">
+		<complexType>
+			<attribute name="name" type="string" use="required" />
+			<attribute name="order" use="required">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="DESC" />
+						<enumeration value="ASC" />
+					</restriction>
+				</simpleType>
+			</attribute>
+		</complexType>
+	</element>
 
 	<element name="column">
 		<complexType>
 			<sequence>
-				<element name="options" minOccurs="0" maxOccurs="unbounded">
+				<element name="options" minOccurs="0">
 					<complexType>
 						<sequence>
 							<element ref="ddl:valueEnum" maxOccurs="unbounded" />
@@ -127,15 +257,10 @@
 							<element name="extentionGenerator" maxOccurs="unbounded" minOccurs="0">
 								<complexType>
 									<sequence>
-										<element name="properties" minOccurs="0">
+										<element name="options" minOccurs="0">
 											<complexType>
 												<sequence>
-													<element name="keyValue" maxOccurs="unbounded">
-														<complexType>
-															<attribute name="key" type="string" use="required" />
-															<attribute name="value" type="string" use="required" />
-														</complexType>
-													</element>
+													<element ref="ddl:option" maxOccurs="unbounded" />
 												</sequence>
 											</complexType>
 										</element>
@@ -156,6 +281,12 @@
 					<documentation>output file encoding</documentation>
 				</annotation>
 			</attribute>
+		</complexType>
+	</element>
+	<element name="option">
+		<complexType>
+			<attribute name="option" type="string" use="required" />
+			<attribute name="value" type="string" use="required" />
 		</complexType>
 	</element>
 	<attribute name="packageName" type="string">
