@@ -37,6 +37,11 @@ public class GenerateCodeMain {
       System.exit(1);
     }
 
+    String globalOutputFileLocation = null;
+    if (args.length > 1) {
+      globalOutputFileLocation = args[1];
+    }
+
     for (File templateFile : configFileLocation.listFiles()) {
       if (!templateFile.getName().toLowerCase().endsWith("xml")) {
         continue;
@@ -44,7 +49,7 @@ public class GenerateCodeMain {
       XStream xStream = new XStream();
       xStream.processAnnotations(Generator.class);
       Generator generator = (Generator) xStream.fromXML(templateFile);
-      init(generator);
+      init(generator, globalOutputFileLocation);
 
       // constant generate
       Database database = generator.getDatabase();
@@ -127,7 +132,7 @@ public class GenerateCodeMain {
     }
   }
 
-  private static void init(Generator generator) {
+  private static void init(Generator generator, String globalOutputFileLocation) {
     Database database = generator.getDatabase();
     Map<String, EnumConst> constMapping = new HashMap<String, EnumConst>();
     if (null != database.getConstMapping()) {
@@ -188,14 +193,21 @@ public class GenerateCodeMain {
       }
 
       Config config = generator.getConfig();
-      if (null != config && null != config.getExtentions()) {
-        Map<String, ExtentionGenerator> extentionMapping = new HashMap<String, ExtentionGenerator>();
-
-        for (ExtentionGenerator extention : config.getExtentions()) {
-          extentionMapping.put(extention.getGenerator(), extention);
+      if (null != config) {
+        String outputLocation = config.getOutputLocation();
+        if (null == outputLocation) {
+          config.setOutputLocation(globalOutputFileLocation);
         }
 
-        config.setExtentionMapping(extentionMapping);
+        if (null != config.getExtentions()) {
+          Map<String, ExtentionGenerator> extentionMapping = new HashMap<String, ExtentionGenerator>();
+
+          for (ExtentionGenerator extention : config.getExtentions()) {
+            extentionMapping.put(extention.getGenerator(), extention);
+          }
+
+          config.setExtentionMapping(extentionMapping);
+        }
       }
     }
   }
