@@ -38,6 +38,9 @@ public class GenerateCodeMain {
     }
 
     for (File templateFile : configFileLocation.listFiles()) {
+      if (!templateFile.getName().toLowerCase().endsWith("xml")) {
+        continue;
+      }
       XStream xStream = new XStream();
       xStream.processAnnotations(Generator.class);
       Generator generator = (Generator) xStream.fromXML(templateFile);

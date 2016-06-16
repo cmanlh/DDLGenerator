@@ -2,8 +2,10 @@ package com.lifeonwalden.codeGenerator.bean.config;
 
 import java.io.Serializable;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+@XStreamAlias(value = "keyValue")
 public class KeyValue implements Serializable {
   private static final long serialVersionUID = -7862910746690794765L;
   @XStreamAsAttribute

@@ -10,7 +10,7 @@ public class MSSQLConstraintGeneratorImpl implements ConstraintGenerator {
   @Override
   public String generate(Constraint constraint, Config config) {
     StringBuilder sb = new StringBuilder();
-    sb.append("CONSTRAINT ").append(constraint.getName()).append(" ").append(constraint.getType()).append(" (");
+    sb.append("CONSTRAINT ").append(constraint.getName()).append(" ").append(constraint.getType().toUpperCase()).append(" (");
 
     for (IndexColumn column : constraint.getColumns()) {
       sb.append(column.getName()).append(", ");

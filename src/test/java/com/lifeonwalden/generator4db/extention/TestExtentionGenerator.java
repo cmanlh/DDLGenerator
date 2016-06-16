@@ -1,10 +1,10 @@
 package com.lifeonwalden.generator4db.extention;
 
 import com.lifeonwalden.codeGenerator.TableBasedGenerator;
+import com.lifeonwalden.codeGenerator.bean.Option;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.bean.config.ExtentionGenerator;
-import com.lifeonwalden.codeGenerator.bean.config.KeyValue;
 
 public class TestExtentionGenerator implements TableBasedGenerator {
 
@@ -14,9 +14,9 @@ public class TestExtentionGenerator implements TableBasedGenerator {
 
     System.out.println(extention.getGenerator());
 
-    if (null != extention.getProperties()) {
-      for (KeyValue keyValue : extention.getProperties()) {
-        System.out.println(keyValue.getKey() + " : " + keyValue.getValue());
+    if (null != extention.getOptions()) {
+      for (Option option : extention.getOptions()) {
+        System.out.println(option.getOption() + " : " + option.getValue());
       }
     }
 

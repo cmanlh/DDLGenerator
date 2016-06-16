@@ -3,9 +3,9 @@ package com.lifeonwalden.codeGenerator.bean.config;
 import java.io.Serializable;
 import java.util.List;
 
+import com.lifeonwalden.codeGenerator.bean.Option;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-
 
 @XStreamAlias(value = "extentionGenerator")
 public class ExtentionGenerator implements Serializable {
@@ -14,7 +14,7 @@ public class ExtentionGenerator implements Serializable {
   @XStreamAsAttribute
   private String generator;
 
-  private List<KeyValue> properties;
+  private List<Option> options;
 
   public String getGenerator() {
     return generator;
@@ -24,11 +24,12 @@ public class ExtentionGenerator implements Serializable {
     this.generator = generator;
   }
 
-  public List<KeyValue> getProperties() {
-    return properties;
+  public List<Option> getOptions() {
+    return options;
   }
 
-  public void setProperties(List<KeyValue> properties) {
-    this.properties = properties;
+  public void setOptions(List<Option> options) {
+    this.options = options;
   }
+
 }

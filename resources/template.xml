@@ -7,7 +7,12 @@
 			namePattern="?DTO" />
 		<mybatisInfo namespace="com.test.dao" folderName="xml" />
 		<extentions>
-			<extentionGenerator generator="com.lifeonwalden.generator4db.extention.TestExtentionGenerator" />
+			<extentionGenerator generator="com.lifeonwalden.generator4db.extention.TestExtentionGenerator">
+				<options>
+					<option option="testKey" value="testVal" />
+					<option option="testKey2" value="testVal2" />
+				</options>
+			</extentionGenerator>
 		</extentions>
 	</config>
 	<database name="TestDB" schema="prd" note="test database" generator="com.lifeonwalden.codeGenerator.dll.impl.MSSQLTableGeneratorImpl">
