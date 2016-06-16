@@ -191,6 +191,8 @@ public class GenerateCodeMain {
         for (ExtentionGenerator extention : config.getExtentions()) {
           extentionMapping.put(extention.getGenerator(), extention);
         }
+
+        config.setExtentionMapping(extentionMapping);
       }
     }
   }

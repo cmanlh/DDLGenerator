@@ -6,6 +6,9 @@
 		<beanInfo packageName="com.test.bean" folderName="bean" generator="com.lifeonwalden.codeGenerator.javaClass.impl.HashBeanGeneratorImpl"
 			namePattern="?DTO" />
 		<mybatisInfo namespace="com.test.dao" folderName="xml" />
+		<extentions>
+			<extentionGenerator generator="com.lifeonwalden.generator4db.extention.TestExtentionGenerator" />
+		</extentions>
 	</config>
 	<database name="TestDB" schema="prd" note="test database" generator="com.lifeonwalden.codeGenerator.dll.impl.MSSQLTableGeneratorImpl">
 		<dbFields>
