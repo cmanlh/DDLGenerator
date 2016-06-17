@@ -63,8 +63,11 @@ public class DAOGeneratorImpl implements TableBasedGenerator {
     }
 
     try {
-      JavaFileTmp.builder(config.getDaoInfo().getPackageName(), daoTypeBuilder.build()).build()
-          .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getDaoInfo().getFolderName()));
+      JavaFileTmp
+          .builder(config.getDaoInfo().getPackageName(), daoTypeBuilder.build())
+          .build()
+          .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getDaoInfo().getFolderName()),
+              config.getEncoding());
     } catch (IOException e) {
       e.printStackTrace();
     }

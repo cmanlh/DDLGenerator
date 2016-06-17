@@ -89,8 +89,11 @@ public class EnumGeneratorImpl implements ConstBasedGenerator {
           .addStatement("$L.put(_enum.get$L(), _enum)", "nameMapping", "Name").endControlFlow().build());
 
       try {
-        JavaFileTmp.builder(config.getConstInfo().getPackageName(), enumTypeBuilder.build()).build()
-            .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getConstInfo().getFolderName()));
+        JavaFileTmp
+            .builder(config.getConstInfo().getPackageName(), enumTypeBuilder.build())
+            .build()
+            .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getConstInfo().getFolderName()),
+                config.getEncoding());
       } catch (IOException e) {
         e.printStackTrace();
       }

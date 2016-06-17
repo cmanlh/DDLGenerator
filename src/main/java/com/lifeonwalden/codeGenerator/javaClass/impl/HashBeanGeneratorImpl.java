@@ -108,8 +108,11 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
     }
 
     try {
-      JavaFileTmp.builder(config.getBeanInfo().getPackageName(), beanTypeBuilder.build()).build()
-          .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getBeanInfo().getFolderName()));
+      JavaFileTmp
+          .builder(config.getBeanInfo().getPackageName(), beanTypeBuilder.build())
+          .build()
+          .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getBeanInfo().getFolderName()),
+              config.getEncoding());
     } catch (IOException e) {
       e.printStackTrace();
     }
