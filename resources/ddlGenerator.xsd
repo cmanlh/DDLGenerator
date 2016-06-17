@@ -105,6 +105,7 @@
 									</sequence>
 									<attribute name="name" type="string" use="required" />
 									<attribute name="note" type="string" />
+									<attribute name="addDBFields" type="boolean" use="required" />
 								</complexType>
 							</element>
 						</sequence>
