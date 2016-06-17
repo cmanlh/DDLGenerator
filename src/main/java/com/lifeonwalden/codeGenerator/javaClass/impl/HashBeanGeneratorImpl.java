@@ -95,7 +95,8 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
       }
 
       ClassName javaTypeClassName = ClassName.bestGuess(javaType);
-      beanTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, column.getName(), Modifier.PRIVATE).addJavadoc("$L", column.getNote()).build());
+      // beanTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, column.getName(), Modifier.PRIVATE).addJavadoc("$L",
+      // column.getNote()).build());
 
       beanTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(column.getName())).addModifiers(Modifier.PUBLIC)
           .returns(javaTypeClassName).addStatement("return ($T)dataMap.get($S)", javaTypeClassName, column.getName())
