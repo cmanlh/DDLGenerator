@@ -14,10 +14,14 @@ import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.JavaFileTmp;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeSpec.Builder;
+
+;
+
+;
 
 public class BeanGeneratorImpl implements TableBasedGenerator {
 
@@ -63,8 +67,11 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
     }
 
     try {
-      JavaFile.builder(config.getBeanInfo().getPackageName(), dtoTypeBuilder.build()).build()
-          .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getBeanInfo().getFolderName()));
+      JavaFileTmp
+          .builder(config.getBeanInfo().getPackageName(), dtoTypeBuilder.build())
+          .build()
+          .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getBeanInfo().getFolderName()),
+              config.getEncoding());
     } catch (IOException e) {
       e.printStackTrace();
     }

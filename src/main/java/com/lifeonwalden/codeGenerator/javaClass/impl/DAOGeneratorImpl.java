@@ -10,7 +10,7 @@ import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.JavaFileTmp;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeSpec.Builder;
@@ -63,7 +63,7 @@ public class DAOGeneratorImpl implements TableBasedGenerator {
     }
 
     try {
-      JavaFile.builder(config.getDaoInfo().getPackageName(), daoTypeBuilder.build()).build()
+      JavaFileTmp.builder(config.getDaoInfo().getPackageName(), daoTypeBuilder.build()).build()
           .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getDaoInfo().getFolderName()));
     } catch (IOException e) {
       e.printStackTrace();

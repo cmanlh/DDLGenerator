@@ -15,7 +15,7 @@ import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.JavaFileTmp;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
@@ -89,7 +89,7 @@ public class EnumGeneratorImpl implements ConstBasedGenerator {
           .addStatement("$L.put(_enum.get$L(), _enum)", "nameMapping", "Name").endControlFlow().build());
 
       try {
-        JavaFile.builder(config.getConstInfo().getPackageName(), enumTypeBuilder.build()).build()
+        JavaFileTmp.builder(config.getConstInfo().getPackageName(), enumTypeBuilder.build()).build()
             .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getConstInfo().getFolderName()));
       } catch (IOException e) {
         e.printStackTrace();

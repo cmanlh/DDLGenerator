@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <generator xmlns="http://www.lifeonwalden.com/ddlGenerator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.lifeonwalden.com/ddlGenerator ddlGenerator.xsd">
-	<config>
+	<config encoding="GB18030">
 		<constInfo packageName="com.test.const" folderName="enum" />
 		<daoInfo packageName="com.test.dao" folderName="dao" namePattern="?Mapper" />
 		<beanInfo packageName="com.test.bean" folderName="bean" generator="com.lifeonwalden.codeGenerator.javaClass.impl.HashBeanGeneratorImpl"

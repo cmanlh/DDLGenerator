@@ -16,7 +16,7 @@ import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.JavaFileTmp;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
@@ -108,7 +108,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
     }
 
     try {
-      JavaFile.builder(config.getBeanInfo().getPackageName(), beanTypeBuilder.build()).build()
+      JavaFileTmp.builder(config.getBeanInfo().getPackageName(), beanTypeBuilder.build()).build()
           .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getBeanInfo().getFolderName()));
     } catch (IOException e) {
       e.printStackTrace();
