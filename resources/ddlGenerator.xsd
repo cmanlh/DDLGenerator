@@ -5,20 +5,6 @@
 		<complexType>
 			<sequence>
 				<element ref="ddl:config" />
-				<element ref="ddl:database" />
-			</sequence>
-		</complexType>
-	</element>
-	<element name="database">
-		<complexType>
-			<sequence>
-				<element name="dbFields" minOccurs="0">
-					<complexType>
-						<sequence>
-							<element ref="ddl:column" maxOccurs="unbounded" />
-						</sequence>
-					</complexType>
-				</element>
 				<element name="constPool" minOccurs="0">
 					<complexType>
 						<sequence>
@@ -37,6 +23,20 @@
 									<attribute name="note" type="string" />
 								</complexType>
 							</element>
+						</sequence>
+					</complexType>
+				</element>
+				<element ref="ddl:database" />
+			</sequence>
+		</complexType>
+	</element>
+	<element name="database">
+		<complexType>
+			<sequence>
+				<element name="dbFields" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element ref="ddl:column" maxOccurs="unbounded" />
 						</sequence>
 					</complexType>
 				</element>

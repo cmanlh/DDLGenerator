@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="GB18030"?>
+<generator xmlns="http://www.lifeonwalden.com/ddlGenerator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.lifeonwalden.com/ddlGenerator ddlGenerator.xsd">
+	<config encoding="GB18030">
+		<constInfo packageName="com.test.const" folderName="constTest" />
+	</config>
+	<constPool>
+		<enumConst name="OptionEnum" note="OptionEnum">
+			<options>
+				<valueEnum name="OPTION_001" value="1" alias="001" desc="description" />
+				<valueEnum name="OPTION_002" value="2" alias="002" desc="description002" />
+			</options>
+		</enumConst>
+	</constPool>
+</generator>

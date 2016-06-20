@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import com.lifeonwalden.codeGenerator.bean.config.Generator;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -24,14 +25,15 @@ public class Database implements Serializable {
   @XStreamAsAttribute
   private String generator;
 
-  private List<EnumConst> constPool;
-
   @XStreamOmitField
   private Map<String, EnumConst> constMapping;
 
   private List<Table> tables;
 
   private List<Column> dbFields;
+
+  @XStreamOmitField
+  private Generator generatorNode;
 
   public String getName() {
     return name;
@@ -55,14 +57,6 @@ public class Database implements Serializable {
 
   public void setNote(String note) {
     this.note = note;
-  }
-
-  public List<EnumConst> getConstPool() {
-    return constPool;
-  }
-
-  public void setConstPool(List<EnumConst> constPool) {
-    this.constPool = constPool;
   }
 
   public Map<String, EnumConst> getConstMapping() {
@@ -96,5 +90,13 @@ public class Database implements Serializable {
 
   public void setGenerator(String generator) {
     this.generator = generator;
+  }
+
+  public Generator getGeneratorNode() {
+    return generatorNode;
+  }
+
+  public void setGeneratorNode(Generator generatorNode) {
+    this.generatorNode = generatorNode;
   }
 }

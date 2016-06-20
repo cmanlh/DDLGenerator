@@ -52,15 +52,18 @@ public class GenerateCodeMain {
       init(generator, globalOutputFileLocation);
 
       // constant generate
-      Database database = generator.getDatabase();
       Config config = generator.getConfig();
-      if (null != database.getConstPool() && null != config && null != config.getConstInfo()) {
+      if (null != generator.getConstPool() && null != config && null != config.getConstInfo()) {
         ConstBasedGenerator enumJavaClassGenerator = new EnumGeneratorImpl();
         ConstBasedGenerator jsEnumGenerator = new JsEnumGeneratorImpl();
-        enumJavaClassGenerator.generate(database.getConstPool(), generator.getConfig());
-        jsEnumGenerator.generate(database.getConstPool(), generator.getConfig());
+        enumJavaClassGenerator.generate(generator.getConstPool(), generator.getConfig());
+        jsEnumGenerator.generate(generator.getConstPool(), generator.getConfig());
       }
 
+      if (null == generator.getDatabase()) {
+        return;
+      }
+      Database database = generator.getDatabase();
       // DDL generate
       TableGenerator tableGenerator = null;
       try {
@@ -133,81 +136,83 @@ public class GenerateCodeMain {
   }
 
   private static void init(Generator generator, String globalOutputFileLocation) {
-    Database database = generator.getDatabase();
-    Map<String, EnumConst> constMapping = new HashMap<String, EnumConst>();
-    if (null != database.getConstMapping()) {
-      for (EnumConst enumCost : database.getConstPool()) {
-        constMapping.put(enumCost.getName(), enumCost);
+    if (generator.getDatabase() != null) {
+      Database database = generator.getDatabase();
+      Map<String, EnumConst> constMapping = new HashMap<String, EnumConst>();
+      if (null != database.getConstMapping()) {
+        for (EnumConst enumCost : generator.getConstPool()) {
+          constMapping.put(enumCost.getName(), enumCost);
+        }
+        database.setConstMapping(constMapping);
       }
-      database.setConstMapping(constMapping);
+
+      for (Table table : database.getTables()) {
+        table.setDatabase(database);
+        if (table.getAddDBFields() == null || table.getAddDBFields()) {
+          List<Column> columnList = table.getColumns();
+          for (Column column : database.getDbFields()) {
+            columnList.add(column.copy());
+          }
+        }
+
+        Map<String, Column> columnMapping = new HashMap<String, Column>();
+        for (Column column : table.getColumns()) {
+          column.setTable(table);
+          columnMapping.put(column.getName(), column);
+
+          if (null != column.getOptionRef()) {
+            column.setOptionRefObj(constMapping.get(column.getOptionRef()));
+          }
+        }
+        table.setColumnMapping(columnMapping);
+
+        if (null != table.getConstraints()) {
+          List<Constraint> constraintList = table.getConstraints();
+          for (Constraint constraint : constraintList) {
+            constraint.setTable(table);
+            ColumnConstraintEnum constraintEnum = ColumnConstraintEnum.forAlias(constraint.getType().toUpperCase());
+
+            if (ColumnConstraintEnum.PRIMARY_KEY == constraintEnum) {
+              List<Column> primaryCols = new ArrayList<Column>();
+
+              for (IndexColumn indexColumn : constraint.getColumns()) {
+                Column column = columnMapping.get(indexColumn.getName());
+                primaryCols.add(column);
+                if (constraint.getColumns().size() > 0) {
+                  column.setConstraintType(ColumnConstraintEnum.UNION_PRIMARY_KEY);
+                } else {
+                  column.setConstraintType(ColumnConstraintEnum.PRIMARY_KEY);
+                }
+              }
+
+              table.setPrimaryColumns(primaryCols);
+            }
+          }
+        }
+
+        if (null != table.getIndexs()) {
+          for (Index index : table.getIndexs()) {
+            index.setTable(table);
+          }
+        }
+      }
     }
 
-    for (Table table : database.getTables()) {
-      table.setDatabase(database);
-      if (table.getAddDBFields() == null || table.getAddDBFields()) {
-        List<Column> columnList = table.getColumns();
-        for (Column column : database.getDbFields()) {
-          columnList.add(column.copy());
-        }
+    Config config = generator.getConfig();
+    if (null != config) {
+      String outputLocation = config.getOutputLocation();
+      if (null == outputLocation) {
+        config.setOutputLocation(globalOutputFileLocation);
       }
 
-      Map<String, Column> columnMapping = new HashMap<String, Column>();
-      for (Column column : table.getColumns()) {
-        column.setTable(table);
-        columnMapping.put(column.getName(), column);
+      if (null != config.getExtentions()) {
+        Map<String, ExtentionGenerator> extentionMapping = new HashMap<String, ExtentionGenerator>();
 
-        if (null != column.getOptionRef()) {
-          column.setOptionRefObj(constMapping.get(column.getOptionRef()));
-        }
-      }
-      table.setColumnMapping(columnMapping);
-
-      if (null != table.getConstraints()) {
-        List<Constraint> constraintList = table.getConstraints();
-        for (Constraint constraint : constraintList) {
-          constraint.setTable(table);
-          ColumnConstraintEnum constraintEnum = ColumnConstraintEnum.forAlias(constraint.getType().toUpperCase());
-
-          if (ColumnConstraintEnum.PRIMARY_KEY == constraintEnum) {
-            List<Column> primaryCols = new ArrayList<Column>();
-
-            for (IndexColumn indexColumn : constraint.getColumns()) {
-              Column column = columnMapping.get(indexColumn.getName());
-              primaryCols.add(column);
-              if (constraint.getColumns().size() > 0) {
-                column.setConstraintType(ColumnConstraintEnum.UNION_PRIMARY_KEY);
-              } else {
-                column.setConstraintType(ColumnConstraintEnum.PRIMARY_KEY);
-              }
-            }
-
-            table.setPrimaryColumns(primaryCols);
-          }
-        }
-      }
-
-      if (null != table.getIndexs()) {
-        for (Index index : table.getIndexs()) {
-          index.setTable(table);
-        }
-      }
-
-      Config config = generator.getConfig();
-      if (null != config) {
-        String outputLocation = config.getOutputLocation();
-        if (null == outputLocation) {
-          config.setOutputLocation(globalOutputFileLocation);
+        for (ExtentionGenerator extention : config.getExtentions()) {
+          extentionMapping.put(extention.getGenerator(), extention);
         }
 
-        if (null != config.getExtentions()) {
-          Map<String, ExtentionGenerator> extentionMapping = new HashMap<String, ExtentionGenerator>();
-
-          for (ExtentionGenerator extention : config.getExtentions()) {
-            extentionMapping.put(extention.getGenerator(), extention);
-          }
-
-          config.setExtentionMapping(extentionMapping);
-        }
+        config.setExtentionMapping(extentionMapping);
       }
     }
   }

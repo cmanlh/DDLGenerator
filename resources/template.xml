@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="GB18030"?>
 <generator xmlns="http://www.lifeonwalden.com/ddlGenerator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.lifeonwalden.com/ddlGenerator ddlGenerator.xsd">
 	<config encoding="GB18030">
 		<constInfo packageName="com.test.const" folderName="enum" />
@@ -15,22 +15,22 @@
 			</extentionGenerator>
 		</extentions>
 	</config>
+	<constPool>
+		<enumConst name="OptionEnum" note="OptionEnum">
+			<options>
+				<valueEnum name="OPTION_001" value="1" alias="001" desc="description" />
+				<valueEnum name="OPTION_002" value="2" alias="002" desc="description002" />
+			</options>
+		</enumConst>
+	</constPool>
 	<database name="TestDB" schema="prd" note="test database" generator="com.lifeonwalden.codeGenerator.dll.impl.MSSQLTableGeneratorImpl">
 		<dbFields>
-			<column name="createTime" type="datetime" note="åˆ›å»ºæ—¶é—´" />
-			<column name="createUser" type="varchar" note="åˆ›å»ºè€…" length="32" />
-			<column name="updateTime" type="datetime" note="æ›´æ–°æ—¶é—´" />
-			<column name="updateUser" type="varchar" note="æ›´æ–°è€…" length="32" />
-			<column name="logicalDel" type="int" note="é€»è¾‘åˆ é™¤" defaultVal="0" />
+			<column name="createTime" type="datetime" note="´´½¨Ê±¼ä" />
+			<column name="createUser" type="varchar" note="´´½¨Õß" length="32" />
+			<column name="updateTime" type="datetime" note="¸üÐÂÊ±¼ä" />
+			<column name="updateUser" type="varchar" note="¸üÐÂÕß" length="32" />
+			<column name="logicalDel" type="int" note="Âß¼­É¾³ý" defaultVal="0" />
 		</dbFields>
-		<constPool>
-			<enumConst name="OptionEnum" note="OptionEnum">
-				<options>
-					<valueEnum name="OPTION_001" value="1" alias="001" desc="description" />
-					<valueEnum name="OPTION_002" value="2" alias="002" desc="description002" />
-				</options>
-			</enumConst>
-		</constPool>
 		<tables>
 			<table name="TestTable" note="test table">
 				<columns>
