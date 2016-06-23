@@ -2,7 +2,9 @@ package com.lifeonwalden.codeGenerator.javaClass.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +17,7 @@ import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFileTmp;
 import com.squareup.javapoet.MethodSpec;
@@ -27,7 +30,13 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
 
   @Override
   public String generate(Table table, Config config) {
-    String className = getBeanName(table, config);
+    generateResultBean(table, config);
+    generateParamBean(table, config);
+    return null;
+  }
+
+  private void generateResultBean(Table table, Config config) {
+    String className = getResultBeanName(table, config);
     ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
     Builder beanTypeBuilder =
         TypeSpec
@@ -35,7 +44,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
             .addModifiers(Modifier.PUBLIC)
             .addSuperinterface(ParameterizedTypeName.get(Map.class, String.class, Object.class))
             .addField(
-                FieldSpec.builder(ParameterizedTypeName.get(Map.class, String.class, Object.class), "dataMap", Modifier.PRIVATE)
+                FieldSpec.builder(ParameterizedTypeName.get(Map.class, String.class, Object.class), "dataMap", Modifier.PROTECTED)
                     .initializer("new $T<String,Object>()", HashMap.class).build());
 
     beanTypeBuilder
@@ -95,8 +104,6 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
       }
 
       ClassName javaTypeClassName = ClassName.bestGuess(javaType);
-      // beanTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, column.getName(), Modifier.PRIVATE).addJavadoc("$L",
-      // column.getNote()).build());
 
       beanTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(column.getName())).addModifiers(Modifier.PUBLIC)
           .returns(javaTypeClassName).addStatement("return ($T)dataMap.get($S)", javaTypeClassName, column.getName())
@@ -117,7 +124,61 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
 
-    return null;
+  private void generateParamBean(Table table, Config config) {
+    String supperClassName = getResultBeanName(table, config);
+    String className = getParamBeanName(table, config);
+
+    CodeBlock.Builder codeBlockBuilder = CodeBlock.builder();
+    for (Column column : table.getColumns()) {
+      String javaType = column.getJavaType();
+      if (null == javaType) {
+        JdbcTypeEnum jdbcType = JdbcTypeEnum.nameOf(column.getType().toUpperCase());
+        if (null == jdbcType) {
+          throw new RuntimeException("unknow jdbc type : " + column.getType().toUpperCase());
+        }
+        javaType = jdbcType.getJavaType();
+      }
+      ClassName javaTypeClassName = ClassName.bestGuess(javaType);
+      if (!javaTypeClassName.equals(ClassName.get(String.class))) {
+        codeBlockBuilder.addStatement("typeMap.put($S, $T.class)", column.getName(), javaTypeClassName);
+      }
+    }
+
+    Builder beanTypeBuilder =
+        TypeSpec
+            .classBuilder(className)
+            .addModifiers(Modifier.PUBLIC)
+            .superclass(ClassName.get(config.getBeanInfo().getPackageName(), supperClassName))
+            .addField(
+                FieldSpec
+                    .builder(
+                        ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(String.class),
+                            ParameterizedTypeName.get(ClassName.get(Class.class), WildcardTypeName.subtypeOf(Object.class))), "typeMap",
+                        Modifier.PRIVATE, Modifier.STATIC).initializer("new $T<String,Class<?>>()", HashMap.class).build())
+            .addStaticBlock(codeBlockBuilder.build());
+
+    beanTypeBuilder
+        .addMethod(MethodSpec
+            .methodBuilder("put")
+            .addAnnotation(Override.class)
+            .addModifiers(Modifier.PUBLIC)
+            .returns(Object.class)
+            .addParameter(String.class, "key")
+            .addParameter(Object.class, "value")
+            .addCode(
+                "Class<?> clazz = typeMap.get(key);Object _value = null;if (null == clazz || clazz.isInstance(value)) {_value = value;} else if ($T.class.isInstance(value)) { if ($T.class.equals(clazz)) { _value = Integer.valueOf((String) value);} else if ($T.class.equals(clazz)) { _value = new BigDecimal((String) value); } else if ($T.class.equals(clazz)) { _value = new Boolean((String) value); } else if ($T.class.equals(clazz)) { _value = new Date($T.parseLong((String) value)); } else { throw new RuntimeException(\"Invalid data format : \" + key); }} else {throw new RuntimeException(\"Invalid data format : \" + key);} return dataMap.put(key, _value);",
+                String.class, Integer.class, BigDecimal.class, Boolean.class, Date.class, Long.class).build());
+
+    try {
+      JavaFileTmp
+          .builder(config.getBeanInfo().getPackageName(), beanTypeBuilder.build())
+          .build()
+          .writeTo(new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getBeanInfo().getFolderName()),
+              config.getEncoding());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

@@ -20,7 +20,7 @@ public class LogicalDeleteElementGenerator implements TableElementGenerator {
 
   public XmlElement getElement(Table table, Config config) {
     XmlElement element = new XmlElement(XMLTag.UPDATE.getName());
-    String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getBeanName(table, config);
+    String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getParamBeanName(table, config);
 
     element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "logicalDelete"));
     element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));

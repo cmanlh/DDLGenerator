@@ -150,6 +150,7 @@
 
 	<element name="valueEnum">
 		<complexType>
+			<attribute name="value" type="string" />
 			<attribute name="name" type="string" />
 			<attribute name="alias" type="string" />
 			<attribute name="desc" type="string" />
@@ -227,7 +228,8 @@
 					<complexType>
 						<attribute ref="ddl:packageName" use="required" />
 						<attribute ref="ddl:folderName" use="required" />
-						<attribute ref="ddl:namePattern" />
+						<attribute name="resultNamePattern" type="string" />
+						<attribute name="paramNamePattern" type="string" />
 						<attribute name="generator" type="string">
 							<annotation>
 								<documentation>

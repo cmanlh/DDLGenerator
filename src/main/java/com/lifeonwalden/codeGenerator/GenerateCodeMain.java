@@ -61,7 +61,7 @@ public class GenerateCodeMain {
       }
 
       if (null == generator.getDatabase()) {
-        return;
+        continue;
       }
       Database database = generator.getDatabase();
       // DDL generate
@@ -74,7 +74,7 @@ public class GenerateCodeMain {
       } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
         System.err.println("Not an illegal ddl generator.");
 
-        System.exit(1);
+        continue;
       }
       StringBuilder sqlBuilder = new StringBuilder();
       for (Table table : database.getTables()) {
@@ -106,7 +106,7 @@ public class GenerateCodeMain {
           } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             System.err.println("Not an illegal Bean generator.");
 
-            System.exit(1);
+            continue;
           }
           if (null != config.getDaoInfo()) {
             generatorList.add(new DAOGeneratorImpl());

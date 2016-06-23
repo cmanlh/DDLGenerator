@@ -19,7 +19,10 @@ public class BeanInfo implements Serializable {
   private String generator;
 
   @XStreamAsAttribute
-  private String namePattern;
+  private String resultNamePattern;
+
+  @XStreamAsAttribute
+  private String paramNamePattern;
 
   public String getPackageName() {
     return packageName;
@@ -45,11 +48,19 @@ public class BeanInfo implements Serializable {
     this.generator = generator;
   }
 
-  public String getNamePattern() {
-    return namePattern;
+  public String getResultNamePattern() {
+    return resultNamePattern;
   }
 
-  public void setNamePattern(String namePattern) {
-    this.namePattern = namePattern;
+  public void setResultNamePattern(String resultNamePattern) {
+    this.resultNamePattern = resultNamePattern;
+  }
+
+  public String getParamNamePattern() {
+    return paramNamePattern;
+  }
+
+  public void setParamNamePattern(String paramNamePattern) {
+    this.paramNamePattern = paramNamePattern;
   }
 }

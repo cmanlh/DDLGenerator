@@ -4,7 +4,7 @@
 		<constInfo packageName="com.test.const" folderName="enum" />
 		<daoInfo packageName="com.test.dao" folderName="dao" namePattern="?Mapper" />
 		<beanInfo packageName="com.test.bean" folderName="bean" generator="com.lifeonwalden.codeGenerator.javaClass.impl.HashBeanGeneratorImpl"
-			namePattern="?DTO" />
+			paramNamePattern="?Param" />
 		<mybatisInfo namespace="com.test.dao" folderName="xml" />
 		<extentions>
 			<extentionGenerator generator="com.lifeonwalden.generator4db.extention.TestExtentionGenerator">

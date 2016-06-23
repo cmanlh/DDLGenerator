@@ -15,7 +15,7 @@ public class RootElementGenerator implements TableElementGenerator {
   public XmlElement getElement(Table table, Config config) {
     XmlElement element = new XmlElement(XMLTag.ROOT.getName());
 
-    String namespace = config.getDaoInfo().getPackageName() + "." + DAOGeneratorImpl.getBeanName(table, config);
+    String namespace = config.getDaoInfo().getPackageName() + "." + DAOGeneratorImpl.getDaoName(table, config);
 
     element.addAttribute(new Attribute(XMLAttribute.NAMESPACE.getName(), namespace));
 

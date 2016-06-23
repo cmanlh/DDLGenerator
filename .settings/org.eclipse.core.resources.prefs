@@ -2,7 +2,5 @@ eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/test/java=UTF-8
 encoding//target/TestDB.sql=GB18030
-encoding//target/bean/com/test/bean/TestTable02DTO.java=GB18030
-encoding//target/bean/com/test/bean/TestTableDTO.java=GB18030
 encoding//target/constTest=GB18030
 encoding/<project>=UTF-8

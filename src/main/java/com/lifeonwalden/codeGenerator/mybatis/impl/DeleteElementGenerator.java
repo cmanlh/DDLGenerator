@@ -19,7 +19,7 @@ public class DeleteElementGenerator implements TableElementGenerator {
 
   public XmlElement getElement(Table table, Config config) {
     XmlElement element = new XmlElement(XMLTag.DELETE.getName());
-    String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getBeanName(table, config);
+    String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getParamBeanName(table, config);
 
     element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "delete"));
     element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
