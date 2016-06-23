@@ -215,6 +215,7 @@
 					<complexType>
 						<attribute ref="ddl:packageName" use="required" />
 						<attribute ref="ddl:folderName" use="required" />
+						<attribute ref="ddl:namePattern" />
 					</complexType>
 				</element>
 				<element name="daoInfo" minOccurs="0">
