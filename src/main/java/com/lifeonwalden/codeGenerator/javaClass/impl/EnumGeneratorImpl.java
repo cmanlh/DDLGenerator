@@ -26,8 +26,9 @@ public class EnumGeneratorImpl implements ConstBasedGenerator {
   @Override
   public String generate(List<EnumConst> enumConstList, Config config) {
     for (EnumConst enumConst : enumConstList) {
-      Builder enumTypeBuilder = TypeSpec.enumBuilder(enumConst.getName()).addModifiers(Modifier.PUBLIC);
-      ClassName enumClass = ClassName.get(config.getConstInfo().getPackageName(), ConstBasedGenerator.getConstName(enumConst.getName(), config));
+      String constClassName = ConstBasedGenerator.getConstName(enumConst.getName(), config);
+      Builder enumTypeBuilder = TypeSpec.enumBuilder(constClassName).addModifiers(Modifier.PUBLIC);
+      ClassName enumClass = ClassName.get(config.getConstInfo().getPackageName(), constClassName);
 
       if (null != enumConst.getNote()) {
         enumTypeBuilder.addJavadoc(enumConst.getNote());
