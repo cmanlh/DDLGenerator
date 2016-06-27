@@ -85,8 +85,8 @@ public class EnumGeneratorImpl implements ConstBasedGenerator {
           .addParameter(String.class, "name").addStatement("$T valEnum = $L.get($L)", enumClass, "nameMapping", "name")
           .addStatement("return null == valEnum ? NIL : valEnum").build());
 
-      enumTypeBuilder.addStaticBlock(CodeBlock.builder().addStatement("$L[] enumArray = $L.values()", enumConst.getName(), enumConst.getName())
-          .beginControlFlow("for ($L _enum : enumArray)", enumConst.getName()).addStatement("$L.put(_enum.get$L(), _enum)", "valueMapping", "Value")
+      enumTypeBuilder.addStaticBlock(CodeBlock.builder().addStatement("$T[] enumArray = $T.values()", enumClass, enumClass)
+          .beginControlFlow("for ($T _enum : enumArray)", enumClass).addStatement("$L.put(_enum.get$L(), _enum)", "valueMapping", "Value")
           .addStatement("$L.put(_enum.get$L(), _enum)", "nameMapping", "Name").endControlFlow().build());
 
       try {
