@@ -53,12 +53,12 @@ public class EnumGeneratorImpl implements ConstBasedGenerator {
       enumTypeBuilder.addField(FieldSpec
           .builder(ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(Integer.class), enumClass), "valueMapping", Modifier.PRIVATE,
               Modifier.STATIC, Modifier.FINAL)
-          .initializer(CodeBlock.builder().add("new $T<$L, $L>()", HashMap.class, "Integer", enumConst.getName()).build()).build());
+          .initializer(CodeBlock.builder().add("new $T<$T, $T>()", HashMap.class, ClassName.get(Integer.class), enumClass).build()).build());
 
       enumTypeBuilder.addField(FieldSpec
           .builder(ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(String.class), enumClass), "nameMapping", Modifier.PRIVATE,
               Modifier.STATIC, Modifier.FINAL)
-          .initializer(CodeBlock.builder().add("new $T<$L, $L>()", HashMap.class, "String", enumConst.getName()).build()).build());
+          .initializer(CodeBlock.builder().add("new $T<$T, $T>()", HashMap.class, ClassName.get(String.class), enumClass).build()).build());
 
       enumTypeBuilder.addMethod(MethodSpec.constructorBuilder().addModifiers(Modifier.PRIVATE).addParameter(String.class, "name")
           .addStatement("this.$N = $N", "name", "name").addParameter(int.class, "value").addStatement("this.$N = $N", "value", "value")
