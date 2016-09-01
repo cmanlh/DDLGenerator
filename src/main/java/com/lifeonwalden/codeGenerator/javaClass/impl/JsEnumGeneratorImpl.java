@@ -26,7 +26,7 @@ public class JsEnumGeneratorImpl implements ConstBasedGenerator {
         OutputUtilities.newLine(sb.append("function Enum(){this._index = []; this._values=[]}"));
         OutputUtilities.newLine(sb
                         .append("Enum.prototype.values=function(){if(0==this._values.length){for (var i in this){var tmp = this[i]; if((typeof tmp == 'object') && tmp.hasOwnProperty('value') && tmp.hasOwnProperty('desc')){this._values.push(tmp);this._index[tmp.value]=tmp;}}} return this._values;};"));
-        OutputUtilities.newLine(sb.append("Enum.prototype.valueOf=function(val){if(0==this._index.length) this._values();return this._index[val];};"));
+        OutputUtilities.newLine(sb.append("Enum.prototype.valueOf=function(val){if(0==this._index.length) this.values();return this._index[val];};"));
         OutputUtilities.newLine(sb);
 
         for (EnumConst enumConst : enumConstList) {
@@ -34,12 +34,12 @@ public class JsEnumGeneratorImpl implements ConstBasedGenerator {
                 OutputUtilities.newLine(sb.append("// ").append(enumConst.getNote()));
             }
 
-            sb.append("var ").append(enumConst.getName()).append(" = {");
+            sb.append("var ").append(enumConst.getName()).append(" = Object.assign(new Enum(), {");
             for (ValueEnum value : enumConst.getOptions()) {
                 sb.append(value.getName()).append(" : { name : '").append(value.getName()).append("', value :").append(value.getValue())
-                                .append(", alias :'").append(value.getAlias()).append("',note:'").append(value.getDesc()).append("'},");
+                                .append(", alias :'").append(value.getAlias()).append("',desc:'").append(value.getDesc()).append("'},");
             }
-            sb.deleteCharAt(sb.length() - 1).append("};");
+            sb.deleteCharAt(sb.length() - 1).append("});");
             OutputUtilities.newLine(sb);
         }
 
