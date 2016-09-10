@@ -68,8 +68,9 @@ public class GenerateCodeMain {
       TableGenerator tableGenerator = null;
       try {
         tableGenerator =
-            (TableGenerator) Class.forName(
-                null == database.getGenerator() ? "com.lifeonwalden.codeGenerator.dll.impl.MySQLTableGeneratorImpl" : database.getGenerator())
+            (TableGenerator) Class
+                .forName(null == database.getGenerator()
+                    ? "com.lifeonwalden.codeGenerator.dll.impl.MySQLTableGeneratorImpl" : database.getGenerator())
                 .newInstance();
       } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
         System.err.println("Not an illegal ddl generator.");
@@ -86,7 +87,8 @@ public class GenerateCodeMain {
           folder.mkdirs();
         }
         String file = folder.getPath() + File.separator + database.getName() + ".sql";
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), generator.getConfig().getEncoding()));
+        BufferedWriter bw =
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), generator.getConfig().getEncoding()));
         bw.write(sqlBuilder.toString());
         bw.close();
       } catch (IOException e) {
@@ -101,8 +103,10 @@ public class GenerateCodeMain {
         if (null != config.getBeanInfo()) {
           try {
             String beanGeneratorClass = generator.getConfig().getBeanInfo().getGenerator();
-            generatorList.add((TableBasedGenerator) Class.forName(
-                null == beanGeneratorClass ? "com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl" : beanGeneratorClass).newInstance());
+            generatorList.add((TableBasedGenerator) Class
+                .forName(null == beanGeneratorClass
+                    ? "com.lifeonwalden.codeGenerator.javaClass.impl.HashBeanGeneratorImpl" : beanGeneratorClass)
+                .newInstance());
           } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             System.err.println("Not an illegal Bean generator.");
 
