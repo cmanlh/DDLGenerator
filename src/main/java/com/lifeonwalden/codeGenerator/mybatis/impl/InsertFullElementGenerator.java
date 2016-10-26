@@ -12,17 +12,17 @@ import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
 
 public class InsertFullElementGenerator implements TableElementGenerator {
 
-  public XmlElement getElement(Table table, Config config) {
-    XmlElement element = new XmlElement(XMLTag.INSERT.getName());
-    String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getParamBeanName(table, config);
+    public XmlElement getElement(Table table, Config config) {
+        XmlElement element = new XmlElement(XMLTag.INSERT.getName());
+        String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getResultBeanName(table, config);
 
-    element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "insert"));
-    element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "insert"));
+        element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
 
-    XmlElement includeElement = new XmlElement(XMLTag.INCLUDE.getName());
-    includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), "insertSQL"));
-    element.addElement(includeElement);
+        XmlElement includeElement = new XmlElement(XMLTag.INCLUDE.getName());
+        includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), "insertSQL"));
+        element.addElement(includeElement);
 
-    return element;
-  }
+        return element;
+    }
 }

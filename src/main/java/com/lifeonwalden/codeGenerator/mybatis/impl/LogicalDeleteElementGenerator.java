@@ -18,58 +18,59 @@ import com.lifeonwalden.codeGenerator.util.OutputUtilities;
 
 public class LogicalDeleteElementGenerator implements TableElementGenerator {
 
-  public XmlElement getElement(Table table, Config config) {
-    XmlElement element = new XmlElement(XMLTag.UPDATE.getName());
-    String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getParamBeanName(table, config);
+    public XmlElement getElement(Table table, Config config) {
+        XmlElement element = new XmlElement(XMLTag.UPDATE.getName());
+        String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getResultBeanName(table, config);
 
-    element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "logicalDelete"));
-    element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "logicalDelete"));
+        element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
 
-    StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
-    List<Column> primaryKey = table.getPrimaryColumns();
-    if (null != primaryKey && primaryKey.size() > 0) {
-      sb.append("update ").append(table.getName())
-          .append(" set logicalDel = 1, updateTime = #{updateTime, jdbcType=TIMESTAMP}, updateUser = #{updateUser, jdbcType=VARCHAR}")
-          .append(" where ");
-      for (Column column : primaryKey) {
-        sb.append(column.getName()).append(" = ");
-        sb.append("#{").append(column.getName()).append(", jdbcType=").append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
-        if (null != column.getTypeHandler()) {
-          sb.append(", typeHandler=").append(column.getTypeHandler());
+        List<Column> primaryKey = table.getPrimaryColumns();
+        if (null != primaryKey && primaryKey.size() > 0) {
+            sb.append("update ")
+                            .append(table.getName())
+                            .append(" set logicalDel = 1, updateTime = #{updateTime, jdbcType=TIMESTAMP}, updateUser = #{updateUser, jdbcType=VARCHAR}")
+                            .append(" where ");
+            for (Column column : primaryKey) {
+                sb.append(column.getName()).append(" = ");
+                sb.append("#{").append(column.getName()).append(", jdbcType=").append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+                if (null != column.getTypeHandler()) {
+                    sb.append(", typeHandler=").append(column.getTypeHandler());
+                }
+                sb.append("} AND ");
+            }
+            sb = sb.replace(sb.length() - 5, sb.length(), "");
+
+            for (Column column : table.getColumns()) {
+                if ("owner".equalsIgnoreCase(column.getName())) {
+                    XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
+                    ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), column.getName() + " != null"));
+
+                    StringBuilder setValueText = new StringBuilder("AND ");
+                    setValueText.append(column.getName()).append(" = ");
+                    setValueText.append("#{").append(column.getName()).append(", jdbcType=")
+                                    .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+                    if (null != column.getTypeHandler()) {
+                        setValueText.append(", typeHandler=").append(column.getTypeHandler());
+                    }
+                    setValueText.append("}");
+                    TextElement setValue = new TextElement(setValueText.toString());
+                    ifElement.addElement(setValue);
+
+                    OutputUtilities.newLine(sb).append(ifElement.getFormattedContent(2));
+
+                    break;
+                }
+            }
+        } else {
+            throw new RuntimeException("Should not delete one record without a primary key.");
         }
-        sb.append("} AND ");
-      }
-      sb = sb.replace(sb.length() - 5, sb.length(), "");
 
-      for (Column column : table.getColumns()) {
-        if ("owner".equalsIgnoreCase(column.getName())) {
-          XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
-          ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), column.getName() + " != null"));
+        TextElement fromElement = new TextElement(sb.toString());
+        element.addElement(fromElement);
 
-          StringBuilder setValueText = new StringBuilder("AND ");
-          setValueText.append(column.getName()).append(" = ");
-          setValueText.append("#{").append(column.getName()).append(", jdbcType=")
-              .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
-          if (null != column.getTypeHandler()) {
-            setValueText.append(", typeHandler=").append(column.getTypeHandler());
-          }
-          setValueText.append("}");
-          TextElement setValue = new TextElement(setValueText.toString());
-          ifElement.addElement(setValue);
-
-          OutputUtilities.newLine(sb).append(ifElement.getFormattedContent(2));
-
-          break;
-        }
-      }
-    } else {
-      throw new RuntimeException("Should not delete one record without a primary key.");
+        return element;
     }
-
-    TextElement fromElement = new TextElement(sb.toString());
-    element.addElement(fromElement);
-
-    return element;
-  }
 }
