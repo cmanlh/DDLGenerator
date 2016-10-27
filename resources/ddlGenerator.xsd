@@ -53,6 +53,13 @@
 												</sequence>
 											</complexType>
 										</element>
+										<element name="extParam">
+											<complexType>
+												<sequence>
+													<element ref="ddl:column" maxOccurs="unbounded" />
+												</sequence>
+											</complexType>
+										</element>
 										<element name="constraints" minOccurs="0">
 											<complexType>
 												<sequence>
@@ -230,6 +237,7 @@
 						<attribute ref="ddl:packageName" use="required" />
 						<attribute ref="ddl:folderName" use="required" />
 						<attribute name="resultNamePattern" type="string" />
+						<attribute name="valueObjectPattern" type="string" />
 						<attribute name="paramNamePattern" type="string" />
 						<attribute name="generator" type="string">
 							<annotation>
