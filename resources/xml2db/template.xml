@@ -42,6 +42,9 @@
 						</options>
 					</column>
 				</columns>
+				<extProps>
+					<column name="name" type="varchar"></column>
+				</extProps>
 				<constraints>
 					<constraint type="PRIMARY KEY" name="PK">
 						<columns>

@@ -10,111 +10,121 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @XStreamAlias(value = "table")
 public class Table implements Serializable {
-  private static final long serialVersionUID = 1698905977625460915L;
+    private static final long serialVersionUID = 1698905977625460915L;
 
-  @XStreamAsAttribute
-  private String name;
+    @XStreamAsAttribute
+    private String name;
 
-  @XStreamAsAttribute
-  private String note;
+    @XStreamAsAttribute
+    private String note;
 
-  @XStreamAsAttribute
-  private Boolean addDBFields = true;
+    @XStreamAsAttribute
+    private Boolean addDBFields = true;
 
-  private List<Column> columns;
+    private List<Column> columns;
 
-  @XStreamOmitField
-  private Map<String, Column> columnMapping;
+    private List<Column> extProps;
 
-  @XStreamOmitField
-  private List<Column> primaryColumns;
+    @XStreamOmitField
+    private Map<String, Column> columnMapping;
 
-  private List<Constraint> constraints;
+    @XStreamOmitField
+    private List<Column> primaryColumns;
 
-  private List<Index> indexs;
+    private List<Constraint> constraints;
 
-  private List<Option> options;
+    private List<Index> indexs;
 
-  @XStreamOmitField
-  private Database database;
+    private List<Option> options;
 
-  public String getName() {
-    return name;
-  }
+    @XStreamOmitField
+    private Database database;
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public List<Column> getExtProps() {
+        return extProps;
+    }
 
-  public String getNote() {
-    return note;
-  }
+    public void setExtProps(List<Column> extProps) {
+        this.extProps = extProps;
+    }
 
-  public void setNote(String note) {
-    this.note = note;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public List<Column> getColumns() {
-    return columns;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public void setColumns(List<Column> columns) {
-    this.columns = columns;
-  }
+    public String getNote() {
+        return note;
+    }
 
-  public Map<String, Column> getColumnMapping() {
-    return columnMapping;
-  }
+    public void setNote(String note) {
+        this.note = note;
+    }
 
-  public void setColumnMapping(Map<String, Column> columnMapping) {
-    this.columnMapping = columnMapping;
-  }
+    public List<Column> getColumns() {
+        return columns;
+    }
 
-  public List<Column> getPrimaryColumns() {
-    return primaryColumns;
-  }
+    public void setColumns(List<Column> columns) {
+        this.columns = columns;
+    }
 
-  public void setPrimaryColumns(List<Column> primaryColumns) {
-    this.primaryColumns = primaryColumns;
-  }
+    public Map<String, Column> getColumnMapping() {
+        return columnMapping;
+    }
 
-  public List<Constraint> getConstraints() {
-    return constraints;
-  }
+    public void setColumnMapping(Map<String, Column> columnMapping) {
+        this.columnMapping = columnMapping;
+    }
 
-  public void setConstraints(List<Constraint> constraints) {
-    this.constraints = constraints;
-  }
+    public List<Column> getPrimaryColumns() {
+        return primaryColumns;
+    }
 
-  public List<Index> getIndexs() {
-    return indexs;
-  }
+    public void setPrimaryColumns(List<Column> primaryColumns) {
+        this.primaryColumns = primaryColumns;
+    }
 
-  public void setIndexs(List<Index> indexs) {
-    this.indexs = indexs;
-  }
+    public List<Constraint> getConstraints() {
+        return constraints;
+    }
 
-  public List<Option> getOptions() {
-    return options;
-  }
+    public void setConstraints(List<Constraint> constraints) {
+        this.constraints = constraints;
+    }
 
-  public void setOptions(List<Option> options) {
-    this.options = options;
-  }
+    public List<Index> getIndexs() {
+        return indexs;
+    }
 
-  public Boolean getAddDBFields() {
-    return addDBFields;
-  }
+    public void setIndexs(List<Index> indexs) {
+        this.indexs = indexs;
+    }
 
-  public void setAddDBFields(Boolean addDBFields) {
-    this.addDBFields = addDBFields;
-  }
+    public List<Option> getOptions() {
+        return options;
+    }
 
-  public Database getDatabase() {
-    return database;
-  }
+    public void setOptions(List<Option> options) {
+        this.options = options;
+    }
 
-  public void setDatabase(Database database) {
-    this.database = database;
-  }
+    public Boolean getAddDBFields() {
+        return addDBFields;
+    }
+
+    public void setAddDBFields(Boolean addDBFields) {
+        this.addDBFields = addDBFields;
+    }
+
+    public Database getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(Database database) {
+        this.database = database;
+    }
 }

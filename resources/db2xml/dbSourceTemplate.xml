@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="GB18030"?>
+<dbGenerator xmlns="http://www.lifeonwalden.com/dbSourceDDLGenerator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.lifeonwalden.com/dbSourceDDLGenerator dbSourceDDLGenerator.xsd">
+	<config encoding="GB18030">
+		<daoInfo packageName="com.test.dao" folderName="dao" namePattern="?Mapper" />
+		<beanInfo packageName="com.test.bean" folderName="bean" generator="com.lifeonwalden.codeGenerator.javaClass.impl.HashBeanGeneratorImpl"
+			paramNamePattern="?Param" />
+		<mybatisInfo namespace="com.test.dao" folderName="xml" />
+	</config>
+	<db driverClass="org.hsqldb.jdbcDriver" password="" name="testdb" userId="SA" connectionURL="jdbc:hsqldb:mem:testdb;shutdown=false">
+		<tables>
+			<dbTable name="User">
+				<extProps>
+					<column name="tel" type="varchar" length="32"></column>
+				</extProps>
+			</dbTable>
+			<dbTable name="Book" />
+		</tables>
+	</db>
+</dbGenerator>

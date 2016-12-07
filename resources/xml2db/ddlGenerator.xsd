@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.lifeonwalden.com/ddlGenerator" xmlns:ddl="http://www.lifeonwalden.com/ddlGenerator"
+	elementFormDefault="qualified">
+	<element name="generator">
+		<complexType>
+			<sequence>
+				<element ref="ddl:config" />
+				<element name="constPool" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="enumConst" maxOccurs="unbounded">
+								<complexType>
+									<sequence>
+										<element name="options" minOccurs="0">
+											<complexType>
+												<sequence>
+													<element ref="ddl:valueEnum" maxOccurs="unbounded" />
+												</sequence>
+											</complexType>
+										</element>
+									</sequence>
+									<attribute name="name" type="string" use="required" />
+									<attribute name="note" type="string" />
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+				<element ref="ddl:database" />
+			</sequence>
+		</complexType>
+	</element>
+	<element name="database">
+		<complexType>
+			<sequence>
+				<element name="dbFields" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element ref="ddl:column" maxOccurs="unbounded" />
+						</sequence>
+					</complexType>
+				</element>
+				<element name="tables">
+					<complexType>
+						<sequence>
+							<element name="table" maxOccurs="unbounded">
+								<complexType>
+									<sequence>
+										<element name="columns">
+											<complexType>
+												<sequence>
+													<element ref="ddl:column" maxOccurs="unbounded" />
+												</sequence>
+											</complexType>
+										</element>
+										<element name="extProps">
+											<complexType>
+												<sequence>
+													<element ref="ddl:column" maxOccurs="unbounded" />
+												</sequence>
+											</complexType>
+										</element>
+										<element name="constraints" minOccurs="0">
+											<complexType>
+												<sequence>
+													<element name="constraint" maxOccurs="unbounded">
+														<complexType>
+															<sequence>
+																<element name="columns">
+																	<complexType>
+																		<sequence>
+																			<element ref="ddl:indexColumn" maxOccurs="unbounded" />
+																		</sequence>
+																	</complexType>
+																</element>
+															</sequence>
+															<attribute name="name" type="string" />
+															<attribute name="type" type="string" />
+														</complexType>
+													</element>
+												</sequence>
+											</complexType>
+										</element>
+										<element name="indexs" minOccurs="0">
+											<complexType>
+												<sequence>
+													<element name="index" maxOccurs="unbounded">
+														<complexType>
+															<sequence>
+																<element name="columns">
+																	<complexType>
+																		<sequence>
+																			<element ref="ddl:indexColumn" maxOccurs="unbounded" />
+																		</sequence>
+																	</complexType>
+																</element>
+															</sequence>
+															<attribute name="name" type="string" />
+															<attribute name="type" type="string" />
+														</complexType>
+													</element>
+												</sequence>
+											</complexType>
+										</element>
+										<element name="options" minOccurs="0">
+											<complexType>
+												<sequence>
+													<element ref="ddl:option" maxOccurs="unbounded" />
+												</sequence>
+											</complexType>
+										</element>
+									</sequence>
+									<attribute name="name" type="string" use="required" />
+									<attribute name="note" type="string" />
+									<attribute name="addDBFields" type="boolean" use="required" />
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+			<attribute name="name" type="string" use="required" />
+			<attribute name="schema" type="string" />
+			<attribute name="note" type="string" />
+			<attribute name="generator" type="string" />
+		</complexType>
+	</element>
+
+	<element name="indexColumn">
+		<complexType>
+			<attribute name="name" type="string" use="required" />
+			<attribute name="order" use="required">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="DESC" />
+						<enumeration value="ASC" />
+					</restriction>
+				</simpleType>
+			</attribute>
+		</complexType>
+	</element>
+
+	<element name="column">
+		<complexType>
+			<sequence>
+				<element name="options" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element ref="ddl:valueEnum" maxOccurs="unbounded" />
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+			<attributeGroup ref="ddl:columnAG" />
+		</complexType>
+	</element>
+
+	<element name="valueEnum">
+		<complexType>
+			<attribute name="value" type="string" />
+			<attribute name="name" type="string" />
+			<attribute name="alias" type="string" />
+			<attribute name="desc" type="string" />
+		</complexType>
+	</element>
+
+	<attributeGroup name="columnAG">
+		<attribute name="name" type="string" use="required" />
+		<attribute name="javaType" type="string" />
+		<attribute name="typeHandler" type="string" />
+		<attribute name="length" type="string" />
+		<attribute name="required" type="boolean" default="false" />
+		<attribute name="defaultVal" type="string" />
+		<attribute name="note" type="string" />
+		<attribute name="optionRef" type="string" />
+		<attribute name="type" use="required">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="nchar" />
+					<enumeration value="nvarchar" />
+					<enumeration value="bit" />
+					<enumeration value="tinyint" />
+					<enumeration value="nchar" />
+					<enumeration value="bigint" />
+					<enumeration value="longvarbinary" />
+					<enumeration value="varbinary" />
+					<enumeration value="longvarchar" />
+					<enumeration value="null" />
+					<enumeration value="char" />
+					<enumeration value="numeric" />
+					<enumeration value="decimal" />
+					<enumeration value="integer" />
+					<enumeration value="smallint" />
+					<enumeration value="float" />
+					<enumeration value="real" />
+					<enumeration value="double" />
+					<enumeration value="varchar" />
+					<enumeration value="boolean" />
+					<enumeration value="datalink" />
+					<enumeration value="date" />
+					<enumeration value="time" />
+					<enumeration value="timestamp" />
+					<enumeration value="datetime" />
+					<enumeration value="int" />
+					<enumeration value="other" />
+					<enumeration value="java_object" />
+					<enumeration value="distinct" />
+					<enumeration value="struct" />
+					<enumeration value="array" />
+					<enumeration value="blob" />
+					<enumeration value="clob" />
+					<enumeration value="ref" />
+					<enumeration value="nclob" />
+				</restriction>
+			</simpleType>
+		</attribute>
+	</attributeGroup>
+	<element name="config">
+		<complexType>
+			<sequence>
+				<element name="constInfo" minOccurs="0">
+					<complexType>
+						<attribute ref="ddl:packageName" use="required" />
+						<attribute ref="ddl:folderName" use="required" />
+						<attribute ref="ddl:namePattern" />
+					</complexType>
+				</element>
+				<element name="daoInfo" minOccurs="0">
+					<complexType>
+						<attribute ref="ddl:packageName" use="required" />
+						<attribute ref="ddl:folderName" use="required" />
+						<attribute ref="ddl:namePattern" />
+					</complexType>
+				</element>
+				<element name="beanInfo" minOccurs="0">
+					<complexType>
+						<attribute ref="ddl:packageName" use="required" />
+						<attribute ref="ddl:folderName" use="required" />
+						<attribute name="resultNamePattern" type="string" />
+						<attribute name="valueObjectPattern" type="string" />
+						<attribute name="paramNamePattern" type="string" />
+						<attribute name="generator" type="string">
+							<annotation>
+								<documentation>
+									generator class name, such as com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl. It has to extend
+									com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl
+								</documentation>
+							</annotation>
+						</attribute>
+					</complexType>
+				</element>
+				<element name="mybatisInfo" minOccurs="0">
+					<complexType>
+						<attribute name="namespace" type="string" use="required">
+							<annotation>
+								<documentation>namespace for mybatis mapping file</documentation>
+							</annotation>
+						</attribute>
+						<attribute name="folderName" type="string" use="required">
+							<annotation>
+								<documentation>output locations for mybatis mapping file</documentation>
+							</annotation>
+						</attribute>
+					</complexType>
+				</element>
+				<element name="extentions" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="extentionGenerator" maxOccurs="unbounded" minOccurs="0">
+								<complexType>
+									<sequence>
+										<element name="options" minOccurs="0">
+											<complexType>
+												<sequence>
+													<element ref="ddl:option" maxOccurs="unbounded" />
+												</sequence>
+											</complexType>
+										</element>
+									</sequence>
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+			<attribute name="outputLocation" type="string">
+				<annotation>
+					<documentation>file locations of output source</documentation>
+				</annotation>
+			</attribute>
+			<attribute name="encoding" type="string" default="UTF-8">
+				<annotation>
+					<documentation>output file encoding</documentation>
+				</annotation>
+			</attribute>
+		</complexType>
+	</element>
+	<element name="option">
+		<complexType>
+			<attribute name="option" type="string" use="required" />
+			<attribute name="value" type="string" use="required" />
+		</complexType>
+	</element>
+	<attribute name="packageName" type="string">
+		<annotation>
+			<documentation>package name of java class, such as com.test</documentation>
+		</annotation>
+	</attribute>
+	<attribute name="folderName" type="string">
+		<annotation>
+			<documentation>output location for generate source code, such as src or java/dao</documentation>
+		</annotation>
+	</attribute>
+	<attribute name="namePattern" type="string">
+		<annotation>
+			<documentation>name pattern of output class, such as ?Mapper, the question mark will be replaced by class name</documentation>
+		</annotation>
+	</attribute>
+</schema>

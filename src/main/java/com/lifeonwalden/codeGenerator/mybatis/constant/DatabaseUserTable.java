@@ -12,26 +12,30 @@
  */
 package com.lifeonwalden.codeGenerator.mybatis.constant;
 
+
 public enum DatabaseUserTable {
-  SQLSERVER("select name from sys.objects where type_desc='USER_TABLE' or type_desc='VIEW' order by name");
+    SQLSERVER("select name from sys.objects where type_desc='USER_TABLE' or type_desc='VIEW' order by name"), HSQLDB(
+                    "SELECT table_name FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
 
-  private String userTableRetrievalStatement;
+    private String userTableRetrievalStatement;
 
-  private DatabaseUserTable(String userTableRetrievalStatement) {
-    this.userTableRetrievalStatement = userTableRetrievalStatement;
-  }
-
-  public String getUserTableRetrievalStatement() {
-    return userTableRetrievalStatement;
-  }
-
-  public static DatabaseUserTable getDatabaseUserTable(String database) {
-    DatabaseUserTable returnValue = null;
-
-    if ("SqlServer".equalsIgnoreCase(database)) {
-      returnValue = SQLSERVER;
+    private DatabaseUserTable(String userTableRetrievalStatement) {
+        this.userTableRetrievalStatement = userTableRetrievalStatement;
     }
 
-    return returnValue;
-  }
+    public String getUserTableRetrievalStatement() {
+        return userTableRetrievalStatement;
+    }
+
+    public static DatabaseUserTable getDatabaseUserTable(String database) {
+        DatabaseUserTable returnValue = null;
+
+        if ("sqlServer".equalsIgnoreCase(database) || "jtds".equalsIgnoreCase(database)) {
+            returnValue = SQLSERVER;
+        } else if ("hsqldb".equalsIgnoreCase(database)) {
+            return returnValue = HSQLDB;
+        }
+
+        return returnValue;
+    }
 }
