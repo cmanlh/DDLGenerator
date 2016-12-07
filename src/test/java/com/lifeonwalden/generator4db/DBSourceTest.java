@@ -27,6 +27,8 @@ public class DBSourceTest {
                         "create table \"User\" (\"id\" varchar(32) PRIMARY KEY, \"age\" int, \"income\" decimal(20,6), \"birthday\" datetime)");
         connection.createStatement().executeUpdate(
                         "create table \"Book\" (\"id\" varchar(32), \"name\" varchar(32), \"publisher\" varchar(32), \"owner\" varchar(32))");
+        connection.createStatement()
+                        .executeUpdate("create table \"App\" (\"ID\" varchar(32), \"NAME\" varchar(32), \"PUBLISHER_address\" varchar(32), \"owner_address_HELLO\" varchar(32))");
         PreparedStatement ps = connection.prepareStatement("insert into \"User\" values(?,?,?,?)");
         ps.setString(1, "1111");
         ps.setInt(2, 50);

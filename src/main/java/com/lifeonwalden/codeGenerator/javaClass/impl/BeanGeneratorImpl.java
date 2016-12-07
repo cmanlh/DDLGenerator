@@ -83,16 +83,18 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
             }
 
             ClassName javaTypeClassName = ClassName.bestGuess(javaType);
-            dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, column.getName(), Modifier.PRIVATE).addJavadoc("$L", column.getNote())
-                            .build());
-
-            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(column.getName())).addModifiers(Modifier.PUBLIC)
-                            .returns(javaTypeClassName).addStatement("return this.$L", column.getName()).addJavadoc("$L", column.getNote()).build());
-
-            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(column.getName())).returns(_className)
-                            .addModifiers(Modifier.PUBLIC).addParameter(javaTypeClassName, column.getName())
-                            .addStatement("this.$L = $L", column.getName(), column.getName()).addStatement("return this")
+            dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, StringUtil.removeUnderline(column.getName()), Modifier.PRIVATE)
                             .addJavadoc("$L", column.getNote()).build());
+
+            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+                            .addModifiers(Modifier.PUBLIC).returns(javaTypeClassName)
+                            .addStatement("return this.$L", StringUtil.removeUnderline(column.getName())).addJavadoc("$L", column.getNote()).build());
+
+            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+                            .returns(_className).addModifiers(Modifier.PUBLIC)
+                            .addParameter(javaTypeClassName, StringUtil.removeUnderline(column.getName()))
+                            .addStatement("this.$L = $L", StringUtil.removeUnderline(column.getName()), StringUtil.removeUnderline(column.getName()))
+                            .addStatement("return this").addJavadoc("$L", column.getNote()).build());
         }
 
         try {
@@ -124,16 +126,18 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
             }
 
             ClassName javaTypeClassName = ClassName.bestGuess(javaType);
-            dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, column.getName(), Modifier.PRIVATE).addJavadoc("$L", column.getNote())
-                            .build());
-
-            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(column.getName())).addModifiers(Modifier.PUBLIC)
-                            .returns(javaTypeClassName).addStatement("return this.$L", column.getName()).addJavadoc("$L", column.getNote()).build());
-
-            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(column.getName())).returns(_className)
-                            .addModifiers(Modifier.PUBLIC).addParameter(javaTypeClassName, column.getName())
-                            .addStatement("this.$L = $L", column.getName(), column.getName()).addStatement("return this")
+            dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, StringUtil.removeUnderline(column.getName()), Modifier.PRIVATE)
                             .addJavadoc("$L", column.getNote()).build());
+
+            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+                            .addModifiers(Modifier.PUBLIC).returns(javaTypeClassName)
+                            .addStatement("return this.$L", StringUtil.removeUnderline(column.getName())).addJavadoc("$L", column.getNote()).build());
+
+            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+                            .returns(_className).addModifiers(Modifier.PUBLIC)
+                            .addParameter(javaTypeClassName, StringUtil.removeUnderline(column.getName()))
+                            .addStatement("this.$L = $L", StringUtil.removeUnderline(column.getName()), StringUtil.removeUnderline(column.getName()))
+                            .addStatement("return this").addJavadoc("$L", column.getNote()).build());
         }
 
         try {

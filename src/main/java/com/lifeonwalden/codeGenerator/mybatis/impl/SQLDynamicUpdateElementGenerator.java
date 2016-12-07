@@ -12,43 +12,46 @@ import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.StringUtil;
 
 public class SQLDynamicUpdateElementGenerator implements TableElementGenerator {
 
-  public XmlElement getElement(Table table, Config config) {
-    XmlElement element = new XmlElement(XMLTag.SQL.getName());
+    public XmlElement getElement(Table table, Config config) {
+        XmlElement element = new XmlElement(XMLTag.SQL.getName());
 
-    element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "dynamicUpdateSQL"));
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "dynamicUpdateSQL"));
 
-    StringBuilder sb = new StringBuilder();
-    sb.append("update ").append(table.getName());
+        StringBuilder sb = new StringBuilder();
+        sb.append("update ").append(table.getName());
 
-    element.addElement(new TextElement(sb.toString()));
+        element.addElement(new TextElement(sb.toString()));
 
-    XmlElement trimElement = new XmlElement(XMLTag.TRIM.getName());
-    trimElement.addAttribute(new Attribute(XMLAttribute.PREFIX.getName(), "set"));
-    trimElement.addAttribute(new Attribute(XMLAttribute.SUFFIX_OVERRIDES.getName(), ","));
-    element.addElement(trimElement);
+        XmlElement trimElement = new XmlElement(XMLTag.TRIM.getName());
+        trimElement.addAttribute(new Attribute(XMLAttribute.PREFIX.getName(), "set"));
+        trimElement.addAttribute(new Attribute(XMLAttribute.SUFFIX_OVERRIDES.getName(), ","));
+        element.addElement(trimElement);
 
-    for (Column column : table.getColumns()) {
-      if (column.getConstraintType() == ColumnConstraintEnum.PRIMARY_KEY || column.getConstraintType() == ColumnConstraintEnum.UNION_PRIMARY_KEY) {
-        continue;
-      }
-      XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
-      ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), column.getName() + " != null"));
+        for (Column column : table.getColumns()) {
+            if (column.getConstraintType() == ColumnConstraintEnum.PRIMARY_KEY
+                            || column.getConstraintType() == ColumnConstraintEnum.UNION_PRIMARY_KEY) {
+                continue;
+            }
+            XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
+            ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), column.getName() + " != null"));
 
-      StringBuilder setValueText = new StringBuilder();
-      setValueText.append(column.getName()).append(" = ");
-      setValueText.append("#{").append(column.getName()).append(", jdbcType=").append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
-      if (null != column.getTypeHandler()) {
-        setValueText.append(", typeHandler=").append(column.getTypeHandler());
-      }
-      setValueText.append("},");
-      TextElement setValue = new TextElement(setValueText.toString());
-      ifElement.addElement(setValue);
+            StringBuilder setValueText = new StringBuilder();
+            setValueText.append(column.getName()).append(" = ");
+            setValueText.append("#{").append(StringUtil.removeUnderline(column.getName())).append(", jdbcType=")
+                            .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+            if (null != column.getTypeHandler()) {
+                setValueText.append(", typeHandler=").append(column.getTypeHandler());
+            }
+            setValueText.append("},");
+            TextElement setValue = new TextElement(setValueText.toString());
+            ifElement.addElement(setValue);
 
-      trimElement.addElement(ifElement);
+            trimElement.addElement(ifElement);
+        }
+        return element;
     }
-    return element;
-  }
 }

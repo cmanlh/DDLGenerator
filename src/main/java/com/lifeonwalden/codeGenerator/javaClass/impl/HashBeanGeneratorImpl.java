@@ -121,7 +121,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
             ClassName javaTypeClassName = ClassName.bestGuess(javaType);
             if (!javaTypeClassName.equals(ClassName.get(String.class))) {
                 staticBlock = true;
-                codeBlockBuilder.addStatement("typeMap.put($S, $T.class)", column.getName(), javaTypeClassName);
+                codeBlockBuilder.addStatement("typeMap.put($S, $T.class)", StringUtil.removeUnderline(column.getName()), javaTypeClassName);
             }
         }
 
@@ -225,7 +225,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
             ClassName javaTypeClassName = ClassName.bestGuess(javaType);
             if (!javaTypeClassName.equals(ClassName.get(String.class))) {
                 staticBlock = true;
-                codeBlockBuilder.addStatement("typeMap.put($S, $T.class)", column.getName(), javaTypeClassName);
+                codeBlockBuilder.addStatement("typeMap.put($S, $T.class)", StringUtil.removeUnderline(column.getName()), javaTypeClassName);
             }
         }
 
@@ -264,17 +264,21 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
 
         ClassName javaTypeClassName = ClassName.bestGuess(javaType);
         com.squareup.javapoet.MethodSpec.Builder getMethodBuilder =
-                        MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(column.getName())).addModifiers(Modifier.PUBLIC)
-                                        .returns(javaTypeClassName).addStatement("return ($T)dataMap.get($S)", javaTypeClassName, column.getName());
+                        MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+                                        .addModifiers(Modifier.PUBLIC).returns(javaTypeClassName)
+                                        .addStatement("return ($T)dataMap.get($S)", javaTypeClassName, StringUtil.removeUnderline(column.getName()));
         if (column.getNote() != null && column.getNote().length() > 0) {
             getMethodBuilder.addJavadoc("$L", column.getNote());
         }
         beanBuilder.addMethod(getMethodBuilder.build());
 
         com.squareup.javapoet.MethodSpec.Builder setMethodBuilder =
-                        MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(column.getName())).returns(className)
-                                        .addModifiers(Modifier.PUBLIC).addParameter(javaTypeClassName, column.getName())
-                                        .addStatement("dataMap.put($S,$L)", column.getName(), column.getName()).addStatement("return this");
+                        MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+                                        .returns(className)
+                                        .addModifiers(Modifier.PUBLIC)
+                                        .addParameter(javaTypeClassName, StringUtil.removeUnderline(column.getName()))
+                                        .addStatement("dataMap.put($S,$L)", StringUtil.removeUnderline(column.getName()),
+                                                        StringUtil.removeUnderline(column.getName())).addStatement("return this");
         if (column.getNote() != null && column.getNote().length() > 0) {
             setMethodBuilder.addJavadoc("$L", column.getNote());
         }

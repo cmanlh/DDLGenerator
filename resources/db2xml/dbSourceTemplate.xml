@@ -15,6 +15,7 @@
 				</extProps>
 			</dbTable>
 			<dbTable name="Book" />
+			<dbTable name="App" />
 		</tables>
 	</db>
 </dbGenerator>

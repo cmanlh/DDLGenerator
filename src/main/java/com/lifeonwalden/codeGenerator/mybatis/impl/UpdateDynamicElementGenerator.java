@@ -14,6 +14,7 @@ import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.StringUtil;
 
 public class UpdateDynamicElementGenerator implements TableElementGenerator {
 
@@ -36,7 +37,8 @@ public class UpdateDynamicElementGenerator implements TableElementGenerator {
             sb.append("where ");
             for (Column column : primaryKey) {
                 sb.append(column.getName()).append(" = ");
-                sb.append("#{").append(column.getName()).append(", jdbcType=").append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+                sb.append("#{").append(StringUtil.removeUnderline(column.getName())).append(", jdbcType=")
+                                .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
                 if (null != column.getTypeHandler()) {
                     sb.append(", typeHandler=").append(column.getTypeHandler());
                 }

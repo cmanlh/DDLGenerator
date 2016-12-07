@@ -12,34 +12,37 @@ import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.StringUtil;
 
 public class SQLUpdateElementGenerator implements TableElementGenerator {
 
-  public XmlElement getElement(Table table, Config config) {
-    XmlElement element = new XmlElement(XMLTag.SQL.getName());
+    public XmlElement getElement(Table table, Config config) {
+        XmlElement element = new XmlElement(XMLTag.SQL.getName());
 
-    element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "updateSQL"));
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "updateSQL"));
 
-    StringBuilder sb = new StringBuilder();
-    sb.append("update ").append(table.getName()).append(" set ");
+        StringBuilder sb = new StringBuilder();
+        sb.append("update ").append(table.getName()).append(" set ");
 
-    int tmpSize = sb.length();
-    for (Column column : table.getColumns()) {
-      if (column.getConstraintType() == ColumnConstraintEnum.PRIMARY_KEY || column.getConstraintType() == ColumnConstraintEnum.UNION_PRIMARY_KEY) {
-        continue;
-      }
-      sb.append(column.getName()).append(" = ");
-      sb.append("#{").append(column.getName()).append(", jdbcType=").append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
-      if (null != column.getTypeHandler()) {
-        sb.append(", typeHandler=").append(column.getTypeHandler());
-      }
-      sb.append("},");
+        int tmpSize = sb.length();
+        for (Column column : table.getColumns()) {
+            if (column.getConstraintType() == ColumnConstraintEnum.PRIMARY_KEY
+                            || column.getConstraintType() == ColumnConstraintEnum.UNION_PRIMARY_KEY) {
+                continue;
+            }
+            sb.append(column.getName()).append(" = ");
+            sb.append("#{").append(StringUtil.removeUnderline(column.getName())).append(", jdbcType=")
+                            .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+            if (null != column.getTypeHandler()) {
+                sb.append(", typeHandler=").append(column.getTypeHandler());
+            }
+            sb.append("},");
+        }
+
+        if (sb.length() > tmpSize) {
+            element.addElement((new TextElement(sb.substring(0, sb.length() - 1))));
+        }
+
+        return element;
     }
-
-    if (sb.length() > tmpSize) {
-      element.addElement((new TextElement(sb.substring(0, sb.length() - 1))));
-    }
-
-    return element;
-  }
 }

@@ -9,26 +9,28 @@ import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
 import com.lifeonwalden.codeGenerator.mybatis.ColumnElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.StringUtil;
 
 public class ResultElementGenerator implements ColumnElementGenerator {
 
-  public XmlElement getElement(Column column, Config config) {
-    XmlElement element = new XmlElement(XMLTag.RESULT.getName());
+    public XmlElement getElement(Column column, Config config) {
+        XmlElement element = new XmlElement(XMLTag.RESULT.getName());
 
-    element.addAttribute(new Attribute(XMLAttribute.COLUMN.getName(), column.getName()));
-    element.addAttribute(new Attribute(XMLAttribute.PROPERTY.getName(), column.getName()));
-    element.addAttribute(new Attribute(XMLAttribute.JDBC_TYPE.getName(), JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName()));
+        element.addAttribute(new Attribute(XMLAttribute.COLUMN.getName(), column.getName()));
+        element.addAttribute(new Attribute(XMLAttribute.PROPERTY.getName(), StringUtil.removeUnderline(column.getName())));
+        element.addAttribute(new Attribute(XMLAttribute.JDBC_TYPE.getName(), JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName()));
 
-    if (null != column.getTypeHandler()) {
-      element.addAttribute(new Attribute(XMLAttribute.TYPE_HANDLER.getName(), column.getTypeHandler()));
-    } else {
-      if (null != column.getJavaType()) {
-        element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), column.getJavaType()));
-      } else {
-        element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getJavaType()));
-      }
+        if (null != column.getTypeHandler()) {
+            element.addAttribute(new Attribute(XMLAttribute.TYPE_HANDLER.getName(), column.getTypeHandler()));
+        } else {
+            if (null != column.getJavaType()) {
+                element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), column.getJavaType()));
+            } else {
+                element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), JdbcTypeEnum.nameOf(column.getType().toUpperCase())
+                                .getJavaType()));
+            }
+        }
+
+        return element;
     }
-
-    return element;
-  }
 }
