@@ -20,9 +20,9 @@ public class DAOGeneratorImpl implements TableBasedGenerator {
     public static String getDaoName(Table table, Config config) {
         String namePattern = config.getDaoInfo().getNamePattern(), name;
         if (null == namePattern) {
-            name = table.getName() + "Mapper";
+            name = StringUtil.removeUnderline(table.getName()) + "Mapper";
         } else {
-            name = namePattern.replace("?", StringUtil.firstAlphToUpper(table.getName()));
+            name = namePattern.replace("?", StringUtil.firstAlphToUpper(StringUtil.removeUnderline(table.getName())));
         }
 
         return StringUtil.firstAlphToUpper(name);

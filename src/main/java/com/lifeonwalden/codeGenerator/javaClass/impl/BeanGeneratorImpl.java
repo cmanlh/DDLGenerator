@@ -24,9 +24,9 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
     public static String getParamBeanName(Table table, Config config) {
         String namePattern = config.getBeanInfo().getParamNamePattern(), name;
         if (null == namePattern) {
-            name = table.getName();
+            name = StringUtil.removeUnderline(table.getName());
         } else {
-            name = namePattern.replace("?", StringUtil.firstAlphToUpper(table.getName()));
+            name = namePattern.replace("?", StringUtil.firstAlphToUpper(StringUtil.removeUnderline(table.getName())));
         }
 
         return StringUtil.firstAlphToUpper(name);
@@ -35,9 +35,9 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
     public static String getExtParamBeanName(Table table, Config config) {
         String namePattern = config.getBeanInfo().getParamNamePattern(), name;
         if (null == namePattern) {
-            name = table.getName() + "Ext";
+            name = StringUtil.removeUnderline(table.getName()) + "Ext";
         } else {
-            name = namePattern.replace("?", StringUtil.firstAlphToUpper(table.getName()) + "Ext");
+            name = namePattern.replace("?", StringUtil.firstAlphToUpper(StringUtil.removeUnderline(table.getName())) + "Ext");
         }
 
         return StringUtil.firstAlphToUpper(name);
@@ -46,9 +46,9 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
     public static String getResultBeanName(Table table, Config config) {
         String namePattern = config.getBeanInfo().getResultNamePattern(), name;
         if (null == namePattern) {
-            name = table.getName();
+            name = StringUtil.removeUnderline(table.getName());
         } else {
-            name = namePattern.replace("?", StringUtil.firstAlphToUpper(table.getName()));
+            name = namePattern.replace("?", StringUtil.firstAlphToUpper(StringUtil.removeUnderline(table.getName())));
         }
 
         return StringUtil.firstAlphToUpper(name);

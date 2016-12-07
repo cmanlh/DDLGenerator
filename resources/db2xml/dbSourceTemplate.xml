@@ -15,7 +15,7 @@
 				</extProps>
 			</dbTable>
 			<dbTable name="Book" />
-			<dbTable name="App" />
+			<dbTable name="APP_TEST" />
 		</tables>
 	</db>
 </dbGenerator>

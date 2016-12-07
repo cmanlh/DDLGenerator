@@ -72,7 +72,7 @@ public class XMLMapperGenerator implements DomGenerator {
                 folder.mkdirs();
             }
 
-            String file = folder.getPath() + File.separator + StringUtil.firstAlphToUpper(table.getName()) + "Mapper.xml";
+            String file = folder.getPath() + File.separator + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(table.getName())) + "Mapper.xml";
 
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), config.getEncoding()));
             bw.write(document.getFormattedContent());
