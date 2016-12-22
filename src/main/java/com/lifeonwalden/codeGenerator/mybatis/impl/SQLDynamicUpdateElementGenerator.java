@@ -37,7 +37,7 @@ public class SQLDynamicUpdateElementGenerator implements TableElementGenerator {
                 continue;
             }
             XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
-            ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), column.getName() + " != null"));
+            ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), StringUtil.removeUnderline(column.getName()) + " != null"));
 
             StringBuilder setValueText = new StringBuilder();
             setValueText.append(column.getName()).append(" = ");
