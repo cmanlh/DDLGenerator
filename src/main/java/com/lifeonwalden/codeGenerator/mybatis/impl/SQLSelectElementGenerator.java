@@ -6,6 +6,7 @@ import org.mybatis.generator.dom.xml.XmlElement;
 
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
+import com.lifeonwalden.codeGenerator.javaClass.impl.DAOGeneratorImpl;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
@@ -20,7 +21,8 @@ public class SQLSelectElementGenerator implements TableElementGenerator {
     element.addElement(selectElement);
 
     XmlElement includeElement = new XmlElement(XMLTag.INCLUDE.getName());
-    includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), "baseColumnList"));
+    String namespace = config.getDaoInfo().getPackageName() + "." + DAOGeneratorImpl.getDaoName(table, config);
+    includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), namespace + ".baseColumnList"));
     element.addElement(includeElement);
 
     StringBuilder sb = new StringBuilder();
