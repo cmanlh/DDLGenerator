@@ -7,7 +7,9 @@ import com.lifeonwalden.codeGenerator.GenerateCodeMain;
 public class AppTest {
     @Test
     public void generateCodeMainTest() {
-        String[] param = {"D:\\workspace\\DDLGenerator\\resources\\xml2db", "D:\\workspace\\DDLGenerator\\target"};
+      String root_path = "C:\\Users\\HongLu\\git\\DDLGenerator\\";
+//      String root_path = "D:\\workspace\\DDLGenerator\\";
+        String[] param = {root_path+"resources\\xml2db", root_path+"target"};
 
         GenerateCodeMain.main(param);
     }

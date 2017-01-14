@@ -27,10 +27,13 @@ public class XMLMapperGenerator implements DomGenerator {
     private SQLDynamicUpdateElementGenerator sqlDynamicUpdateElementGenerator = new SQLDynamicUpdateElementGenerator();
     private SQLUpdateElementGenerator sqlUpdateElementGenerator = new SQLUpdateElementGenerator();
     private SQLInsertElementGenerator sqlInsertElementGenerator = new SQLInsertElementGenerator();
+    private SQLSelectElementGenerator sqlSelectElementGenerator = new SQLSelectElementGenerator();
+    private SQLQueryConditionElementGenerator sqlQueryConditionElementGenerator = new SQLQueryConditionElementGenerator();
     private InsertFullElementGenerator insertFullElementGenerator = new InsertFullElementGenerator();
     private DeleteElementGenerator deleteElementGenerator = new DeleteElementGenerator();
     private LogicalDeleteElementGenerator logicalDeleteElementGenerator = new LogicalDeleteElementGenerator();
     private SelectGetElementGenerator selectGetElementGenerator = new SelectGetElementGenerator();
+    private SelectQueryElementGenerator selectQueryElementGenerator = new SelectQueryElementGenerator();
     private UpdateDynamicElementGenerator updateDynamicElementGenerator = new UpdateDynamicElementGenerator();
     private UpdateFullElementGenerator updateFullElementGenerator = new UpdateFullElementGenerator();
 
@@ -48,11 +51,14 @@ public class XMLMapperGenerator implements DomGenerator {
         root.addElement(sqlDynamicUpdateElementGenerator.getElement(table, config));
         root.addElement(sqlUpdateElementGenerator.getElement(table, config));
         root.addElement(sqlInsertElementGenerator.getElement(table, config));
+        root.addElement(sqlSelectElementGenerator.getElement(table, config));
+        root.addElement(sqlQueryConditionElementGenerator.getElement(table, config));
         root.addElement(insertFullElementGenerator.getElement(table, config));
 
         if (null != table.getPrimaryColumns() && table.getPrimaryColumns().size() > 0) {
             root.addElement(deleteElementGenerator.getElement(table, config));
             root.addElement(selectGetElementGenerator.getElement(table, config));
+            root.addElement(selectQueryElementGenerator.getElement(table, config));
             root.addElement(updateDynamicElementGenerator.getElement(table, config));
             root.addElement(updateFullElementGenerator.getElement(table, config));
 
