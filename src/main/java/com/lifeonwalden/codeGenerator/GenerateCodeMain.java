@@ -67,11 +67,9 @@ public class GenerateCodeMain {
       // DDL generate
       TableGenerator tableGenerator = null;
       try {
-        tableGenerator =
-            (TableGenerator) Class
-                .forName(null == database.getGenerator()
-                    ? "com.lifeonwalden.codeGenerator.dll.impl.MySQLTableGeneratorImpl" : database.getGenerator())
-                .newInstance();
+        tableGenerator = (TableGenerator) Class
+            .forName(null == database.getGenerator() ? "com.lifeonwalden.codeGenerator.dll.impl.MySQLTableGeneratorImpl" : database.getGenerator())
+            .newInstance();
       } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
         System.err.println("Not an illegal ddl generator.");
 
@@ -87,8 +85,7 @@ public class GenerateCodeMain {
           folder.mkdirs();
         }
         String file = folder.getPath() + File.separator + database.getName() + ".sql";
-        BufferedWriter bw =
-            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), generator.getConfig().getEncoding()));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), generator.getConfig().getEncoding()));
         bw.write(sqlBuilder.toString());
         bw.close();
       } catch (IOException e) {
@@ -104,8 +101,7 @@ public class GenerateCodeMain {
           try {
             String beanGeneratorClass = generator.getConfig().getBeanInfo().getGenerator();
             generatorList.add((TableBasedGenerator) Class
-                .forName(null == beanGeneratorClass
-                    ? "com.lifeonwalden.codeGenerator.javaClass.impl.HashBeanGeneratorImpl" : beanGeneratorClass)
+                .forName(null == beanGeneratorClass ? "com.lifeonwalden.codeGenerator.javaClass.impl.HashBeanGeneratorImpl" : beanGeneratorClass)
                 .newInstance());
           } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             System.err.println("Not an illegal Bean generator.");
@@ -143,7 +139,7 @@ public class GenerateCodeMain {
     if (generator.getDatabase() != null) {
       Database database = generator.getDatabase();
       Map<String, EnumConst> constMapping = new HashMap<String, EnumConst>();
-      if (null != database.getConstMapping()) {
+      if (null != generator.getConstPool()) {
         for (EnumConst enumCost : generator.getConstPool()) {
           constMapping.put(enumCost.getName(), enumCost);
         }
