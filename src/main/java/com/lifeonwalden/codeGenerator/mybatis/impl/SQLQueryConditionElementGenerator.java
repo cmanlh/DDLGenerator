@@ -26,8 +26,7 @@ public class SQLQueryConditionElementGenerator implements TableElementGenerator 
 
     for (Column column : table.getColumns()) {
       XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
-      ifElement.addAttribute(
-          new Attribute(XMLAttribute.TEST.getName(), StringUtil.removeUnderline(column.getName()) + " != null"));
+      ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), StringUtil.removeUnderline(column.getName()) + " != null"));
 
       StringBuilder setValueText = new StringBuilder();
       setValueText.append("AND ").append(column.getName()).append(" = ");
@@ -41,8 +40,50 @@ public class SQLQueryConditionElementGenerator implements TableElementGenerator 
       ifElement.addElement(setValue);
 
       trimElement.addElement(ifElement);
+
+      JdbcTypeEnum jdbcType = JdbcTypeEnum.nameOf(column.getType().toUpperCase());
+      if (jdbcType.equals(JdbcTypeEnum.DATE) || jdbcType.equals(JdbcTypeEnum.DATETIME) || jdbcType.equals(JdbcTypeEnum.TIME)
+          || jdbcType.equals(JdbcTypeEnum.TIMESTAMP)) {
+        dateFieldExtension(column, trimElement);
+      }
     }
 
     return element;
+  }
+
+  private void dateFieldExtension(Column column, XmlElement trimElement) {
+    // start part
+    XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
+    ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), StringUtil.removeUnderline(column.getName()) + "Start != null"));
+
+    StringBuilder setValueText = new StringBuilder();
+    setValueText.append("<![CDATA[ AND ").append(column.getName()).append(" >= ");
+    setValueText.append("#{").append(StringUtil.removeUnderline(column.getName())).append("Start, jdbcType=")
+        .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+    if (null != column.getTypeHandler()) {
+      setValueText.append(", typeHandler=").append(column.getTypeHandler());
+    }
+    setValueText.append("} ]]>");
+    TextElement setValue = new TextElement(setValueText.toString());
+    ifElement.addElement(setValue);
+
+    trimElement.addElement(ifElement);
+
+    // end part
+    ifElement = new XmlElement(XMLTag.IF.getName());
+    ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), StringUtil.removeUnderline(column.getName()) + "End != null"));
+
+    setValueText = new StringBuilder();
+    setValueText.append("<![CDATA[ AND ").append(column.getName()).append(" <= ");
+    setValueText.append("#{").append(StringUtil.removeUnderline(column.getName())).append("End, jdbcType=")
+        .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+    if (null != column.getTypeHandler()) {
+      setValueText.append(", typeHandler=").append(column.getTypeHandler());
+    }
+    setValueText.append("} ]]>");
+    setValue = new TextElement(setValueText.toString());
+    ifElement.addElement(setValue);
+
+    trimElement.addElement(ifElement);
   }
 }
