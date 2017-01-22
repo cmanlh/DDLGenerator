@@ -54,11 +54,11 @@ public class XMLMapperGenerator implements DomGenerator {
         root.addElement(sqlSelectElementGenerator.getElement(table, config));
         root.addElement(sqlQueryConditionElementGenerator.getElement(table, config));
         root.addElement(insertFullElementGenerator.getElement(table, config));
+        root.addElement(selectQueryElementGenerator.getElement(table, config));
 
         if (null != table.getPrimaryColumns() && table.getPrimaryColumns().size() > 0) {
             root.addElement(deleteElementGenerator.getElement(table, config));
             root.addElement(selectGetElementGenerator.getElement(table, config));
-            root.addElement(selectQueryElementGenerator.getElement(table, config));
             root.addElement(updateDynamicElementGenerator.getElement(table, config));
             root.addElement(updateFullElementGenerator.getElement(table, config));
 

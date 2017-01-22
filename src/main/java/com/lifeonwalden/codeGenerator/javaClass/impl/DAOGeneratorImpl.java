@@ -39,6 +39,9 @@ public class DAOGeneratorImpl implements TableBasedGenerator {
     daoTypeBuilder.addMethod(MethodSpec.methodBuilder("insert").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
         .addParameter(resultBeanClass, "param").build());
 
+    daoTypeBuilder.addMethod(MethodSpec.methodBuilder("select").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+        .addParameter(resultBeanClass, "param").returns(ParameterizedTypeName.get(ClassName.get(List.class), resultBeanClass)).build());
+
     if (null != table.getPrimaryColumns()) {
       daoTypeBuilder.addMethod(MethodSpec.methodBuilder("update").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
           .addParameter(resultBeanClass, "param").build());
@@ -49,14 +52,10 @@ public class DAOGeneratorImpl implements TableBasedGenerator {
       com.squareup.javapoet.MethodSpec.Builder getBuilder = MethodSpec.methodBuilder("get").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
           .addParameter(resultBeanClass, "param").returns(resultBeanClass);
 
-      com.squareup.javapoet.MethodSpec.Builder selectBuilder = MethodSpec.methodBuilder("select").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-          .addParameter(resultBeanClass, "param").returns(ParameterizedTypeName.get(ClassName.get(List.class), resultBeanClass));
-
       com.squareup.javapoet.MethodSpec.Builder deleteBuilder = MethodSpec.methodBuilder("delete").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
           .addParameter(resultBeanClass, "param").returns(Integer.class);
 
       daoTypeBuilder.addMethod(getBuilder.build());
-      daoTypeBuilder.addMethod(selectBuilder.build());
       daoTypeBuilder.addMethod(deleteBuilder.build());
 
       if (null == table.getAddDBFields() || table.getAddDBFields()) {
