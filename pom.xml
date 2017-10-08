@@ -123,6 +123,11 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
+                        <configuration>
+                            <gpgArguments>
+                                <argument>--no-tty</argument>
+                            </gpgArguments>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
