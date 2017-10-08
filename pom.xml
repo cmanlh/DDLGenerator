@@ -1,15 +1,32 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.orientsec</groupId>
     <artifactId>DDLGenerator</artifactId>
     <version>2.0.2-SNAPSHOT</version>
     <name>DDLGenerator</name>
+    <description>A tool to auto generate MyBatis mapping/DAO interface, DTO, and DDL based on the table definition
+    </description>
+    <url>https://github.com/cmanlh/DDLGenerator</url>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>cmanlh</name>
+            <email>cmanlh@163.com</email>
+        </developer>
+    </developers>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.repository>${user.home}/.m2/repository</maven.repository>
+        <gpg.keyname>E1DD58FE</gpg.keyname>
     </properties>
 
     <dependencies>
@@ -96,6 +113,20 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <scm>
@@ -104,10 +135,12 @@
         <developerConnection>scm:git:https://github.com/cmanlh/DDLGenerator.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
+
     <distributionManagement>
         <repository>
-            <id>maven-repository</id>
-            <url>file://${maven.repository}</url>
+            <id>bintray-cmanlh-maven</id>
+            <name>cmanlh-maven</name>
+            <url>https://api.bintray.com/maven/cmanlh/maven/DDLGenerator/;publish=1</url>
         </repository>
     </distributionManagement>
 </project>
