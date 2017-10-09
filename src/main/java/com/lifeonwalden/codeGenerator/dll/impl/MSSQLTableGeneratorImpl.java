@@ -15,41 +15,41 @@ import com.lifeonwalden.codeGenerator.util.OutputUtilities;
 
 public class MSSQLTableGeneratorImpl implements TableGenerator {
 
-  @Override
-  public String generate(Table table, Config config) {
-    StringBuilder sb = new StringBuilder();
+    @Override
+    public String generate(Table table, Config config) {
+        StringBuilder sb = new StringBuilder();
 
-    String schemaPrefix = "";
-    if (null != table.getDatabase().getSchema() && table.getDatabase().getSchema().length() > 0) {
-      schemaPrefix = table.getDatabase().getSchema() + ".";
-    }
-    OutputUtilities.newLine(sb.append("--").append(table.getNote()));
-    ColumnGenerator columnGenerator = new MSSQLColumnGeneratorImpl();
-    OutputUtilities.newLine(sb.append("CREATE TABLE ").append(schemaPrefix).append(table.getName()).append("("));
-    List<Column> columnList = table.getColumns();
-    OutputUtilities.textIndent(sb, 1);
-    OutputUtilities.newLine(sb.append(columnGenerator.generate(columnList.get(0), config)));
-    for (int i = 1; i < columnList.size(); i++) {
-      OutputUtilities.textIndent(sb, 1);
-      OutputUtilities.newLine(sb.append(",").append(columnGenerator.generate(columnList.get(i), config)));
-    }
-    if (null != table.getConstraints()) {
-      ConstraintGenerator constraintGenerator = new MSSQLConstraintGeneratorImpl();
-      for (Constraint constraint : table.getConstraints()) {
+        String schemaPrefix = "";
+        if (null != table.getDatabase().getSchema() && table.getDatabase().getSchema().length() > 0) {
+            schemaPrefix = table.getDatabase().getSchema() + ".";
+        }
+        OutputUtilities.newLine(sb.append("--").append(table.getNote()));
+        ColumnGenerator columnGenerator = new MSSQLColumnGeneratorImpl();
+        OutputUtilities.newLine(sb.append("CREATE TABLE ").append(schemaPrefix).append(table.getName()).append("("));
+        List<Column> columnList = table.getColumns();
         OutputUtilities.textIndent(sb, 1);
-        OutputUtilities.newLine(sb.append(",").append(constraintGenerator.generate(constraint, config)));
-      }
-    }
-    OutputUtilities.newLine((OutputUtilities.newLine(sb.append(");"))));
+        OutputUtilities.newLine(sb.append(columnGenerator.generate(columnList.get(0), config)));
+        for (int i = 1; i < columnList.size(); i++) {
+            OutputUtilities.textIndent(sb, 1);
+            OutputUtilities.newLine(sb.append(",").append(columnGenerator.generate(columnList.get(i), config)));
+        }
+        if (null != table.getConstraints()) {
+            ConstraintGenerator constraintGenerator = new MSSQLConstraintGeneratorImpl();
+            for (Constraint constraint : table.getConstraints()) {
+                OutputUtilities.textIndent(sb, 1);
+                OutputUtilities.newLine(sb.append(",").append(constraintGenerator.generate(constraint, config)));
+            }
+        }
+        OutputUtilities.newLine((OutputUtilities.newLine(sb.append(");"))));
 
-    if (null != table.getIndexs()) {
-      IndexGenerator indexGenerator = new MSSQLIndexGeneratorImpl();
-      for (Index index : table.getIndexs()) {
-        OutputUtilities.newLine(sb.append(indexGenerator.generate(index, config)));
-      }
-    }
-    OutputUtilities.newLine(sb);
+        if (null != table.getIndexs()) {
+            IndexGenerator indexGenerator = new MSSQLIndexGeneratorImpl();
+            for (Index index : table.getIndexs()) {
+                OutputUtilities.newLine(sb.append(indexGenerator.generate(index, config)));
+            }
+        }
+        OutputUtilities.newLine(sb);
 
-    return sb.toString();
-  }
+        return sb.toString();
+    }
 }

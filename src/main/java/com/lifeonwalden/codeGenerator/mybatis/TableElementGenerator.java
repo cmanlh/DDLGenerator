@@ -7,6 +7,6 @@ import com.lifeonwalden.codeGenerator.bean.config.Config;
 
 public interface TableElementGenerator {
 
-  public XmlElement getElement(Table table, Config config);
+    public XmlElement getElement(Table table, Config config);
 
 }

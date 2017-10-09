@@ -27,7 +27,7 @@ public class IdElementGenerator implements ColumnElementGenerator {
                 element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), column.getJavaType()));
             } else {
                 element.addAttribute(new Attribute(XMLAttribute.JAVA_TYPE.getName(), JdbcTypeEnum.nameOf(column.getType().toUpperCase())
-                                .getJavaType()));
+                        .getJavaType()));
             }
         }
 

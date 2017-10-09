@@ -78,9 +78,9 @@ public class DBSourceGenerateCodeMain {
                         try {
                             String beanGeneratorClass = generator.getConfig().getBeanInfo().getGenerator();
                             generatorList.add((TableBasedGenerator) Class.forName(
-                                            null == beanGeneratorClass
-                                                            ? "com.lifeonwalden.codeGenerator.javaClass.impl.HashBeanGeneratorImpl"
-                                                            : beanGeneratorClass).newInstance());
+                                    null == beanGeneratorClass
+                                            ? "com.lifeonwalden.codeGenerator.javaClass.impl.HashBeanGeneratorImpl"
+                                            : beanGeneratorClass).newInstance());
                         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
                             System.err.println("Not an illegal Bean generator.");
 
@@ -132,9 +132,9 @@ public class DBSourceGenerateCodeMain {
 
             ConnectionFactory connFactory = ConnectionFactory.getInstance();
             try (Connection connection = connFactory.getConnection(jdbcConfig);
-                            PreparedStatement pps =
-                                            connection.prepareStatement(DatabaseUserTable.getDatabaseUserTable(DBInfoUtil.getDBType(jdbcConfig))
-                                                            .getUserTableRetrievalStatement())) {
+                 PreparedStatement pps =
+                         connection.prepareStatement(DatabaseUserTable.getDatabaseUserTable(DBInfoUtil.getDBType(jdbcConfig))
+                                 .getUserTableRetrievalStatement())) {
                 ResultSet tableResult = pps.executeQuery();
                 List<Table> tableList = new ArrayList<Table>();
                 while (tableResult.next()) {

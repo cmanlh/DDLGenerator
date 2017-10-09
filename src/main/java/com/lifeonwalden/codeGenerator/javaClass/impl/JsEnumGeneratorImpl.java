@@ -20,12 +20,12 @@ public class JsEnumGeneratorImpl implements ConstBasedGenerator {
         StringBuilder sb = new StringBuilder();
 
         OutputUtilities.newLine(sb
-                        .append("if (typeof Object.assign != 'function') {  Object.assign = function(target) {    'use strict';    if (target == null) {      throw new TypeError('Cannot convert undefined or null to object');    }    target = Object(target);    for (var index = 1; index < arguments.length; index++) {      var source = arguments[index];      if (source != null) {        for (var key in source) {          if (Object.prototype.hasOwnProperty.call(source, key)) {            target[key] = source[key];          }        }      }    }    return target;  };}"));
+                .append("if (typeof Object.assign != 'function') {  Object.assign = function(target) {    'use strict';    if (target == null) {      throw new TypeError('Cannot convert undefined or null to object');    }    target = Object(target);    for (var index = 1; index < arguments.length; index++) {      var source = arguments[index];      if (source != null) {        for (var key in source) {          if (Object.prototype.hasOwnProperty.call(source, key)) {            target[key] = source[key];          }        }      }    }    return target;  };}"));
         OutputUtilities.newLine(sb);
 
         OutputUtilities.newLine(sb.append("function Enum(){this._index = []; this._values=[]}"));
         OutputUtilities.newLine(sb
-                        .append("Enum.prototype.values=function(){if(0==this._values.length){for (var i in this){var tmp = this[i]; if((typeof tmp == 'object') && tmp.hasOwnProperty('value') && tmp.hasOwnProperty('desc')){this._values.push(tmp);this._index[tmp.value]=tmp;}}} return this._values;};"));
+                .append("Enum.prototype.values=function(){if(0==this._values.length){for (var i in this){var tmp = this[i]; if((typeof tmp == 'object') && tmp.hasOwnProperty('value') && tmp.hasOwnProperty('desc')){this._values.push(tmp);this._index[tmp.value]=tmp;}}} return this._values;};"));
         OutputUtilities.newLine(sb.append("Enum.prototype.valueOf=function(val){if(0==this._index.length) this.values();return this._index[val];};"));
         OutputUtilities.newLine(sb);
 
@@ -37,7 +37,7 @@ public class JsEnumGeneratorImpl implements ConstBasedGenerator {
             sb.append("var ").append(enumConst.getName()).append(" = Object.assign(new Enum(), {");
             for (ValueEnum value : enumConst.getOptions()) {
                 sb.append(value.getName()).append(" : { name : '").append(value.getName()).append("', value :").append(value.getValue())
-                                .append(", alias :'").append(value.getAlias()).append("',desc:'").append(value.getDesc()).append("'},");
+                        .append(", alias :'").append(value.getAlias()).append("',desc:'").append(value.getDesc()).append("'},");
             }
             sb.deleteCharAt(sb.length() - 1).append("});");
             OutputUtilities.newLine(sb);
@@ -45,8 +45,8 @@ public class JsEnumGeneratorImpl implements ConstBasedGenerator {
 
         try {
             File outputFile =
-                            new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getConstInfo().getFolderName()
-                                    + File.separator + config.getConstInfo().getPackageName() + ".js");
+                    new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getConstInfo().getFolderName()
+                            + File.separator + config.getConstInfo().getPackageName() + ".js");
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), config.getEncoding()));
             bw.write(sb.toString());
             bw.close();

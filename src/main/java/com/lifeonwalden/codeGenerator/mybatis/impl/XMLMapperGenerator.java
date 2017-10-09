@@ -23,7 +23,7 @@ public class XMLMapperGenerator implements DomGenerator {
     private ResultMapElementXcludeDBFieldGenerator resultMapElementXcludeDBFieldGenerator = new ResultMapElementXcludeDBFieldGenerator();
     private ColumnListElementXcludeDBFieldGenerator columnListElementXcludeDBFieldGenerator = new ColumnListElementXcludeDBFieldGenerator();
     private ColumnListWithPrefixElementXcludeDBFieldGenerator columnListWithPrefixElementXcludeDBFieldGenerator =
-                    new ColumnListWithPrefixElementXcludeDBFieldGenerator();
+            new ColumnListWithPrefixElementXcludeDBFieldGenerator();
     private SQLDynamicUpdateElementGenerator sqlDynamicUpdateElementGenerator = new SQLDynamicUpdateElementGenerator();
     private SQLUpdateElementGenerator sqlUpdateElementGenerator = new SQLUpdateElementGenerator();
     private SQLInsertElementGenerator sqlInsertElementGenerator = new SQLInsertElementGenerator();
@@ -71,8 +71,8 @@ public class XMLMapperGenerator implements DomGenerator {
 
         try {
             File folder =
-                            new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getMybatisInfo().getFolderName()
-                                            + File.separator + config.getDaoInfo().getPackageName().replace(".", File.separator));
+                    new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getMybatisInfo().getFolderName()
+                            + File.separator + config.getDaoInfo().getPackageName().replace(".", File.separator));
 
             if (!folder.exists()) {
                 folder.mkdirs();

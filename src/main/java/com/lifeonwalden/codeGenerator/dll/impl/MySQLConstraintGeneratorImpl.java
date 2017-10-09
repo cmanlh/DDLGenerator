@@ -7,17 +7,17 @@ import com.lifeonwalden.codeGenerator.dll.ConstraintGenerator;
 
 public class MySQLConstraintGeneratorImpl implements ConstraintGenerator {
 
-  @Override
-  public String generate(Constraint constraint, Config config) {
-    StringBuilder sb = new StringBuilder();
-    sb.append(constraint.getType()).append(" (");
+    @Override
+    public String generate(Constraint constraint, Config config) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(constraint.getType()).append(" (");
 
-    for (IndexColumn column : constraint.getColumns()) {
-      sb.append(column.getName()).append(", ");
+        for (IndexColumn column : constraint.getColumns()) {
+            sb.append(column.getName()).append(", ");
+        }
+
+        sb.replace(sb.length() - 2, sb.length(), ")");
+
+        return sb.toString();
     }
-
-    sb.replace(sb.length() - 2, sb.length(), ")");
-
-    return sb.toString();
-  }
 }

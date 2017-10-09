@@ -38,7 +38,7 @@ public class UpdateDynamicElementGenerator implements TableElementGenerator {
             for (Column column : primaryKey) {
                 sb.append(column.getName()).append(" = ");
                 sb.append("#{").append(StringUtil.removeUnderline(column.getName())).append(", jdbcType=")
-                                .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+                        .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
                 if (null != column.getTypeHandler()) {
                     sb.append(", typeHandler=").append(column.getTypeHandler());
                 }

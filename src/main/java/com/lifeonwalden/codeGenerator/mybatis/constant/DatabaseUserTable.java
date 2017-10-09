@@ -15,7 +15,7 @@ package com.lifeonwalden.codeGenerator.mybatis.constant;
 
 public enum DatabaseUserTable {
     SQLSERVER("select name from sys.objects where type_desc='USER_TABLE' or type_desc='VIEW' order by name"), HSQLDB(
-                    "SELECT table_name FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
+            "SELECT table_name FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
 
     private String userTableRetrievalStatement;
 

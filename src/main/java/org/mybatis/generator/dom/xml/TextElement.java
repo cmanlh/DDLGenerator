@@ -18,21 +18,21 @@ import com.lifeonwalden.codeGenerator.util.OutputUtilities;
  * @author Jeff Butler
  */
 public class TextElement extends Element {
-  private String content;
+    private String content;
 
-  /**
-   *  
-   */
-  public TextElement(String content) {
-    super();
-    this.content = content;
-  }
+    /**
+     *
+     */
+    public TextElement(String content) {
+        super();
+        this.content = content;
+    }
 
-  @Override
-  public String getFormattedContent(int indentLevel) {
-    StringBuilder sb = new StringBuilder();
-    OutputUtilities.textIndent(sb, indentLevel);
-    sb.append(content);
-    return sb.toString();
-  }
+    @Override
+    public String getFormattedContent(int indentLevel) {
+        StringBuilder sb = new StringBuilder();
+        OutputUtilities.textIndent(sb, indentLevel);
+        sb.append(content);
+        return sb.toString();
+    }
 }

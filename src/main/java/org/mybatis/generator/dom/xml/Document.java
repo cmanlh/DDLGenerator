@@ -18,75 +18,75 @@ import com.lifeonwalden.codeGenerator.util.OutputUtilities;
  * @author Jeff Butler
  */
 public class Document {
-  private String publicId;
+    private String publicId;
 
-  private String systemId;
+    private String systemId;
 
-  private XmlElement rootElement;
+    private XmlElement rootElement;
 
-  private String encoding;
+    private String encoding;
 
-  /**
-   *  
-   */
-  public Document(String publicId, String systemId, String encoding) {
-    super();
-    this.publicId = publicId;
-    this.systemId = systemId;
-    this.encoding = encoding;
-  }
-
-  public Document() {
-    super();
-  }
-
-  /**
-   * @return Returns the rootElement.
-   */
-  public XmlElement getRootElement() {
-    return rootElement;
-  }
-
-  /**
-   * @param rootElement The rootElement to set.
-   */
-  public void setRootElement(XmlElement rootElement) {
-    this.rootElement = rootElement;
-  }
-
-  /**
-   * @return Returns the publicId.
-   */
-  public String getPublicId() {
-    return publicId;
-  }
-
-  /**
-   * @return Returns the systemId.
-   */
-  public String getSystemId() {
-    return systemId;
-  }
-
-  public String getFormattedContent() {
-    StringBuilder sb = new StringBuilder();
-
-    sb.append("<?xml version=\"1.0\" encoding=\"").append(encoding).append("\" ?>"); //$NON-NLS-1$
-
-    if (publicId != null && systemId != null) {
-      OutputUtilities.newLine(sb);
-      sb.append("<!DOCTYPE "); //$NON-NLS-1$
-      sb.append(rootElement.getName());
-      sb.append(" PUBLIC \""); //$NON-NLS-1$
-      sb.append(publicId);
-      sb.append("\" \""); //$NON-NLS-1$
-      sb.append(systemId);
-      sb.append("\" >"); //$NON-NLS-1$
+    /**
+     *
+     */
+    public Document(String publicId, String systemId, String encoding) {
+        super();
+        this.publicId = publicId;
+        this.systemId = systemId;
+        this.encoding = encoding;
     }
 
-    OutputUtilities.newLine(sb);
-    sb.append(rootElement.getFormattedContent(0));
+    public Document() {
+        super();
+    }
 
-    return sb.toString();
-  }
+    /**
+     * @return Returns the rootElement.
+     */
+    public XmlElement getRootElement() {
+        return rootElement;
+    }
+
+    /**
+     * @param rootElement The rootElement to set.
+     */
+    public void setRootElement(XmlElement rootElement) {
+        this.rootElement = rootElement;
+    }
+
+    /**
+     * @return Returns the publicId.
+     */
+    public String getPublicId() {
+        return publicId;
+    }
+
+    /**
+     * @return Returns the systemId.
+     */
+    public String getSystemId() {
+        return systemId;
+    }
+
+    public String getFormattedContent() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("<?xml version=\"1.0\" encoding=\"").append(encoding).append("\" ?>"); //$NON-NLS-1$
+
+        if (publicId != null && systemId != null) {
+            OutputUtilities.newLine(sb);
+            sb.append("<!DOCTYPE "); //$NON-NLS-1$
+            sb.append(rootElement.getName());
+            sb.append(" PUBLIC \""); //$NON-NLS-1$
+            sb.append(publicId);
+            sb.append("\" \""); //$NON-NLS-1$
+            sb.append(systemId);
+            sb.append("\" >"); //$NON-NLS-1$
+        }
+
+        OutputUtilities.newLine(sb);
+        sb.append(rootElement.getFormattedContent(0));
+
+        return sb.toString();
+    }
 }

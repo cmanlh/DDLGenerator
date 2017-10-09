@@ -7,27 +7,27 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 @XStreamAlias(value = "indexColumn")
 public class IndexColumn implements Serializable {
-  private static final long serialVersionUID = 3289465936180763099L;
+    private static final long serialVersionUID = 3289465936180763099L;
 
-  @XStreamAsAttribute
-  private String name;
+    @XStreamAsAttribute
+    private String name;
 
-  @XStreamAsAttribute
-  private String order = "ASC";
+    @XStreamAsAttribute
+    private String order = "ASC";
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public String getOrder() {
-    return order;
-  }
+    public String getOrder() {
+        return order;
+    }
 
-  public void setOrder(String order) {
-    this.order = order;
-  }
+    public void setOrder(String order) {
+        this.order = order;
+    }
 }

@@ -27,12 +27,12 @@ public class SQLUpdateElementGenerator implements TableElementGenerator {
         int tmpSize = sb.length();
         for (Column column : table.getColumns()) {
             if (column.getConstraintType() == ColumnConstraintEnum.PRIMARY_KEY
-                            || column.getConstraintType() == ColumnConstraintEnum.UNION_PRIMARY_KEY) {
+                    || column.getConstraintType() == ColumnConstraintEnum.UNION_PRIMARY_KEY) {
                 continue;
             }
             sb.append(column.getName()).append(" = ");
             sb.append("#{").append(StringUtil.removeUnderline(column.getName())).append(", jdbcType=")
-                            .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+                    .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
             if (null != column.getTypeHandler()) {
                 sb.append(", typeHandler=").append(column.getTypeHandler());
             }

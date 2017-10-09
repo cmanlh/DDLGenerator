@@ -17,12 +17,12 @@ package org.mybatis.generator.dom.xml;
  */
 public abstract class Element {
 
-  /**
-   * 
-   */
-  public Element() {
-    super();
-  }
+    /**
+     *
+     */
+    public Element() {
+        super();
+    }
 
-  public abstract String getFormattedContent(int indentLevel);
+    public abstract String getFormattedContent(int indentLevel);
 }

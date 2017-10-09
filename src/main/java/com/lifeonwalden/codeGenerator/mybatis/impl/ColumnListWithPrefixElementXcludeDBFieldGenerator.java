@@ -13,26 +13,26 @@ import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
 
 public class ColumnListWithPrefixElementXcludeDBFieldGenerator implements TableElementGenerator {
 
-  public XmlElement getElement(Table table, Config config) {
-    XmlElement element = new XmlElement(XMLTag.SQL.getName());
+    public XmlElement getElement(Table table, Config config) {
+        XmlElement element = new XmlElement(XMLTag.SQL.getName());
 
-    element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "columnListWithPrefixXcludeDBField"));
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "columnListWithPrefixXcludeDBField"));
 
-    StringBuilder sb = new StringBuilder();
-    for (Column column : table.getColumns()) {
-      if (column.getName().equalsIgnoreCase("createTime") || column.getName().equalsIgnoreCase("createUser")
-          || column.getName().equalsIgnoreCase("updateTime") || column.getName().equalsIgnoreCase("updateUser")
-          || column.getName().equalsIgnoreCase("logicalDel")) {
-        continue;
-      }
+        StringBuilder sb = new StringBuilder();
+        for (Column column : table.getColumns()) {
+            if (column.getName().equalsIgnoreCase("createTime") || column.getName().equalsIgnoreCase("createUser")
+                    || column.getName().equalsIgnoreCase("updateTime") || column.getName().equalsIgnoreCase("updateUser")
+                    || column.getName().equalsIgnoreCase("logicalDel")) {
+                continue;
+            }
 
-      sb.append("pre_").append(table.getName().toLowerCase()).append(".").append(column.getName()).append(",");
+            sb.append("pre_").append(table.getName().toLowerCase()).append(".").append(column.getName()).append(",");
+        }
+
+        if (sb.length() > 0) {
+            element.addElement((new TextElement(sb.substring(0, sb.length() - 1))));
+        }
+
+        return element;
     }
-
-    if (sb.length() > 0) {
-      element.addElement((new TextElement(sb.substring(0, sb.length() - 1))));
-    }
-
-    return element;
-  }
 }

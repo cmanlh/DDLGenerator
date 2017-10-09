@@ -31,13 +31,13 @@ public class LogicalDeleteElementGenerator implements TableElementGenerator {
         List<Column> primaryKey = table.getPrimaryColumns();
         if (null != primaryKey && primaryKey.size() > 0) {
             sb.append("update ")
-                            .append(table.getName())
-                            .append(" set logicalDel = 1, updateTime = #{updateTime, jdbcType=TIMESTAMP}, updateUser = #{updateUser, jdbcType=VARCHAR}")
-                            .append(" where ");
+                    .append(table.getName())
+                    .append(" set logicalDel = 1, updateTime = #{updateTime, jdbcType=TIMESTAMP}, updateUser = #{updateUser, jdbcType=VARCHAR}")
+                    .append(" where ");
             for (Column column : primaryKey) {
                 sb.append(column.getName()).append(" = ");
                 sb.append("#{").append(StringUtil.removeUnderline(column.getName())).append(", jdbcType=")
-                                .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+                        .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
                 if (null != column.getTypeHandler()) {
                     sb.append(", typeHandler=").append(column.getTypeHandler());
                 }
@@ -53,7 +53,7 @@ public class LogicalDeleteElementGenerator implements TableElementGenerator {
                     StringBuilder setValueText = new StringBuilder("AND ");
                     setValueText.append(column.getName()).append(" = ");
                     setValueText.append("#{").append(StringUtil.removeUnderline(column.getName())).append(", jdbcType=")
-                                    .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+                            .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
                     if (null != column.getTypeHandler()) {
                         setValueText.append(", typeHandler=").append(column.getTypeHandler());
                     }

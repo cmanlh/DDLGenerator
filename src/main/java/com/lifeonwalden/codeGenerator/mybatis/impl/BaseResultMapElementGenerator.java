@@ -14,25 +14,25 @@ import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
 
 public class BaseResultMapElementGenerator implements TableElementGenerator {
 
-  public XmlElement getElement(Table table, Config config) {
-    XmlElement element = new XmlElement(XMLTag.RESULT_MAP.getName());
+    public XmlElement getElement(Table table, Config config) {
+        XmlElement element = new XmlElement(XMLTag.RESULT_MAP.getName());
 
-    String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getResultBeanName(table, config);
+        String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getResultBeanName(table, config);
 
-    element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "baseResultMap"));
-    element.addAttribute(new Attribute(XMLAttribute.TYPE.getName(), className));
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "baseResultMap"));
+        element.addAttribute(new Attribute(XMLAttribute.TYPE.getName(), className));
 
-    IdElementGenerator idGenerator = new IdElementGenerator();
-    ResultElementGenerator resultGenerator = new ResultElementGenerator();
+        IdElementGenerator idGenerator = new IdElementGenerator();
+        ResultElementGenerator resultGenerator = new ResultElementGenerator();
 
-    for (Column column : table.getColumns()) {
-      if (ColumnConstraintEnum.PRIMARY_KEY == column.getConstraintType() || ColumnConstraintEnum.UNION_PRIMARY_KEY == column.getConstraintType()) {
-        element.addElement(idGenerator.getElement(column, config));
-      } else {
-        element.addElement(resultGenerator.getElement(column, config));
-      }
+        for (Column column : table.getColumns()) {
+            if (ColumnConstraintEnum.PRIMARY_KEY == column.getConstraintType() || ColumnConstraintEnum.UNION_PRIMARY_KEY == column.getConstraintType()) {
+                element.addElement(idGenerator.getElement(column, config));
+            } else {
+                element.addElement(resultGenerator.getElement(column, config));
+            }
+        }
+
+        return element;
     }
-
-    return element;
-  }
 }

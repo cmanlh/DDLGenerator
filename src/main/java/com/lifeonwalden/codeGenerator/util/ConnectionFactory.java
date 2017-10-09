@@ -20,49 +20,47 @@ import java.util.Properties;
 import com.lifeonwalden.codeGenerator.bean.config.JDBCConnectionConfiguration;
 
 /**
- * 
  * @author luhong
- *
  */
 public class ConnectionFactory {
 
-  private static ConnectionFactory instance = new ConnectionFactory();
+    private static ConnectionFactory instance = new ConnectionFactory();
 
-  public static ConnectionFactory getInstance() {
-    return instance;
-  }
-
-  private ConnectionFactory() {
-    super();
-  }
-
-  public Connection getConnection(JDBCConnectionConfiguration config) throws SQLException {
-    Driver driver = getDriver(config);
-
-    Properties props = new Properties();
-    props.setProperty("user", config.getUserId());
-    props.setProperty("password", config.getPassword());
-
-    Connection conn = driver.connect(config.getConnectionURL(), props);
-
-    if (conn == null) {
-      throw new SQLException("Can't get a connection");
+    public static ConnectionFactory getInstance() {
+        return instance;
     }
 
-    return conn;
-  }
-
-  private Driver getDriver(JDBCConnectionConfiguration connectionInformation) {
-    String driverClass = connectionInformation.getDriverClass();
-    Driver driver;
-
-    try {
-      Class<?> clazz = Class.forName(driverClass);
-      driver = (Driver) clazz.newInstance();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+    private ConnectionFactory() {
+        super();
     }
 
-    return driver;
-  }
+    public Connection getConnection(JDBCConnectionConfiguration config) throws SQLException {
+        Driver driver = getDriver(config);
+
+        Properties props = new Properties();
+        props.setProperty("user", config.getUserId());
+        props.setProperty("password", config.getPassword());
+
+        Connection conn = driver.connect(config.getConnectionURL(), props);
+
+        if (conn == null) {
+            throw new SQLException("Can't get a connection");
+        }
+
+        return conn;
+    }
+
+    private Driver getDriver(JDBCConnectionConfiguration connectionInformation) {
+        String driverClass = connectionInformation.getDriverClass();
+        Driver driver;
+
+        try {
+            Class<?> clazz = Class.forName(driverClass);
+            driver = (Driver) clazz.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return driver;
+    }
 }

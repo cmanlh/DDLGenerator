@@ -13,24 +13,24 @@ import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
 
 public class SQLSelectElementGenerator implements TableElementGenerator {
 
-  public XmlElement getElement(Table table, Config config) {
-    XmlElement element = new XmlElement(XMLTag.SQL.getName());
-    element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "querySQL"));
+    public XmlElement getElement(Table table, Config config) {
+        XmlElement element = new XmlElement(XMLTag.SQL.getName());
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "querySQL"));
 
-    TextElement selectElement = new TextElement("SELECT");
-    element.addElement(selectElement);
+        TextElement selectElement = new TextElement("SELECT");
+        element.addElement(selectElement);
 
-    XmlElement includeElement = new XmlElement(XMLTag.INCLUDE.getName());
-    String namespace = config.getDaoInfo().getPackageName() + "." + DAOGeneratorImpl.getDaoName(table, config);
-    includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), namespace + ".baseColumnList"));
-    element.addElement(includeElement);
+        XmlElement includeElement = new XmlElement(XMLTag.INCLUDE.getName());
+        String namespace = config.getDaoInfo().getPackageName() + "." + DAOGeneratorImpl.getDaoName(table, config);
+        includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), namespace + ".baseColumnList"));
+        element.addElement(includeElement);
 
-    StringBuilder sb = new StringBuilder();
-    sb.append("FROM ").append(table.getName());
+        StringBuilder sb = new StringBuilder();
+        sb.append("FROM ").append(table.getName());
 
-    TextElement fromElement = new TextElement(sb.toString());
-    element.addElement(fromElement);
+        TextElement fromElement = new TextElement(sb.toString());
+        element.addElement(fromElement);
 
-    return element;
-  }
+        return element;
+    }
 }

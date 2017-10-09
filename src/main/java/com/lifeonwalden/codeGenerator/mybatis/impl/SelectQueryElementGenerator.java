@@ -12,22 +12,22 @@ import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
 
 public class SelectQueryElementGenerator implements TableElementGenerator {
 
-  public XmlElement getElement(Table table, Config config) {
-    XmlElement element = new XmlElement(XMLTag.SELECT.getName());
-    String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getResultBeanName(table, config);
+    public XmlElement getElement(Table table, Config config) {
+        XmlElement element = new XmlElement(XMLTag.SELECT.getName());
+        String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getResultBeanName(table, config);
 
-    element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "select"));
-    element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
-    element.addAttribute(new Attribute(XMLAttribute.RESULT_MAP.getName(), "baseResultMap"));
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "select"));
+        element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
+        element.addAttribute(new Attribute(XMLAttribute.RESULT_MAP.getName(), "baseResultMap"));
 
-    XmlElement includeElement = new XmlElement(XMLTag.INCLUDE.getName());
-    includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), "querySQL"));
-    element.addElement(includeElement);
+        XmlElement includeElement = new XmlElement(XMLTag.INCLUDE.getName());
+        includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), "querySQL"));
+        element.addElement(includeElement);
 
-    includeElement = new XmlElement(XMLTag.INCLUDE.getName());
-    includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), "queryCondition"));
-    element.addElement(includeElement);
+        includeElement = new XmlElement(XMLTag.INCLUDE.getName());
+        includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), "queryCondition"));
+        element.addElement(includeElement);
 
-    return element;
-  }
+        return element;
+    }
 }

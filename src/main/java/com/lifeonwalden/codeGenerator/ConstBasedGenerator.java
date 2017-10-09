@@ -8,22 +8,21 @@ import com.lifeonwalden.codeGenerator.util.StringUtil;
 
 /**
  * Generator based on Const pool
- * 
- * @author luhong
  *
+ * @author luhong
  */
 public interface ConstBasedGenerator {
 
-  public static String getConstName(String constName, Config config) {
-    String namePattern = config.getConstInfo().getNamePattern(), name;
-    if (null == namePattern) {
-      name = constName + "Enum";
-    } else {
-      name = namePattern.replace("?", StringUtil.firstAlphToUpper(constName));
+    public static String getConstName(String constName, Config config) {
+        String namePattern = config.getConstInfo().getNamePattern(), name;
+        if (null == namePattern) {
+            name = constName + "Enum";
+        } else {
+            name = namePattern.replace("?", StringUtil.firstAlphToUpper(constName));
+        }
+
+        return StringUtil.firstAlphToUpper(name);
     }
 
-    return StringUtil.firstAlphToUpper(name);
-  }
-
-  public String generate(List<EnumConst> enumConstList, Config config);
+    public String generate(List<EnumConst> enumConstList, Config config);
 }

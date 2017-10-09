@@ -17,18 +17,18 @@ package org.mybatis.generator.dom.constant;
  */
 public class XmlConstants {
 
-  /**
-   * Utility Class, no instances
-   */
-  private XmlConstants() {
-    super();
-  }
+    /**
+     * Utility Class, no instances
+     */
+    private XmlConstants() {
+        super();
+    }
 
-  public static final String MYBATIS3_MAPPER_SYSTEM_ID = "http://mybatis.org/dtd/mybatis-3-mapper.dtd";
+    public static final String MYBATIS3_MAPPER_SYSTEM_ID = "http://mybatis.org/dtd/mybatis-3-mapper.dtd";
 
-  public static final String MYBATIS3_MAPPER_PUBLIC_ID = "-//mybatis.org//DTD Mapper 3.0//EN";
+    public static final String MYBATIS3_MAPPER_PUBLIC_ID = "-//mybatis.org//DTD Mapper 3.0//EN";
 
-  public static final String MYBATIS3_MAPPER_CONFIG_SYSTEM_ID = "http://mybatis.org/dtd/mybatis-3-config.dtd";
+    public static final String MYBATIS3_MAPPER_CONFIG_SYSTEM_ID = "http://mybatis.org/dtd/mybatis-3-config.dtd";
 
-  public static final String MYBATIS3_MAPPER_CONFIG_PUBLIC_ID = "-//mybatis.org//DTD Config 3.0//EN";
+    public static final String MYBATIS3_MAPPER_CONFIG_PUBLIC_ID = "-//mybatis.org//DTD Config 3.0//EN";
 }

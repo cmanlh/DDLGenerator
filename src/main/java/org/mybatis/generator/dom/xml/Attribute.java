@@ -16,39 +16,39 @@ package org.mybatis.generator.dom.xml;
  * @author Jeff Butler
  */
 public class Attribute {
-  private String name;
-  private String value;
+    private String name;
+    private String value;
 
-  /**
-   * 
-   */
-  public Attribute(String name, String value) {
-    super();
-    this.name = name;
-    this.value = value;
-  }
+    /**
+     *
+     */
+    public Attribute(String name, String value) {
+        super();
+        this.name = name;
+        this.value = value;
+    }
 
-  /**
-   * @return Returns the name.
-   */
-  public String getName() {
-    return name;
-  }
+    /**
+     * @return Returns the name.
+     */
+    public String getName() {
+        return name;
+    }
 
-  /**
-   * @return Returns the value.
-   */
-  public String getValue() {
-    return value;
-  }
+    /**
+     * @return Returns the value.
+     */
+    public String getValue() {
+        return value;
+    }
 
-  public String getFormattedContent() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(name);
-    sb.append("=\""); //$NON-NLS-1$
-    sb.append(value);
-    sb.append('\"');
+    public String getFormattedContent() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name);
+        sb.append("=\""); //$NON-NLS-1$
+        sb.append(value);
+        sb.append('\"');
 
-    return sb.toString();
-  }
+        return sb.toString();
+    }
 }
