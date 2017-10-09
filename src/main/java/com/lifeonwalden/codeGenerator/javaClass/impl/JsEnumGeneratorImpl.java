@@ -45,8 +45,8 @@ public class JsEnumGeneratorImpl implements ConstBasedGenerator {
 
         try {
             File outputFile =
-                            new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getConstInfo().getFolderName() + "\\"
-                                            + config.getConstInfo().getPackageName() + ".js");
+                            new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getConstInfo().getFolderName()
+                                    + File.separator + config.getConstInfo().getPackageName() + ".js");
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), config.getEncoding()));
             bw.write(sb.toString());
             bw.close();
