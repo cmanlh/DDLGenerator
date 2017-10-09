@@ -112,7 +112,7 @@
 									</sequence>
 									<attribute name="name" type="string" use="required" />
 									<attribute name="note" type="string" />
-									<attribute name="addDBFields" type="boolean" use="required" />
+									<attribute name="addDBFields" type="boolean" default="true"/>
 								</complexType>
 							</element>
 						</sequence>
@@ -277,6 +277,7 @@
 											</complexType>
 										</element>
 									</sequence>
+									<attribute name="generator" type="string"></attribute>
 								</complexType>
 							</element>
 						</sequence>
