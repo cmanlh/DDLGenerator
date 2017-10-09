@@ -13,5 +13,5 @@ import com.lifeonwalden.codeGenerator.bean.config.Config;
  */
 public interface TableBasedGenerator {
 
-    public String generate(Table table, Config config);
+    String generate(Table table, Config config);
 }

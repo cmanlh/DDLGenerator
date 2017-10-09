@@ -13,7 +13,7 @@ import com.lifeonwalden.codeGenerator.util.StringUtil;
  */
 public interface ConstBasedGenerator {
 
-    public static String getConstName(String constName, Config config) {
+    static String getConstName(String constName, Config config) {
         String namePattern = config.getConstInfo().getNamePattern(), name;
         if (null == namePattern) {
             name = constName + "Enum";
@@ -24,5 +24,5 @@ public interface ConstBasedGenerator {
         return StringUtil.firstAlphToUpper(name);
     }
 
-    public String generate(List<EnumConst> enumConstList, Config config);
+    String generate(List<EnumConst> enumConstList, Config config);
 }
