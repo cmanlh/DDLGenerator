@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<generator xmlns="http://www.lifeonwalden.com/ddlGenerator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.lifeonwalden.com/ddlGenerator ddlGenerator.xsd">
+<generator xmlns="http://www.lifeonwalden.com/ddlGenerator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.lifeonwalden.com/ddlGenerator schema/ddlGenerator.xsd">
 	<config encoding="UTF-8">
 		<constInfo packageName="com.orientsec.demo.consts" folderName="java" />
 		<daoInfo packageName="com.orientsec.demo.dao" folderName="java" namePattern="?Mapper" />
