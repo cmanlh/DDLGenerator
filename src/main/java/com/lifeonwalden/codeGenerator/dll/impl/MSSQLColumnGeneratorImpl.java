@@ -29,6 +29,12 @@ public class MSSQLColumnGeneratorImpl implements ColumnGenerator {
                 sb.append(" DEFAULT ").append(column.getDefaultVal());
             }
         }
+
+        // support extra features
+        if (null != column.getExtra() && column.getExtra().length() > 0) {
+            sb.append(" ").append(column.getExtra());
+        }
+
         List<ValueEnum> options = null;
         if (null != column.getOptionRefObj()) {
             options = column.getOptionRefObj().getOptions();

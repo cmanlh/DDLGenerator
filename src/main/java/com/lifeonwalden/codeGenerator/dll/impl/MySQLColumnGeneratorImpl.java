@@ -31,6 +31,11 @@ public class MySQLColumnGeneratorImpl implements ColumnGenerator {
             }
         }
 
+        // support extra features
+        if (null != column.getExtra() && column.getExtra().length() > 0) {
+            sb.append(" ").append(column.getExtra());
+        }
+
         List<ValueEnum> options = null;
         if (null != column.getOptionRefObj()) {
             options = column.getOptionRefObj().getOptions();

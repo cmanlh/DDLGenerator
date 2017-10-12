@@ -25,9 +25,9 @@
 	</constPool>
 	<database name="TestDB" schema="prd" note="test database" generator="com.lifeonwalden.codeGenerator.dll.impl.MSSQLTableGeneratorImpl">
 		<dbFields>
-			<column name="createTime" type="datetime" note="创建时间" />
+			<column name="createTime" type="datetime" required="true" defaultVal="CURRENT_TIMESTAMP" note="创建时间" />
 			<column name="createUser" type="varchar" note="创建者" length="32" />
-			<column name="updateTime" type="datetime" note="更新时间" />
+			<column name="updateTime" type="datetime" required="true" defaultVal="CURRENT_TIMESTAMP" extra="ON UPDATE CURRENT_TIMESTAMP" note="更新时间" />
 			<column name="updateUser" type="varchar" note="更新者" length="32" />
 			<column name="logicalDel" type="int" note="逻辑删除" defaultVal="0" />
 		</dbFields>

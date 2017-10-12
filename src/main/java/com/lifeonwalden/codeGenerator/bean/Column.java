@@ -33,6 +33,10 @@ public class Column implements Serializable {
     @XStreamAsAttribute
     private String defaultVal;
 
+    // support db extra features
+    @XStreamAsAttribute
+    private String extra;
+
     @XStreamAsAttribute
     private String note;
 
@@ -153,6 +157,7 @@ public class Column implements Serializable {
         column.setJavaType(this.getJavaType());
         column.setLength(this.getLength());
         column.setName(this.getName());
+        column.setExtra(this.getExtra());
         column.setNote(this.getNote());
         column.setOptionRef(this.getOptionRef());
         column.setOptionRefObj(this.getOptionRefObj());

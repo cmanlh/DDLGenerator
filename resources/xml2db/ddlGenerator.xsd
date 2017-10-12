@@ -171,6 +171,7 @@
 		<attribute name="length" type="string" />
 		<attribute name="required" type="boolean" default="false" />
 		<attribute name="defaultVal" type="string" />
+		<attribute name="extra" type="string" />
 		<attribute name="note" type="string" />
 		<attribute name="optionRef" type="string" />
 		<attribute name="type" use="required">
