@@ -1,23 +1,18 @@
 package com.lifeonwalden.codeGenerator.javaClass.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-
-import javax.lang.model.element.Modifier;
-
 import com.lifeonwalden.codeGenerator.TableBasedGenerator;
 import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.JavaFileTmp;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.*;
 import com.squareup.javapoet.TypeSpec.Builder;
+
+import javax.lang.model.element.Modifier;
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 
 public class BeanGeneratorImpl implements TableBasedGenerator {
 

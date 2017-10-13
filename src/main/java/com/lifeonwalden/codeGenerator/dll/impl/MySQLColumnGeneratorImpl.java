@@ -1,12 +1,12 @@
 package com.lifeonwalden.codeGenerator.dll.impl;
 
-import java.util.List;
-
 import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.ValueEnum;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.dll.ColumnGenerator;
 import com.lifeonwalden.codeGenerator.util.OutputUtilities;
+
+import java.util.List;
 
 public class MySQLColumnGeneratorImpl implements ColumnGenerator {
 

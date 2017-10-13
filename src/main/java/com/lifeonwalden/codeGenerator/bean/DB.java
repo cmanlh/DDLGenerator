@@ -1,12 +1,12 @@
 package com.lifeonwalden.codeGenerator.bean;
 
-import java.io.Serializable;
-import java.util.List;
-
 import com.lifeonwalden.codeGenerator.bean.config.Generator;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+import java.io.Serializable;
+import java.util.List;
 
 @XStreamAlias(value = "db")
 public class DB implements Serializable {

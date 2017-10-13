@@ -1,8 +1,5 @@
 package com.lifeonwalden.codeGenerator.mybatis.impl;
 
-import org.mybatis.generator.dom.xml.Attribute;
-import org.mybatis.generator.dom.xml.XmlElement;
-
 import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
@@ -10,6 +7,8 @@ import com.lifeonwalden.codeGenerator.mybatis.ColumnElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
+import org.mybatis.generator.dom.xml.Attribute;
+import org.mybatis.generator.dom.xml.XmlElement;
 
 public class ResultElementGenerator implements ColumnElementGenerator {
 

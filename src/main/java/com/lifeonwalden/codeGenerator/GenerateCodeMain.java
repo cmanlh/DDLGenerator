@@ -1,18 +1,6 @@
 package com.lifeonwalden.codeGenerator;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.lifeonwalden.codeGenerator.bean.Column;
-import com.lifeonwalden.codeGenerator.bean.Constraint;
-import com.lifeonwalden.codeGenerator.bean.Database;
-import com.lifeonwalden.codeGenerator.bean.EnumConst;
-import com.lifeonwalden.codeGenerator.bean.Index;
-import com.lifeonwalden.codeGenerator.bean.IndexColumn;
-import com.lifeonwalden.codeGenerator.bean.Table;
+import com.lifeonwalden.codeGenerator.bean.*;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.bean.config.ExtentionGenerator;
 import com.lifeonwalden.codeGenerator.bean.config.Generator;
@@ -23,6 +11,12 @@ import com.lifeonwalden.codeGenerator.javaClass.impl.EnumGeneratorImpl;
 import com.lifeonwalden.codeGenerator.javaClass.impl.JsEnumGeneratorImpl;
 import com.lifeonwalden.codeGenerator.mybatis.impl.XMLMapperGenerator;
 import com.thoughtworks.xstream.XStream;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GenerateCodeMain {
     public static void main(String[] args) {

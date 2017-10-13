@@ -1,9 +1,9 @@
 package com.lifeonwalden.codeGenerator.bean.config;
 
-import java.io.Serializable;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
+import java.io.Serializable;
 
 @XStreamAlias(value = "mybatisInfo")
 public class MybatisInfo implements Serializable {

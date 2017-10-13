@@ -1,11 +1,11 @@
 package com.lifeonwalden.codeGenerator.bean.config;
 
-import java.io.Serializable;
-import java.util.List;
-
 import com.lifeonwalden.codeGenerator.bean.Option;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
+import java.io.Serializable;
+import java.util.List;
 
 @XStreamAlias(value = "extentionGenerator")
 public class ExtentionGenerator implements Serializable {

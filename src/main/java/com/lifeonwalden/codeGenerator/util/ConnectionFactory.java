@@ -12,12 +12,12 @@
  */
 package com.lifeonwalden.codeGenerator.util;
 
+import com.lifeonwalden.codeGenerator.bean.config.JDBCConnectionConfiguration;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.Properties;
-
-import com.lifeonwalden.codeGenerator.bean.config.JDBCConnectionConfiguration;
 
 /**
  * @author luhong

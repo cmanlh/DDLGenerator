@@ -1,19 +1,14 @@
 package com.lifeonwalden.codeGenerator.mybatis.impl;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-
-import org.mybatis.generator.dom.constant.XmlConstants;
-import org.mybatis.generator.dom.xml.Document;
-import org.mybatis.generator.dom.xml.XmlElement;
-
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.mybatis.DomGenerator;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
+import org.mybatis.generator.dom.constant.XmlConstants;
+import org.mybatis.generator.dom.xml.Document;
+import org.mybatis.generator.dom.xml.XmlElement;
+
+import java.io.*;
 
 public class XMLMapperGenerator implements DomGenerator {
     private RootElementGenerator rootElementGenerator = new RootElementGenerator();

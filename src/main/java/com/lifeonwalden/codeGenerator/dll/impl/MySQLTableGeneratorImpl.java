@@ -1,16 +1,12 @@
 package com.lifeonwalden.codeGenerator.dll.impl;
 
-import java.util.List;
-
-import com.lifeonwalden.codeGenerator.bean.Column;
-import com.lifeonwalden.codeGenerator.bean.Constraint;
-import com.lifeonwalden.codeGenerator.bean.Index;
-import com.lifeonwalden.codeGenerator.bean.Option;
-import com.lifeonwalden.codeGenerator.bean.Table;
+import com.lifeonwalden.codeGenerator.bean.*;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.dll.ColumnGenerator;
 import com.lifeonwalden.codeGenerator.dll.TableGenerator;
 import com.lifeonwalden.codeGenerator.util.OutputUtilities;
+
+import java.util.List;
 
 public class MySQLTableGeneratorImpl implements TableGenerator {
 

@@ -1,25 +1,18 @@
 package com.lifeonwalden.codeGenerator.javaClass.impl;
 
+import com.lifeonwalden.codeGenerator.ConstBasedGenerator;
+import com.lifeonwalden.codeGenerator.bean.EnumConst;
+import com.lifeonwalden.codeGenerator.bean.ValueEnum;
+import com.lifeonwalden.codeGenerator.bean.config.Config;
+import com.squareup.javapoet.*;
+import com.squareup.javapoet.TypeSpec.Builder;
+
+import javax.lang.model.element.Modifier;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.lang.model.element.Modifier;
-
-import com.lifeonwalden.codeGenerator.ConstBasedGenerator;
-import com.lifeonwalden.codeGenerator.bean.EnumConst;
-import com.lifeonwalden.codeGenerator.bean.ValueEnum;
-import com.lifeonwalden.codeGenerator.bean.config.Config;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.JavaFileTmp;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeSpec.Builder;
 
 public class EnumGeneratorImpl implements ConstBasedGenerator {
 

@@ -12,10 +12,10 @@
  */
 package org.mybatis.generator.dom.xml;
 
+import com.lifeonwalden.codeGenerator.util.OutputUtilities;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.lifeonwalden.codeGenerator.util.OutputUtilities;
 
 /**
  * @author Jeff Butler

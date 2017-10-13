@@ -1,10 +1,10 @@
 package com.lifeonwalden.codeGenerator;
 
-import java.util.List;
-
 import com.lifeonwalden.codeGenerator.bean.EnumConst;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
+
+import java.util.List;
 
 /**
  * Generator based on Const pool

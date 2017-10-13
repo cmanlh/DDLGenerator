@@ -1,12 +1,12 @@
 package com.lifeonwalden.codeGenerator.bean;
 
-import java.io.Serializable;
-import java.util.List;
-
 import com.lifeonwalden.codeGenerator.constant.ColumnConstraintEnum;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+import java.io.Serializable;
+import java.util.List;
 
 @XStreamAlias(value = "column")
 public class Column implements Serializable {
@@ -148,6 +148,14 @@ public class Column implements Serializable {
 
     public void setOptionRefObj(EnumConst optionRefObj) {
         this.optionRefObj = optionRefObj;
+    }
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra;
     }
 
     public Column copy() {

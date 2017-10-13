@@ -1,9 +1,9 @@
 package com.lifeonwalden.codeGenerator.bean;
 
-import java.io.Serializable;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
+import java.io.Serializable;
 
 @XStreamAlias(value = "valueEnum")
 public class ValueEnum implements Serializable {

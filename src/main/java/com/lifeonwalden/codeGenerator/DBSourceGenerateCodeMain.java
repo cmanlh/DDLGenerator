@@ -1,15 +1,5 @@
 package com.lifeonwalden.codeGenerator;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.DB;
 import com.lifeonwalden.codeGenerator.bean.DBTable;
@@ -26,6 +16,16 @@ import com.lifeonwalden.codeGenerator.mybatis.impl.XMLMapperGenerator;
 import com.lifeonwalden.codeGenerator.util.ConnectionFactory;
 import com.lifeonwalden.codeGenerator.util.DBInfoUtil;
 import com.thoughtworks.xstream.XStream;
+
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DBSourceGenerateCodeMain {
     public static void main(String[] args) {

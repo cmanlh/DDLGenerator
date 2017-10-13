@@ -1,9 +1,9 @@
 package com.lifeonwalden.codeGenerator.bean.config;
 
-import java.io.Serializable;
-
 import com.lifeonwalden.codeGenerator.bean.DB;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import java.io.Serializable;
 
 @XStreamAlias(value = "dbGenerator")
 public class DBSourceGenerator implements Serializable {

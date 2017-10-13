@@ -1,11 +1,11 @@
 package com.lifeonwalden.codeGenerator.bean.config;
 
-import java.io.Serializable;
-import java.util.List;
-
 import com.lifeonwalden.codeGenerator.bean.Database;
 import com.lifeonwalden.codeGenerator.bean.EnumConst;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import java.io.Serializable;
+import java.util.List;
 
 @XStreamAlias(value = "generator")
 public class Generator implements Serializable {

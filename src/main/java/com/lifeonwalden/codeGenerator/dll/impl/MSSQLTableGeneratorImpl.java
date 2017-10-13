@@ -1,7 +1,5 @@
 package com.lifeonwalden.codeGenerator.dll.impl;
 
-import java.util.List;
-
 import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Constraint;
 import com.lifeonwalden.codeGenerator.bean.Index;
@@ -12,6 +10,8 @@ import com.lifeonwalden.codeGenerator.dll.ConstraintGenerator;
 import com.lifeonwalden.codeGenerator.dll.IndexGenerator;
 import com.lifeonwalden.codeGenerator.dll.TableGenerator;
 import com.lifeonwalden.codeGenerator.util.OutputUtilities;
+
+import java.util.List;
 
 public class MSSQLTableGeneratorImpl implements TableGenerator {
 

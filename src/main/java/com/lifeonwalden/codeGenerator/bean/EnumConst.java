@@ -1,10 +1,10 @@
 package com.lifeonwalden.codeGenerator.bean;
 
-import java.io.Serializable;
-import java.util.List;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
+import java.io.Serializable;
+import java.util.List;
 
 @XStreamAlias(value = "enumConst")
 public class EnumConst implements Serializable {

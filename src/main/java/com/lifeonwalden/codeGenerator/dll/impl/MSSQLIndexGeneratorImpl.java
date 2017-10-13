@@ -1,7 +1,5 @@
 package com.lifeonwalden.codeGenerator.dll.impl;
 
-import java.util.List;
-
 import com.lifeonwalden.codeGenerator.bean.Database;
 import com.lifeonwalden.codeGenerator.bean.Index;
 import com.lifeonwalden.codeGenerator.bean.IndexColumn;
@@ -9,6 +7,8 @@ import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.dll.IndexGenerator;
 import com.lifeonwalden.codeGenerator.util.OutputUtilities;
+
+import java.util.List;
 
 public class MSSQLIndexGeneratorImpl implements IndexGenerator {
 

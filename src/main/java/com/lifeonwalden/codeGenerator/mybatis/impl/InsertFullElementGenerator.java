@@ -1,14 +1,13 @@
 package com.lifeonwalden.codeGenerator.mybatis.impl;
 
-import org.mybatis.generator.dom.xml.Attribute;
-import org.mybatis.generator.dom.xml.XmlElement;
-
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import org.mybatis.generator.dom.xml.Attribute;
+import org.mybatis.generator.dom.xml.XmlElement;
 
 public class InsertFullElementGenerator implements TableElementGenerator {
 

@@ -1,12 +1,12 @@
 package com.lifeonwalden.codeGenerator.bean;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 @XStreamAlias(value = "table")
 public class Table implements Serializable {

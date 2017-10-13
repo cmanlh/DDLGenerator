@@ -1,17 +1,11 @@
 package com.lifeonwalden.generator4db;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import com.lifeonwalden.codeGenerator.DBSourceGenerateCodeMain;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.lifeonwalden.codeGenerator.DBSourceGenerateCodeMain;
+import java.sql.*;
 
 public class DBSourceTest {
     protected static final String CONNECTION_STRING = "jdbc:hsqldb:mem:testdb;shutdown=false";

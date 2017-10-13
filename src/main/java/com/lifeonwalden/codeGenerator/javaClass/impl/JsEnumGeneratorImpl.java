@@ -1,17 +1,13 @@
 package com.lifeonwalden.codeGenerator.javaClass.impl;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.List;
-
 import com.lifeonwalden.codeGenerator.ConstBasedGenerator;
 import com.lifeonwalden.codeGenerator.bean.EnumConst;
 import com.lifeonwalden.codeGenerator.bean.ValueEnum;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.util.OutputUtilities;
+
+import java.io.*;
+import java.util.List;
 
 public class JsEnumGeneratorImpl implements ConstBasedGenerator {
 
