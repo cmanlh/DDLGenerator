@@ -37,6 +37,9 @@ public class DAOGeneratorImpl implements TableBasedGenerator {
         daoTypeBuilder.addMethod(MethodSpec.methodBuilder("select").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
                 .addParameter(resultBeanClass, "param").returns(ParameterizedTypeName.get(ClassName.get(List.class), resultBeanClass)).build());
 
+        daoTypeBuilder.addMethod(MethodSpec.methodBuilder("remove").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
+                .addParameter(resultBeanClass, "param").build());
+
         if (null != table.getPrimaryColumns()) {
             daoTypeBuilder.addMethod(MethodSpec.methodBuilder("update").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
                     .addParameter(resultBeanClass, "param").build());

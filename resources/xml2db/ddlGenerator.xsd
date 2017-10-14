@@ -282,7 +282,7 @@
                                             </complexType>
                                         </element>
                                     </sequence>
-                                    <attribute name="generator" type="string"></attribute>
+                                    <attribute name="generator" type="string"/>
                                 </complexType>
                             </element>
                         </sequence>

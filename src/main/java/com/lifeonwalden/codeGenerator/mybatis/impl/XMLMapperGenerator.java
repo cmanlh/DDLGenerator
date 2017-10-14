@@ -26,6 +26,7 @@ public class XMLMapperGenerator implements DomGenerator {
     private SQLQueryConditionElementGenerator sqlQueryConditionElementGenerator = new SQLQueryConditionElementGenerator();
     private InsertFullElementGenerator insertFullElementGenerator = new InsertFullElementGenerator();
     private DeleteElementGenerator deleteElementGenerator = new DeleteElementGenerator();
+    private RemoveElementGenerator removeElementGenerator = new RemoveElementGenerator();
     private LogicalDeleteElementGenerator logicalDeleteElementGenerator = new LogicalDeleteElementGenerator();
     private SelectGetElementGenerator selectGetElementGenerator = new SelectGetElementGenerator();
     private SelectQueryElementGenerator selectQueryElementGenerator = new SelectQueryElementGenerator();
@@ -50,6 +51,7 @@ public class XMLMapperGenerator implements DomGenerator {
         root.addElement(sqlQueryConditionElementGenerator.getElement(table, config));
         root.addElement(insertFullElementGenerator.getElement(table, config));
         root.addElement(selectQueryElementGenerator.getElement(table, config));
+        root.addElement(removeElementGenerator.getElement(table, config));
 
         if (null != table.getPrimaryColumns() && table.getPrimaryColumns().size() > 0) {
             root.addElement(deleteElementGenerator.getElement(table, config));
