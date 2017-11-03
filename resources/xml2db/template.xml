@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="GB18030"?>
-<generator xmlns="http://www.lifeonwalden.com/ddlGenerator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<generator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.lifeonwalden.com/ddlGenerator"
            xsi:schemaLocation="http://www.lifeonwalden.com/ddlGenerator ddlGenerator.xsd">
     <config encoding="GB18030">
         <constInfo packageName="com.test.const" folderName="enum"/>
@@ -40,6 +40,7 @@
                 <columns>
                     <column name="testColumn001" type="varchar" length="20" required="true" defaultVal="hello world"
                             note="note001" optionRef="OptionEnum"/>
+                    <column name="testColumn003" type="bigint" required="true" note="note003"/>
                     <column name="testColumn002" type="int" required="false" defaultVal="hello world" note="note001">
                         <options>
                             <valueEnum name="OPTION_001" value="1" alias="001" desc="description"/>
