@@ -148,8 +148,8 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         beanTypeBuilder.addMethod(MethodSpec.methodBuilder("put").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(Object.class)
                 .addParameter(String.class, "key").addParameter(Object.class, "value")
                 .addCode(
-                        "if (null == value) { return dataMap.remove(key); } Class<?> clazz = typeMap.get(key);Object _value = null;if (null == clazz || clazz.isInstance(value)) {_value = value;} else if ($T.class.isInstance(value)) { if ($T.class.equals(clazz)) { _value = Integer.valueOf((String) value);} else if ($T.class.equals(clazz)) { _value = new BigDecimal((String) value); } else if ($T.class.equals(clazz)) { _value = new Boolean((String) value); } else if ($T.class.equals(clazz)) { _value = new Date($T.parseLong((String) value)); } else { throw new RuntimeException(\"Invalid data format : \" + key); }} else {throw new RuntimeException(\"Invalid data format : \" + key);} return dataMap.put(key, _value);",
-                        String.class, Integer.class, BigDecimal.class, Boolean.class, Date.class, Long.class)
+                        "if (null == value) { return dataMap.remove(key); } Class<?> clazz = typeMap.get(key);Object _value = null;if (null == clazz || clazz.isInstance(value)) {_value = value;} else if ($T.class.isInstance(value)) { if ($T.class.equals(clazz)) { _value = Integer.valueOf((String) value);} else if ($T.class.equals(clazz)) { _value = new BigDecimal((String) value); } else if ($T.class.equals(clazz)) { _value = new Boolean((String) value); } else if ($T.class.equals(clazz)) { _value = new Date($T.parseLong((String) value)); } else if ($T.class.equals(clazz)) { _value = Long.parseLong((String) value); } else { throw new RuntimeException(\"Invalid data format : \" + key); }} else {throw new RuntimeException(\"Invalid data format : \" + key);} return dataMap.put(key, _value);",
+                        String.class, Integer.class, BigDecimal.class, Boolean.class, Date.class, Long.class, Long.class)
                 .build());
 
         try {
