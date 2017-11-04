@@ -25,7 +25,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.repository>${user.home}/.m2/repository</maven.repository>
-        <gpg.keyname>E1DD58FE</gpg.keyname>
     </properties>
 
     <dependencies>
