@@ -210,7 +210,7 @@ public class JavaFileTmp {
         private final TypeSpec typeSpec;
         private CodeBlock.Builder fileComment = CodeBlock.builder();
         private boolean skipJavaLangImports;
-        private String indent = "  ";
+        private String indent = "    ";
 
         private Builder(String packageName, TypeSpec typeSpec) {
             this.packageName = packageName;
