@@ -16,6 +16,9 @@ public class Table implements Serializable {
     private String name;
 
     @XStreamAsAttribute
+    private String alias;
+
+    @XStreamAsAttribute
     private String note;
 
     @XStreamAsAttribute
@@ -54,6 +57,14 @@ public class Table implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     public String getNote() {

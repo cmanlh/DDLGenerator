@@ -16,7 +16,7 @@ public class ColumnListWithPrefixElementXcludeDBFieldGenerator implements TableE
         XmlElement element = new XmlElement(XMLTag.SQL.getName());
 
         element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "columnListWithPrefixXcludeDBField"));
-
+        String alias = table.getAlias();
         StringBuilder sb = new StringBuilder();
         for (Column column : table.getColumns()) {
             if (column.getName().equalsIgnoreCase("createTime") || column.getName().equalsIgnoreCase("createUser")
@@ -25,7 +25,13 @@ public class ColumnListWithPrefixElementXcludeDBFieldGenerator implements TableE
                 continue;
             }
 
-            sb.append("pre_").append(table.getName().toLowerCase()).append(".").append(column.getName()).append(",");
+            if (alias != null && alias.length() >= 1) {
+                sb.append(alias).append(".").append(column.getName()).append(",");
+            }
+            else {
+                sb.append("pre_").append(table.getName().toLowerCase()).append(".").append(column.getName()).append(",");
+            }
+        
         }
 
         if (sb.length() > 0) {

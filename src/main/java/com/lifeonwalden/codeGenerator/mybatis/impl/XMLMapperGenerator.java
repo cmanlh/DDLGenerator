@@ -36,14 +36,17 @@ public class XMLMapperGenerator implements DomGenerator {
     @Override
     public String generate(Table table, Config config) {
         Document document = new Document(XmlConstants.MYBATIS3_MAPPER_PUBLIC_ID, XmlConstants.MYBATIS3_MAPPER_SYSTEM_ID, config.getEncoding());
-
+        Boolean addDBFields = table.getAddDBFields();
+        addDBFields = addDBFields != null && addDBFields;//避免返回null的情况
         XmlElement root = rootElementGenerator.getElement(table, config);
         root.addElement(baseResultMapElementGenerator.getElement(table, config));
         root.addElement(baseColumnListElementGenerator.getElement(table, config));
         root.addElement(baseColumnListWithPrefixElementGenerator.getElement(table, config));
-        root.addElement(resultMapElementXcludeDBFieldGenerator.getElement(table, config));
-        root.addElement(columnListElementXcludeDBFieldGenerator.getElement(table, config));
-        root.addElement(columnListWithPrefixElementXcludeDBFieldGenerator.getElement(table, config));
+        if (addDBFields) {
+            root.addElement(resultMapElementXcludeDBFieldGenerator.getElement(table, config));
+            root.addElement(columnListElementXcludeDBFieldGenerator.getElement(table, config));
+            root.addElement(columnListWithPrefixElementXcludeDBFieldGenerator.getElement(table, config));
+        }
         root.addElement(sqlDynamicUpdateElementGenerator.getElement(table, config));
         root.addElement(sqlUpdateElementGenerator.getElement(table, config));
         root.addElement(sqlInsertElementGenerator.getElement(table, config));
@@ -59,7 +62,7 @@ public class XMLMapperGenerator implements DomGenerator {
             root.addElement(updateDynamicElementGenerator.getElement(table, config));
             root.addElement(updateFullElementGenerator.getElement(table, config));
 
-            if (null == table.getAddDBFields() || table.getAddDBFields()) {
+            if (addDBFields) {//null == table.getAddDBFields() || table.getAddDBFields()
                 root.addElement(logicalDeleteElementGenerator.getElement(table, config));
             }
         }
