@@ -116,6 +116,7 @@
                                     <attribute name="name" type="string" use="required"/>
                                     <attribute name="note" type="string"/>
                                     <attribute name="addDBFields" type="boolean" default="true"/>
+                                    <attribute name="alias" type="string"/>
                                 </complexType>
                             </element>
                         </sequence>
