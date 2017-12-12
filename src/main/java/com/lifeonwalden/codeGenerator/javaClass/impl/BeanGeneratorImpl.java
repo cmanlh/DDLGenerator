@@ -7,13 +7,13 @@ import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
 import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
+import com.lifeonwalden.forestbatis.biz.bean.BaseBean;
 import com.squareup.javapoet.*;
 import com.squareup.javapoet.TypeSpec.Builder;
 
 import javax.lang.model.element.Modifier;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 
 public class BeanGeneratorImpl implements TableBasedGenerator {
 
@@ -30,7 +30,7 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
     private void generateParamBean(Table table, Config config) {
         String className = NameUtil.getParamBeanName(table, config);
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
-        Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(Serializable.class));
+        Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(BaseBean.class));
 
         dtoTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
                 .initializer("$L$L", System.currentTimeMillis(), "L").build());
@@ -46,17 +46,19 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
             }
 
             ClassName javaTypeClassName = ClassName.bestGuess(javaType);
-            dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, StringUtil.removeUnderline(column.getName()), Modifier.PRIVATE)
+            String propertyName = StringUtil.removeUnderline(column.getName());
+            String methodNameFragment = StringUtil.firstAlphToUpper(propertyName);
+            dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, propertyName, Modifier.PRIVATE)
                     .addJavadoc("$L", column.getNote()).build());
 
-            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + methodNameFragment)
                     .addModifiers(Modifier.PUBLIC).returns(javaTypeClassName)
-                    .addStatement("return this.$L", StringUtil.removeUnderline(column.getName())).addJavadoc("$L", column.getNote()).build());
+                    .addStatement("return this.$L", propertyName).addJavadoc("$L", column.getNote()).build());
 
-            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + methodNameFragment)
                     .returns(_className).addModifiers(Modifier.PUBLIC)
-                    .addParameter(javaTypeClassName, StringUtil.removeUnderline(column.getName()))
-                    .addStatement("this.$L = $L", StringUtil.removeUnderline(column.getName()), StringUtil.removeUnderline(column.getName()))
+                    .addParameter(javaTypeClassName, propertyName)
+                    .addStatement("this.$L = $L", propertyName, propertyName)
                     .addStatement("return this").addJavadoc("$L", column.getNote()).build());
         }
 
@@ -73,7 +75,7 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
     private void generateResultBean(Table table, Config config) {
         String className = NameUtil.getResultBeanName(table, config);
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
-        Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(Serializable.class));
+        Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(BaseBean.class));
 
         dtoTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
                 .initializer("$L$L", System.currentTimeMillis(), "L").build());
@@ -89,17 +91,19 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
             }
 
             ClassName javaTypeClassName = ClassName.bestGuess(javaType);
-            dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, StringUtil.removeUnderline(column.getName()), Modifier.PRIVATE)
+            String propertyName = StringUtil.removeUnderline(column.getName());
+            String methodNameFragment = StringUtil.firstAlphToUpper(propertyName);
+            dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, propertyName, Modifier.PRIVATE)
                     .addJavadoc("$L", column.getNote()).build());
 
-            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + methodNameFragment)
                     .addModifiers(Modifier.PUBLIC).returns(javaTypeClassName)
-                    .addStatement("return this.$L", StringUtil.removeUnderline(column.getName())).addJavadoc("$L", column.getNote()).build());
+                    .addStatement("return this.$L", propertyName).addJavadoc("$L", column.getNote()).build());
 
-            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + methodNameFragment)
                     .returns(_className).addModifiers(Modifier.PUBLIC)
-                    .addParameter(javaTypeClassName, StringUtil.removeUnderline(column.getName()))
-                    .addStatement("this.$L = $L", StringUtil.removeUnderline(column.getName()), StringUtil.removeUnderline(column.getName()))
+                    .addParameter(javaTypeClassName, propertyName)
+                    .addStatement("this.$L = $L", propertyName, propertyName)
                     .addStatement("return this").addJavadoc("$L", column.getNote()).build());
         }
 

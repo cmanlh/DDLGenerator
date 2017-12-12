@@ -3,7 +3,11 @@ package com.lifeonwalden.codeGenerator.javaClass.impl;
 import com.lifeonwalden.codeGenerator.TableBasedGenerator;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
+import com.lifeonwalden.codeGenerator.constant.DefinedMappingID;
 import com.lifeonwalden.codeGenerator.util.NameUtil;
+import com.lifeonwalden.codeGenerator.util.TableInfoUtil;
+import com.lifeonwalden.forestbatis.biz.dao.CommonDAO;
+import com.lifeonwalden.forestbatis.biz.dao.KeyBasedDAO;
 import com.squareup.javapoet.*;
 import com.squareup.javapoet.TypeSpec.Builder;
 
@@ -17,40 +21,30 @@ public class DAOGeneratorImpl implements TableBasedGenerator {
     @Override
     public String generate(Table table, Config config) {
         String className = NameUtil.getDaoName(table, config);
-        Builder daoTypeBuilder = TypeSpec.interfaceBuilder(className).addModifiers(Modifier.PUBLIC);
+        boolean hasPrimaryKey = TableInfoUtil.checkPrimaryKey(table), hasDBFields = table.getAddDBFields(), supportWildCondition = TableInfoUtil.checkWildConditionSupport(table);
         ClassName resultBeanClass = ClassName.get(config.getBeanInfo().getPackageName(), NameUtil.getResultBeanName(table, config));
 
-        daoTypeBuilder.addMethod(MethodSpec.methodBuilder("insert").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
-                .addParameter(resultBeanClass, "param").build());
+        Builder daoTypeBuilder = TypeSpec.interfaceBuilder(className).addModifiers(Modifier.PUBLIC);
+        if (hasPrimaryKey) {
+            daoTypeBuilder.addSuperinterface(ParameterizedTypeName.get(ClassName.get(KeyBasedDAO.class), resultBeanClass));
+        } else {
+            daoTypeBuilder.addSuperinterface(ParameterizedTypeName.get(ClassName.get(CommonDAO.class), resultBeanClass));
+        }
 
-        daoTypeBuilder.addMethod(MethodSpec.methodBuilder("select").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                .addParameter(resultBeanClass, "param").returns(ParameterizedTypeName.get(ClassName.get(List.class), resultBeanClass)).build());
-
-        daoTypeBuilder.addMethod(MethodSpec.methodBuilder("remove").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
-                .addParameter(resultBeanClass, "param").build());
-
-        if (null != table.getPrimaryColumns()) {
-            daoTypeBuilder.addMethod(MethodSpec.methodBuilder("update").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
-                    .addParameter(resultBeanClass, "param").build());
-
-            daoTypeBuilder.addMethod(MethodSpec.methodBuilder("updateDynamic").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
-                    .addParameter(resultBeanClass, "param").build());
-
-            com.squareup.javapoet.MethodSpec.Builder getBuilder = MethodSpec.methodBuilder("get").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                    .addParameter(resultBeanClass, "param").returns(resultBeanClass);
-
-            com.squareup.javapoet.MethodSpec.Builder deleteBuilder = MethodSpec.methodBuilder("delete").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                    .addParameter(resultBeanClass, "param").returns(Integer.class);
-
-            daoTypeBuilder.addMethod(getBuilder.build());
-            daoTypeBuilder.addMethod(deleteBuilder.build());
-
-            if (table.getAddDBFields()) {
-                com.squareup.javapoet.MethodSpec.Builder logicalDeleteBuilder = MethodSpec.methodBuilder("logicalDelete")
-                        .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).addParameter(resultBeanClass, "param").returns(Integer.class);
-
-                daoTypeBuilder.addMethod(logicalDeleteBuilder.build());
+        if (hasDBFields) {
+            if (hasPrimaryKey) {
+                daoTypeBuilder.addMethod(MethodSpec.methodBuilder(DefinedMappingID.LOGICAL_DELETE).addJavadoc("logically delete a record based on primary key")
+                        .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).addParameter(resultBeanClass, "param").returns(Integer.class).build());
             }
+            daoTypeBuilder.addMethod(MethodSpec.methodBuilder(DefinedMappingID.LOGICAL_REMOVE).addJavadoc("logically remove based on query condition")
+                    .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).addParameter(resultBeanClass, "param").returns(Integer.class).build());
+        }
+
+        if (supportWildCondition) {
+            daoTypeBuilder.addMethod(MethodSpec.methodBuilder(DefinedMappingID.SELECT_WILD).addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).addJavadoc("select special fields based on advanced query condition")
+                    .addParameter(resultBeanClass, "param").returns(ParameterizedTypeName.get(ClassName.get(List.class), resultBeanClass)).build());
+            daoTypeBuilder.addMethod(MethodSpec.methodBuilder(DefinedMappingID.DIRECT_SELECT_WILD).addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).addJavadoc("select based on advanced query condition")
+                    .addParameter(resultBeanClass, "param").returns(ParameterizedTypeName.get(ClassName.get(List.class), resultBeanClass)).build());
         }
 
         try {

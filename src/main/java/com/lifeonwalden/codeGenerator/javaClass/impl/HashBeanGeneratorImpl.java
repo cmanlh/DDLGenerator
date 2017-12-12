@@ -6,6 +6,7 @@ import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
 import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
+import com.lifeonwalden.forestbatis.biz.bean.AbstractMapBean;
 import com.squareup.javapoet.*;
 import com.squareup.javapoet.TypeSpec.Builder;
 
@@ -31,38 +32,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         String className = NameUtil.getResultBeanName(table, config);
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
         Builder beanTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC)
-                .addSuperinterface(ParameterizedTypeName.get(Map.class, String.class, Object.class))
-                .addField(FieldSpec.builder(ParameterizedTypeName.get(Map.class, String.class, Object.class), "dataMap", Modifier.PROTECTED)
-                        .initializer("new $T<String,Object>()", HashMap.class).build());
-
-        beanTypeBuilder
-                .addMethod(MethodSpec.methodBuilder("size").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(int.class)
-                        .addStatement("return dataMap.size()").build())
-                .addMethod(MethodSpec.methodBuilder("isEmpty").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(boolean.class)
-                        .addStatement("return dataMap.isEmpty()").build())
-                .addMethod(MethodSpec.methodBuilder("containsKey").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(boolean.class)
-                        .addParameter(Object.class, "key").addStatement("return dataMap.containsKey($L)", "key").build())
-                .addMethod(MethodSpec.methodBuilder("containsValue").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(boolean.class)
-                        .addParameter(Object.class, "key").addStatement("return dataMap.containsValue($L)", "key").build())
-                .addMethod(MethodSpec.methodBuilder("get").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(Object.class)
-                        .addParameter(Object.class, "key").addStatement("return dataMap.get($L)", "key").build())
-                .addMethod(MethodSpec.methodBuilder("put").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(Object.class)
-                        .addParameter(String.class, "key").addParameter(Object.class, "value").addStatement("return dataMap.put($L, $L)", "key", "value").build())
-                .addMethod(MethodSpec.methodBuilder("remove").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(Object.class)
-                        .addParameter(Object.class, "key").addStatement("return dataMap.remove($L)", "key").build())
-                .addMethod(MethodSpec.methodBuilder("putAll").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(void.class)
-                        .addParameter(ParameterizedTypeName.get(ClassName.get(Map.class), WildcardTypeName.subtypeOf(String.class),
-                                WildcardTypeName.subtypeOf(Object.class)), "m")
-                        .addStatement("dataMap.putAll($L)", "m").build())
-                .addMethod(MethodSpec.methodBuilder("clear").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(void.class)
-                        .addStatement("dataMap.clear()").build())
-                .addMethod(MethodSpec.methodBuilder("keySet").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC)
-                        .returns(ParameterizedTypeName.get(Set.class, String.class)).addStatement("return dataMap.keySet()").build())
-                .addMethod(MethodSpec.methodBuilder("values").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC)
-                        .returns(ParameterizedTypeName.get(Collection.class, Object.class)).addStatement("return dataMap.values()").build())
-                .addMethod(MethodSpec.methodBuilder("entrySet").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC)
-                        .returns(ParameterizedTypeName.get(ClassName.get(Set.class), ParameterizedTypeName.get(Map.Entry.class, String.class, Object.class)))
-                        .addStatement("return dataMap.entrySet()").build());
+                .superclass(AbstractMapBean.class);
 
         for (Column column : table.getColumns()) {
             methodBuild(beanTypeBuilder, _className, column);
