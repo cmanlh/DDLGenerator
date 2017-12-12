@@ -4,6 +4,7 @@ import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import com.squareup.javapoet.*;
 import com.squareup.javapoet.TypeSpec.Builder;
@@ -27,7 +28,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
     }
 
     private void generateResultBean(Table table, Config config) {
-        String className = getResultBeanName(table, config);
+        String className = NameUtil.getResultBeanName(table, config);
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
         Builder beanTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(ParameterizedTypeName.get(Map.class, String.class, Object.class))
@@ -98,7 +99,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
             }
         }
 
-        String className = getParamBeanName(table, config);
+        String className = NameUtil.getParamBeanName(table, config);
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
         Builder beanTypeBuilder =
                 TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC)
@@ -179,8 +180,8 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
             }
         }
 
-        String parentClassName = getParamBeanName(table, config);
-        String className = getExtParamBeanName(table, config);
+        String parentClassName = NameUtil.getParamBeanName(table, config);
+        String className = NameUtil.getExtParamBeanName(table, config);
         ClassName _parentClassName = ClassName.get(config.getBeanInfo().getPackageName(), parentClassName);
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
         Builder beanTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).superclass(_parentClassName);

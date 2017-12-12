@@ -11,17 +11,17 @@ import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.TextElement;
 import org.mybatis.generator.dom.xml.XmlElement;
 
-public class SQLSelectElementGenerator implements TableElementGenerator {
+public class SQLDirectSelectElementGenerator implements TableElementGenerator {
 
     public XmlElement getElement(Table table, Config config) {
         XmlElement element = new XmlElement(XMLTag.SQL.getName());
-        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), DefinedMappingID.QUERY_SQL));
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), DefinedMappingID.DIRECT_QUERY_SQL));
 
         TextElement selectElement = new TextElement("SELECT");
         element.addElement(selectElement);
 
         XmlElement includeColumnList = new XmlElement(XMLTag.INCLUDE.getName());
-        includeColumnList.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), NameUtil.getNamespace(table, config).concat(".").concat(DefinedMappingID.BASE_COLUMN_LIST)));
+        includeColumnList.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), NameUtil.getNamespace(table, config).concat(".").concat(DefinedMappingID.FIELD_PICK)));
         element.addElement(includeColumnList);
 
         StringBuilder sb = new StringBuilder();

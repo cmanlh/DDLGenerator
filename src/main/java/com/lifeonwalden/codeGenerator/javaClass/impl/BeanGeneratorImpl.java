@@ -5,6 +5,7 @@ import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import com.squareup.javapoet.*;
 import com.squareup.javapoet.TypeSpec.Builder;
@@ -16,43 +17,10 @@ import java.io.Serializable;
 
 public class BeanGeneratorImpl implements TableBasedGenerator {
 
-    public static String getParamBeanName(Table table, Config config) {
-        String namePattern = config.getBeanInfo().getParamNamePattern(), name;
-        if (null == namePattern) {
-            name = StringUtil.removeUnderline(table.getName());
-        } else {
-            name = namePattern.replace("?", StringUtil.firstAlphToUpper(StringUtil.removeUnderline(table.getName())));
-        }
-
-        return StringUtil.firstAlphToUpper(name);
-    }
-
-    public static String getExtParamBeanName(Table table, Config config) {
-        String namePattern = config.getBeanInfo().getParamNamePattern(), name;
-        if (null == namePattern) {
-            name = StringUtil.removeUnderline(table.getName()) + "Ext";
-        } else {
-            name = namePattern.replace("?", StringUtil.firstAlphToUpper(StringUtil.removeUnderline(table.getName())) + "Ext");
-        }
-
-        return StringUtil.firstAlphToUpper(name);
-    }
-
-    public static String getResultBeanName(Table table, Config config) {
-        String namePattern = config.getBeanInfo().getResultNamePattern(), name;
-        if (null == namePattern) {
-            name = StringUtil.removeUnderline(table.getName());
-        } else {
-            name = namePattern.replace("?", StringUtil.firstAlphToUpper(StringUtil.removeUnderline(table.getName())));
-        }
-
-        return StringUtil.firstAlphToUpper(name);
-    }
-
     @Override
     public String generate(Table table, Config config) {
         generateParamBean(table, config);
-        if (!getParamBeanName(table, config).equals(getResultBeanName(table, config))) {
+        if (!NameUtil.getParamBeanName(table, config).equals(NameUtil.getResultBeanName(table, config))) {
             generateResultBean(table, config);
         }
 
@@ -60,7 +28,7 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
     }
 
     private void generateParamBean(Table table, Config config) {
-        String className = getParamBeanName(table, config);
+        String className = NameUtil.getParamBeanName(table, config);
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
         Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(Serializable.class));
 
@@ -103,7 +71,7 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
     }
 
     private void generateResultBean(Table table, Config config) {
-        String className = getResultBeanName(table, config);
+        String className = NameUtil.getResultBeanName(table, config);
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
         Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(Serializable.class));
 

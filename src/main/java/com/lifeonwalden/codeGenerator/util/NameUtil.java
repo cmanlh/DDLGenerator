@@ -4,6 +4,13 @@ import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 
 public interface NameUtil {
+    static String getClassName(Table table, Config config) {
+        return config.getBeanInfo().getPackageName() + "." + getResultBeanName(table, config);
+    }
+
+    static String getNamespace(Table table, Config config) {
+        return config.getDaoInfo().getPackageName().concat(getDaoName(table, config));
+    }
 
     static String getParamBeanName(Table table, Config config) {
         String namePattern = config.getBeanInfo().getParamNamePattern(), name = StringUtil.removeUnderline(table.getName());
@@ -43,5 +50,9 @@ public interface NameUtil {
         }
 
         return StringUtil.firstAlphToUpper(name);
+    }
+
+    static String getColumnPrefix(Table table) {
+        return "pre_".concat(table.getName().toLowerCase()).concat(".");
     }
 }

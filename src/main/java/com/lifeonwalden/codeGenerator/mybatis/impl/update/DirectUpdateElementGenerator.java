@@ -1,4 +1,4 @@
-package com.lifeonwalden.codeGenerator.mybatis.impl.delete;
+package com.lifeonwalden.codeGenerator.mybatis.impl.update;
 
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
@@ -12,17 +12,17 @@ import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.TextElement;
 import org.mybatis.generator.dom.xml.XmlElement;
 
-public class LogicalDeleteElementGenerator implements TableElementGenerator {
+public class DirectUpdateElementGenerator implements TableElementGenerator {
 
     public XmlElement getElement(Table table, Config config) {
         XmlElement element = new XmlElement(XMLTag.UPDATE.getName());
 
-        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), DefinedMappingID.LOGICAL_DELETE));
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), DefinedMappingID.DIRECT_UPDATE));
         element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), NameUtil.getClassName(table, config)));
 
-        XmlElement logicalDeleteSQL = new XmlElement(XMLTag.INCLUDE.getName());
-        logicalDeleteSQL.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), DefinedMappingID.LOGICAL_DELETE_SQL));
-        element.addElement(logicalDeleteSQL);
+        XmlElement includeElement = new XmlElement(XMLTag.INCLUDE.getName());
+        includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), DefinedMappingID.DIRECT_QUERY_SQL));
+        element.addElement(includeElement);
 
         element.addElement(new TextElement(BatisMappingUtil.primaryKeyFragment(table)));
 

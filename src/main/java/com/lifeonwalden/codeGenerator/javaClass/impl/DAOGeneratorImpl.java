@@ -3,6 +3,7 @@ package com.lifeonwalden.codeGenerator.javaClass.impl;
 import com.lifeonwalden.codeGenerator.TableBasedGenerator;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import com.squareup.javapoet.*;
 import com.squareup.javapoet.TypeSpec.Builder;
@@ -14,22 +15,11 @@ import java.util.List;
 
 public class DAOGeneratorImpl implements TableBasedGenerator {
 
-    public static String getDaoName(Table table, Config config) {
-        String namePattern = config.getDaoInfo().getNamePattern(), name;
-        if (null == namePattern) {
-            name = StringUtil.removeUnderline(table.getName()) + "Mapper";
-        } else {
-            name = namePattern.replace("?", StringUtil.firstAlphToUpper(StringUtil.removeUnderline(table.getName())));
-        }
-
-        return StringUtil.firstAlphToUpper(name);
-    }
-
     @Override
     public String generate(Table table, Config config) {
-        String className = getDaoName(table, config);
+        String className = NameUtil.getDaoName(table, config);
         Builder daoTypeBuilder = TypeSpec.interfaceBuilder(className).addModifiers(Modifier.PUBLIC);
-        ClassName resultBeanClass = ClassName.get(config.getBeanInfo().getPackageName(), BeanGeneratorImpl.getResultBeanName(table, config));
+        ClassName resultBeanClass = ClassName.get(config.getBeanInfo().getPackageName(), NameUtil.getResultBeanName(table, config));
 
         daoTypeBuilder.addMethod(MethodSpec.methodBuilder("insert").addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).returns(Integer.class)
                 .addParameter(resultBeanClass, "param").build());

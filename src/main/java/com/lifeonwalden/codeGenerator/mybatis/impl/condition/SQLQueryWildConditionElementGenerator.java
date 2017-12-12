@@ -10,11 +10,11 @@ import com.lifeonwalden.codeGenerator.util.NameUtil;
 import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.XmlElement;
 
-public class SQLQueryConditionElementGenerator implements TableElementGenerator {
+public class SQLQueryWildConditionElementGenerator implements TableElementGenerator {
 
     public XmlElement getElement(Table table, Config config) {
         XmlElement element = new XmlElement(XMLTag.SQL.getName());
-        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), DefinedMappingID.QUERY_CONDITION));
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), DefinedMappingID.QUERY_WILD_CONDITION));
 
         XmlElement trimElement = new XmlElement(XMLTag.TRIM.getName());
         trimElement.addAttribute(new Attribute(XMLAttribute.PREFIX.getName(), "WHERE"));
@@ -24,6 +24,10 @@ public class SQLQueryConditionElementGenerator implements TableElementGenerator 
         XmlElement includeCondition = new XmlElement(XMLTag.INCLUDE.getName());
         includeCondition.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), NameUtil.getNamespace(table, config).concat(".").concat(DefinedMappingID.CONDITION)));
         trimElement.addElement(includeCondition);
+
+        XmlElement includeWildCondition = new XmlElement(XMLTag.INCLUDE.getName());
+        includeWildCondition.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), NameUtil.getNamespace(table, config).concat(".").concat(DefinedMappingID.WILD_CONDITION)));
+        trimElement.addElement(includeWildCondition);
 
         return element;
     }

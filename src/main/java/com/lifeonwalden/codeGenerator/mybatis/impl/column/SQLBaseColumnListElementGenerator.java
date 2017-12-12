@@ -14,7 +14,7 @@ import org.mybatis.generator.dom.xml.XmlElement;
 
 import javax.xml.soap.Text;
 
-public class BaseColumnListElementGenerator implements TableElementGenerator {
+public class SQLBaseColumnListElementGenerator implements TableElementGenerator {
 
     public static TextElement setupColumnListText(Table table, String columnPrefix) {
         StringBuilder sb = new StringBuilder();

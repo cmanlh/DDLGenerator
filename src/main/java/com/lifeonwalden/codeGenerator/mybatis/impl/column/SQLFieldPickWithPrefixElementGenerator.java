@@ -8,6 +8,7 @@ import com.lifeonwalden.codeGenerator.constant.SpecialInnerSuffix;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.TextElement;
@@ -24,7 +25,7 @@ public class SQLFieldPickWithPrefixElementGenerator implements TableElementGener
         if (StringUtil.isNotBlank(alias)) {
             element.addElement(SQLFieldPickElementGenerator.setupTrimElement(table, alias.concat(".")));
         } else {
-            element.addElement(SQLFieldPickElementGenerator.setupTrimElement(table, "pre_".concat(table.getName().toLowerCase()).concat(".")));
+            element.addElement(SQLFieldPickElementGenerator.setupTrimElement(table, NameUtil.getColumnPrefix(table)));
         }
         return element;
     }

@@ -12,7 +12,7 @@ import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.TextElement;
 import org.mybatis.generator.dom.xml.XmlElement;
 
-public class ColumnListElementXcludeDBFieldGenerator implements TableElementGenerator {
+public class SQLColumnListElementXcludeDBFieldGenerator implements TableElementGenerator {
 
     public static TextElement setupColumnListText(Table table, String columnPrefix) {
         StringBuilder sb = new StringBuilder();

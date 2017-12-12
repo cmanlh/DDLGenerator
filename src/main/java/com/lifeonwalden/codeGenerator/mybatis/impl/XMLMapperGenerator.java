@@ -3,12 +3,25 @@ package com.lifeonwalden.codeGenerator.mybatis.impl;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.mybatis.DomGenerator;
-import com.lifeonwalden.codeGenerator.mybatis.impl.column.BaseColumnListElementGenerator;
-import com.lifeonwalden.codeGenerator.mybatis.impl.column.BaseColumnListWithPrefixElementGenerator;
-import com.lifeonwalden.codeGenerator.mybatis.impl.column.ColumnListElementXcludeDBFieldGenerator;
-import com.lifeonwalden.codeGenerator.mybatis.impl.column.ColumnListWithPrefixElementXcludeDBFieldGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.column.SQLBaseColumnListElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.column.SQLBaseColumnListWithPrefixElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.column.SQLColumnListElementXcludeDBFieldGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.column.SQLColumnListWithPrefixElementXcludeDBFieldGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.condition.SQLQueryConditionElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.delete.DeleteElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.delete.LogicalDeleteElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.delete.RemoveElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.insert.InsertFullElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.insert.SQLInsertElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.impl.resultmap.BaseResultMapElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.impl.resultmap.ResultMapElementXcludeDBFieldGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.select.SQLSelectElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.select.GetElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.select.SelectElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.update.SQLUpdateDynamicElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.update.SQLUpdateElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.update.UpdateDynamicElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.update.UpdateElementGenerator;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import org.mybatis.generator.dom.constant.XmlConstants;
 import org.mybatis.generator.dom.xml.Document;
@@ -19,13 +32,13 @@ import java.io.*;
 public class XMLMapperGenerator implements DomGenerator {
     private RootElementGenerator rootElementGenerator = new RootElementGenerator();
     private BaseResultMapElementGenerator baseResultMapElementGenerator = new BaseResultMapElementGenerator();
-    private BaseColumnListElementGenerator baseColumnListElementGenerator = new BaseColumnListElementGenerator();
-    private BaseColumnListWithPrefixElementGenerator baseColumnListWithPrefixElementGenerator = new BaseColumnListWithPrefixElementGenerator();
+    private SQLBaseColumnListElementGenerator SQLBaseColumnListElementGenerator = new SQLBaseColumnListElementGenerator();
+    private SQLBaseColumnListWithPrefixElementGenerator SQLBaseColumnListWithPrefixElementGenerator = new SQLBaseColumnListWithPrefixElementGenerator();
     private ResultMapElementXcludeDBFieldGenerator resultMapElementXcludeDBFieldGenerator = new ResultMapElementXcludeDBFieldGenerator();
-    private ColumnListElementXcludeDBFieldGenerator columnListElementXcludeDBFieldGenerator = new ColumnListElementXcludeDBFieldGenerator();
-    private ColumnListWithPrefixElementXcludeDBFieldGenerator columnListWithPrefixElementXcludeDBFieldGenerator =
-            new ColumnListWithPrefixElementXcludeDBFieldGenerator();
-    private SQLDynamicUpdateElementGenerator sqlDynamicUpdateElementGenerator = new SQLDynamicUpdateElementGenerator();
+    private SQLColumnListElementXcludeDBFieldGenerator SQLColumnListElementXcludeDBFieldGenerator = new SQLColumnListElementXcludeDBFieldGenerator();
+    private SQLColumnListWithPrefixElementXcludeDBFieldGenerator SQLColumnListWithPrefixElementXcludeDBFieldGenerator =
+            new SQLColumnListWithPrefixElementXcludeDBFieldGenerator();
+    private SQLUpdateDynamicElementGenerator sqlUpdateDynamicElementGenerator = new SQLUpdateDynamicElementGenerator();
     private SQLUpdateElementGenerator sqlUpdateElementGenerator = new SQLUpdateElementGenerator();
     private SQLInsertElementGenerator sqlInsertElementGenerator = new SQLInsertElementGenerator();
     private SQLSelectElementGenerator sqlSelectElementGenerator = new SQLSelectElementGenerator();
@@ -34,10 +47,10 @@ public class XMLMapperGenerator implements DomGenerator {
     private DeleteElementGenerator deleteElementGenerator = new DeleteElementGenerator();
     private RemoveElementGenerator removeElementGenerator = new RemoveElementGenerator();
     private LogicalDeleteElementGenerator logicalDeleteElementGenerator = new LogicalDeleteElementGenerator();
-    private SelectGetElementGenerator selectGetElementGenerator = new SelectGetElementGenerator();
-    private SelectQueryElementGenerator selectQueryElementGenerator = new SelectQueryElementGenerator();
+    private GetElementGenerator getElementGenerator = new GetElementGenerator();
+    private SelectElementGenerator selectElementGenerator = new SelectElementGenerator();
     private UpdateDynamicElementGenerator updateDynamicElementGenerator = new UpdateDynamicElementGenerator();
-    private UpdateFullElementGenerator updateFullElementGenerator = new UpdateFullElementGenerator();
+    private UpdateElementGenerator updateElementGenerator = new UpdateElementGenerator();
 
     @Override
     public String generate(Table table, Config config) {
@@ -46,27 +59,27 @@ public class XMLMapperGenerator implements DomGenerator {
         addDBFields = addDBFields != null && addDBFields;//避免返回null的情况
         XmlElement root = rootElementGenerator.getElement(table, config);
         root.addElement(baseResultMapElementGenerator.getElement(table, config));
-        root.addElement(baseColumnListElementGenerator.getElement(table, config));
-        root.addElement(baseColumnListWithPrefixElementGenerator.getElement(table, config));
+        root.addElement(SQLBaseColumnListElementGenerator.getElement(table, config));
+        root.addElement(SQLBaseColumnListWithPrefixElementGenerator.getElement(table, config));
         if (addDBFields) {
             root.addElement(resultMapElementXcludeDBFieldGenerator.getElement(table, config));
-            root.addElement(columnListElementXcludeDBFieldGenerator.getElement(table, config));
-            root.addElement(columnListWithPrefixElementXcludeDBFieldGenerator.getElement(table, config));
+            root.addElement(SQLColumnListElementXcludeDBFieldGenerator.getElement(table, config));
+            root.addElement(SQLColumnListWithPrefixElementXcludeDBFieldGenerator.getElement(table, config));
         }
-        root.addElement(sqlDynamicUpdateElementGenerator.getElement(table, config));
+        root.addElement(sqlUpdateDynamicElementGenerator.getElement(table, config));
         root.addElement(sqlUpdateElementGenerator.getElement(table, config));
         root.addElement(sqlInsertElementGenerator.getElement(table, config));
         root.addElement(sqlSelectElementGenerator.getElement(table, config));
         root.addElement(sqlQueryConditionElementGenerator.getElement(table, config));
         root.addElement(insertFullElementGenerator.getElement(table, config));
-        root.addElement(selectQueryElementGenerator.getElement(table, config));
+        root.addElement(selectElementGenerator.getElement(table, config));
         root.addElement(removeElementGenerator.getElement(table, config));
 
         if (null != table.getPrimaryColumns() && table.getPrimaryColumns().size() > 0) {
             root.addElement(deleteElementGenerator.getElement(table, config));
-            root.addElement(selectGetElementGenerator.getElement(table, config));
+            root.addElement(getElementGenerator.getElement(table, config));
             root.addElement(updateDynamicElementGenerator.getElement(table, config));
-            root.addElement(updateFullElementGenerator.getElement(table, config));
+            root.addElement(updateElementGenerator.getElement(table, config));
 
             if (addDBFields) {//null == table.getAddDBFields() || table.getAddDBFields()
                 root.addElement(logicalDeleteElementGenerator.getElement(table, config));

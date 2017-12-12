@@ -1,28 +1,28 @@
-package com.lifeonwalden.codeGenerator.mybatis.impl;
+package com.lifeonwalden.codeGenerator.mybatis.impl.update;
 
 import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.ColumnConstraintEnum;
-import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
+import com.lifeonwalden.codeGenerator.constant.DefinedMappingID;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.BatisMappingUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.TextElement;
 import org.mybatis.generator.dom.xml.XmlElement;
 
-public class SQLDynamicUpdateElementGenerator implements TableElementGenerator {
+public class SQLUpdateDynamicElementGenerator implements TableElementGenerator {
 
     public XmlElement getElement(Table table, Config config) {
         XmlElement element = new XmlElement(XMLTag.SQL.getName());
 
-        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "dynamicUpdateSQL"));
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), DefinedMappingID.UPDATE_DYNAMIC_SQL));
 
         StringBuilder sb = new StringBuilder();
         sb.append("update ").append(table.getName());
-
         element.addElement(new TextElement(sb.toString()));
 
         XmlElement trimElement = new XmlElement(XMLTag.TRIM.getName());
@@ -35,22 +35,10 @@ public class SQLDynamicUpdateElementGenerator implements TableElementGenerator {
                     || column.getConstraintType() == ColumnConstraintEnum.UNION_PRIMARY_KEY) {
                 continue;
             }
-            XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
-            ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), StringUtil.removeUnderline(column.getName()) + " != null"));
 
-            StringBuilder setValueText = new StringBuilder();
-            setValueText.append(column.getName()).append(" = ");
-            setValueText.append("#{").append(StringUtil.removeUnderline(column.getName())).append(", jdbcType=")
-                    .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
-            if (null != column.getTypeHandler()) {
-                setValueText.append(", typeHandler=").append(column.getTypeHandler());
-            }
-            setValueText.append("},");
-            TextElement setValue = new TextElement(setValueText.toString());
-            ifElement.addElement(setValue);
-
-            trimElement.addElement(ifElement);
+            trimElement.addElement(BatisMappingUtil.ifSetFragment(column, StringUtil.removeUnderline(column.getName())));
         }
+
         return element;
     }
 }

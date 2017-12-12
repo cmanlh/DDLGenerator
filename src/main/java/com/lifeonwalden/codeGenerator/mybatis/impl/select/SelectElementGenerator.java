@@ -1,30 +1,30 @@
-package com.lifeonwalden.codeGenerator.mybatis.impl;
+package com.lifeonwalden.codeGenerator.mybatis.impl.select;
 
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
-import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
+import com.lifeonwalden.codeGenerator.constant.DefinedMappingID;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.XmlElement;
 
-public class SelectQueryElementGenerator implements TableElementGenerator {
+public class SelectElementGenerator implements TableElementGenerator {
 
     public XmlElement getElement(Table table, Config config) {
         XmlElement element = new XmlElement(XMLTag.SELECT.getName());
-        String className = config.getBeanInfo().getPackageName() + "." + BeanGeneratorImpl.getResultBeanName(table, config);
 
-        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "select"));
-        element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
-        element.addAttribute(new Attribute(XMLAttribute.RESULT_MAP.getName(), "baseResultMap"));
+        element.addAttribute(new Attribute(XMLAttribute.ID.getName(), DefinedMappingID.SELECT));
+        element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), NameUtil.getClassName(table, config)));
+        element.addAttribute(new Attribute(XMLAttribute.RESULT_MAP.getName(), DefinedMappingID.BASE_RESULT_MAP));
 
         XmlElement includeElement = new XmlElement(XMLTag.INCLUDE.getName());
-        includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), "querySQL"));
+        includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), DefinedMappingID.QUERY_SQL));
         element.addElement(includeElement);
 
         includeElement = new XmlElement(XMLTag.INCLUDE.getName());
-        includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), "queryCondition"));
+        includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), DefinedMappingID.QUERY_CONDITION));
         element.addElement(includeElement);
 
         return element;
