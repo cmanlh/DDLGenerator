@@ -43,6 +43,18 @@ public class Column implements Serializable {
     @XStreamAsAttribute
     private String optionRef;
 
+    @XStreamAsAttribute
+    private boolean enableIn;
+
+    @XStreamAsAttribute
+    private boolean enableLike;
+
+    @XStreamAsAttribute
+    private boolean enableNotIn;
+
+    @XStreamAsAttribute
+    private boolean enableNotLike;
+
     @XStreamOmitField
     private EnumConst optionRefObj;
 
@@ -116,6 +128,38 @@ public class Column implements Serializable {
 
     public void setOptionRef(String optionRef) {
         this.optionRef = optionRef;
+    }
+
+    public boolean isEnableIn() {
+        return enableIn;
+    }
+
+    public void setEnableIn(boolean enableIn) {
+        this.enableIn = enableIn;
+    }
+
+    public boolean isEnableLike() {
+        return enableLike;
+    }
+
+    public void setEnableLike(boolean enableLike) {
+        this.enableLike = enableLike;
+    }
+
+    public boolean isEnableNotIn() {
+        return enableNotIn;
+    }
+
+    public void setEnableNotIn(boolean enableNotIn) {
+        this.enableNotIn = enableNotIn;
+    }
+
+    public boolean isEnableNotLike() {
+        return enableNotLike;
+    }
+
+    public void setEnableNotLike(boolean enableNotLike) {
+        this.enableNotLike = enableNotLike;
     }
 
     public String getLength() {

@@ -178,6 +178,10 @@
         <attribute name="extra" type="string"/>
         <attribute name="note" type="string"/>
         <attribute name="optionRef" type="string"/>
+        <attribute name="enableIn" type="boolean"/>
+        <attribute name="enableLike" type="boolean"/>
+        <attribute name="enableNotIn" type="boolean"/>
+        <attribute name="enableNotLike" type="boolean"/>
         <attribute name="type" use="required">
             <simpleType>
                 <restriction base="string">
