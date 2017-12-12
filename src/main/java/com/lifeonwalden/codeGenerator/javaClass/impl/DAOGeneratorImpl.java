@@ -4,7 +4,6 @@ import com.lifeonwalden.codeGenerator.TableBasedGenerator;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.util.NameUtil;
-import com.lifeonwalden.codeGenerator.util.StringUtil;
 import com.squareup.javapoet.*;
 import com.squareup.javapoet.TypeSpec.Builder;
 
@@ -46,7 +45,7 @@ public class DAOGeneratorImpl implements TableBasedGenerator {
             daoTypeBuilder.addMethod(getBuilder.build());
             daoTypeBuilder.addMethod(deleteBuilder.build());
 
-            if (null == table.getAddDBFields() || table.getAddDBFields()) {
+            if (table.getAddDBFields()) {
                 com.squareup.javapoet.MethodSpec.Builder logicalDeleteBuilder = MethodSpec.methodBuilder("logicalDelete")
                         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).addParameter(resultBeanClass, "param").returns(Integer.class);
 

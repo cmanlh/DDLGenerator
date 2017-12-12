@@ -10,7 +10,7 @@ import com.lifeonwalden.codeGenerator.util.NameUtil;
 import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.XmlElement;
 
-public class InsertFullElementGenerator implements TableElementGenerator {
+public class InsertElementGenerator implements TableElementGenerator {
 
     public XmlElement getElement(Table table, Config config) {
         XmlElement element = new XmlElement(XMLTag.INSERT.getName());
