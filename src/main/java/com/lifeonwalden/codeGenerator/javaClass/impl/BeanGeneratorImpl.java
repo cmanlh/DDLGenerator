@@ -4,9 +4,11 @@ import com.lifeonwalden.codeGenerator.TableBasedGenerator;
 import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
+import com.lifeonwalden.codeGenerator.constant.BeanTypeEnum;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
 import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
+import com.lifeonwalden.codeGenerator.util.TableInfoUtil;
 import com.lifeonwalden.forestbatis.biz.bean.BaseBean;
 import com.squareup.javapoet.*;
 import com.squareup.javapoet.TypeSpec.Builder;
@@ -33,7 +35,7 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
         Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(BaseBean.class));
 
         dtoTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
-                .initializer("$L$L", System.currentTimeMillis(), "L").build());
+                .initializer("$L$L", TableInfoUtil.getSerialVersionUID(table, BeanTypeEnum.POJO_PARAM), "L").build());
 
         for (Column column : table.getColumns()) {
             String javaType = column.getJavaType();
@@ -78,7 +80,7 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
         Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(BaseBean.class));
 
         dtoTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
-                .initializer("$L$L", System.currentTimeMillis(), "L").build());
+                .initializer("$L$L", TableInfoUtil.getSerialVersionUID(table, BeanTypeEnum.POJO), "L").build());
 
         for (Column column : table.getColumns()) {
             String javaType = column.getJavaType();

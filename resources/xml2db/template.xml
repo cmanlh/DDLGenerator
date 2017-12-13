@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="GB18030"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <generator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.lifeonwalden.com/ddlGenerator"
            xsi:schemaLocation="http://www.lifeonwalden.com/ddlGenerator ddlGenerator.xsd">
-    <config encoding="GB18030">
+    <config encoding="UTF-8">
         <constInfo packageName="com.test.const" folderName="enum"/>
         <daoInfo packageName="com.test.dao" folderName="dao" namePattern="?Mapper"/>
         <beanInfo packageName="com.test.bean" folderName="bean"
@@ -28,53 +28,131 @@
     <database name="TestDB" schema="prd" note="test database"
               generator="com.lifeonwalden.codeGenerator.dll.impl.MSSQLTableGeneratorImpl">
         <dbFields>
-            <column name="createTime" type="datetime" required="true" defaultVal="CURRENT_TIMESTAMP" note="创建时间"/>
-            <column name="createUser" type="varchar" note="创建者" length="32"/>
+            <column name="createTime" type="datetime" required="true" defaultVal="CURRENT_TIMESTAMP" note="鍒涘缓鏃堕棿"/>
+            <column name="createUser" type="varchar" note="鍒涘缓鑰�" length="32"/>
             <column name="updateTime" type="datetime" required="true" defaultVal="CURRENT_TIMESTAMP"
-                    extra="ON UPDATE CURRENT_TIMESTAMP" note="更新时间"/>
-            <column name="updateUser" type="varchar" note="更新者" length="32"/>
-            <column name="logicalDel" type="int" note="逻辑删除" defaultVal="0"/>
+                    extra="ON UPDATE CURRENT_TIMESTAMP" note="鏇存柊鏃堕棿"/>
+            <column name="updateUser" type="varchar" note="鏇存柊鑰�" length="32"/>
+            <column name="logicalDel" type="int" note="閫昏緫鍒犻櫎" defaultVal="0"/>
         </dbFields>
         <tables>
-            <table name="TestTable" note="test table">
+
+            <table name="TableAlias" addDBFields="false" alias="ta">
                 <columns>
-                    <column name="testColumn001" type="varchar" length="20" required="true" defaultVal="hello world"
-                            note="note001" optionRef="OptionEnum"/>
-                    <column name="testColumn003" type="bigint" required="true" note="note003"/>
-                    <column name="testColumn002" type="int" required="false" defaultVal="hello world" note="note001">
-                        <options>
-                            <valueEnum name="OPTION_001" value="1" alias="001" desc="description"/>
-                            <valueEnum name="OPTION_002" value="2" alias="002" desc="description002"/>
-                        </options>
-                    </column>
+                    <column name="column" type="int"/>
                 </columns>
-                <extProps>
-                    <column name="name" type="varchar"></column>
-                </extProps>
-                <constraints>
-                    <constraint type="PRIMARY KEY" name="PK">
-                        <columns>
-                            <indexColumn name="testColumn001" order="DESC"/>
-                        </columns>
-                    </constraint>
-                </constraints>
-                <indexs>
-                    <index name="TestTable_Index" type="UNIQUE">
-                        <columns>
-                            <indexColumn name="testColumn002" order="DESC"/>
-                        </columns>
-                    </index>
-                </indexs>
+            </table>
+
+            <table name="TableOption" addDBFields="false">
+                <columns>
+                    <column name="column" type="int"/>
+                </columns>
                 <options>
                     <option option="ENGINE" value="InnoDB"/>
                 </options>
             </table>
 
-            <table name="TestTable02" note="test table" addDBFields="false">
+            <table name="ExtProperty" addDBFields="false">
                 <columns>
-                    <column name="testColumn001" type="varchar" length="20" required="true" defaultVal="hello world"
-                            note="note001" optionRef="OptionEnum"/>
-                    <column name="testColumn002" type="int" required="false" defaultVal="hello world" note="note001"/>
+                    <column name="standardProperty" type="int"/>
+                </columns>
+                <extProps>
+                    <column name="extProperty" type="int"/>
+                </extProps>
+            </table>
+
+            <table name="Index" addDBFields="false">
+                <columns>
+                    <column name="indexColumn01" type="int"/>
+                    <column name="normalColumn" type="int"/>
+                    <column name="indexColumn02" type="int"/>
+                </columns>
+                <indexs>
+                    <index name="IndexIndex" type="UNIQUE">
+                        <columns>
+                            <indexColumn name="indexColumn01" order="DESC"/>
+                            <indexColumn name="indexColumn02" order="DESC"/>
+                        </columns>
+                    </index>
+                </indexs>
+            </table>
+
+            <table name="OptionEnum" addDBFields="false">
+                <columns>
+                    <column name="externalOption" type="int" required="true" note="note003" optionRef="OptionEnum"/>
+                    <column name="innerOption" type="int" note="note001">
+                        <options>
+                            <valueEnum name="ENUM001" value="1" alias="001" desc="description"/>
+                            <valueEnum name="ENUM002" value="2" alias="002" desc="description002"/>
+                        </options>
+                    </column>
+                </columns>
+            </table>
+
+            <table name="DatabaseField" addDBFields="true">
+                <columns>
+                    <column name="requiredField" type="varchar" length="32" required="true" note="required field"/>
+                    <column name="optionalField" type="varchar" length="32" note="optional field"/>
+                </columns>
+            </table>
+
+            <table name="PrimaryKeyWithDBField" addDBFields="true">
+                <columns>
+                    <column name="primaryKey" type="varchar" length="32" required="true" note="primary key"/>
+                </columns>
+                <constraints>
+                    <constraint type="PRIMARY KEY" name="PK">
+                        <columns>
+                            <indexColumn name="primaryKey" order="DESC"/>
+                        </columns>
+                    </constraint>
+                </constraints>
+            </table>
+
+            <table name="PrimaryKey" addDBFields="false">
+                <columns>
+                    <column name="noramlField" type="int"/>
+                    <column name="primaryKey" type="varchar" length="32" required="true" note="primary key"/>
+                </columns>
+                <constraints>
+                    <constraint type="PRIMARY KEY" name="PK">
+                        <columns>
+                            <indexColumn name="primaryKey" order="DESC"/>
+                        </columns>
+                    </constraint>
+                </constraints>
+            </table>
+
+            <table name="CombinationPrimaryKey" addDBFields="false">
+                <columns>
+                    <column name="primaryKey01" type="varchar" length="32" required="true" note="primary key 01"/>
+                    <column name="noramlField" type="int"/>
+                    <column name="primaryKey02" type="varchar" length="32" required="true" note="primary key 02"/>
+                </columns>
+                <constraints>
+                    <constraint type="PRIMARY KEY" name="PK">
+                        <columns>
+                            <indexColumn name="primaryKey01" order="DESC"/>
+                            <indexColumn name="primaryKey02" order="DESC"/>
+                        </columns>
+                    </constraint>
+                </constraints>
+            </table>
+
+            <table name="Enable" addDBFields="false">
+                <columns>
+                    <column name="like1" type="varchar" length="32" enableLike="true"/>
+                    <column name="like0" type="varchar" length="32" enableLike="false"/>
+                    <column name="notLike1" type="varchar" length="32" enableNotLike="true"/>
+                    <column name="notLike0" type="varchar" length="32" enableNotLike="false"/>
+                    <column name="likeFake" type="int" enableLike="true"/>
+                    <column name="notLikeFake" type="int" enableNotLike="true"/>
+                    <column name="in1" type="int" enableIn="true"/>
+                    <column name="in0" type="int" enableIn="false"/>
+                    <column name="notIn1" type="int" enableNotIn="true"/>
+                    <column name="notIn0" type="int" enableNotIn="false"/>
+                    <column name="fullEnable" type="varchar" length="32" enableIn="true" enableNotIn="true"
+                            enableNotLike="true" enableLike="true"/>
                 </columns>
             </table>
         </tables>

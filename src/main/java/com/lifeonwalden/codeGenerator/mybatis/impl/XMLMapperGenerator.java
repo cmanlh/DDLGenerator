@@ -107,8 +107,8 @@ public class XMLMapperGenerator implements DomGenerator {
         root.addElement(sqlConditionElementGenerator.getElement(table, config));
         root.addElement(sqlQueryConditionElementGenerator.getElement(table, config));
         if (supportWildCondition) {
-            root.addElement(sqlQueryWildConditionElementGenerator.getElement(table, config));
             root.addElement(sqlWildConditionElementGenerator.getElement(table, config));
+            root.addElement(sqlQueryWildConditionElementGenerator.getElement(table, config));
         }
 
         // delete

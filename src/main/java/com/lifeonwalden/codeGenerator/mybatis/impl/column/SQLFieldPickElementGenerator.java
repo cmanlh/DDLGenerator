@@ -23,7 +23,8 @@ public class SQLFieldPickElementGenerator implements TableElementGenerator {
             for (Column column : table.getColumns()) {
                 String columnName = StringUtil.removeUnderline(column.getName());
                 XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
-                ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), columnName.concat(SpecialInnerSuffix.PICKED).concat(" != null")));
+                String pickedName = columnName.concat(SpecialInnerSuffix.PICKED);
+                ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), pickedName.concat(" != null AND ").concat(pickedName).concat(" == true")));
 
                 TextElement fieldText = new TextElement(columnPrefix.concat(column.getName().concat(",")));
                 ifElement.addElement(fieldText);
@@ -33,8 +34,9 @@ public class SQLFieldPickElementGenerator implements TableElementGenerator {
         } else {
             for (Column column : table.getColumns()) {
                 String columnName = StringUtil.removeUnderline(column.getName());
+                String pickedName = columnName.concat(SpecialInnerSuffix.PICKED);
                 XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
-                ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), columnName.concat(SpecialInnerSuffix.PICKED).concat(" != null")));
+                ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), pickedName.concat(" != null AND ").concat(pickedName).concat(" == true")));
 
                 TextElement fieldText = new TextElement(column.getName().concat(","));
                 ifElement.addElement(fieldText);

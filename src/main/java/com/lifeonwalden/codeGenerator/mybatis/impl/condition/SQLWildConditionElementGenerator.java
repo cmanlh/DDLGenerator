@@ -23,10 +23,10 @@ public class SQLWildConditionElementGenerator implements TableElementGenerator {
         for (Column column : table.getColumns()) {
             String propertyName = StringUtil.removeUnderline(column.getName());
             if (column.isEnableIn()) {
-                element.addElement(BatisMappingUtil.ifSetConditionFragment(column, propertyName.concat(SpecialInnerSuffix.IN), "AND ", "", " IN "));
+                element.addElement(BatisMappingUtil.ifSetConditionFragment(column, propertyName, propertyName.concat(SpecialInnerSuffix.IN), "AND ", "", " IN "));
             }
             if (column.isEnableNotIn()) {
-                element.addElement(BatisMappingUtil.ifSetConditionFragment(column, propertyName.concat(SpecialInnerSuffix.NOT_IN), "AND ", "", " NOT IN "));
+                element.addElement(BatisMappingUtil.ifSetConditionFragment(column, propertyName, propertyName.concat(SpecialInnerSuffix.NOT_IN), "AND ", "", " NOT IN "));
             }
             if (column.isEnableLike() && TableInfoUtil.allowedLike(column)) {
                 element.addElement(BatisMappingUtil.ifConditionFragment(column, propertyName.concat(SpecialInnerSuffix.LIKE), "AND ", "", " LIKE "));

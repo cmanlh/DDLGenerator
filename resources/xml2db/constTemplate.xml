@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="GB18030"?>
-<generator xmlns="http://www.lifeonwalden.com/ddlGenerator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<generator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.lifeonwalden.com/ddlGenerator"
            xsi:schemaLocation="http://www.lifeonwalden.com/ddlGenerator ddlGenerator.xsd">
-    <config encoding="GB18030">
+    <config encoding="UTF-8">
         <constInfo packageName="com.test.const" folderName="constTest"/>
     </config>
     <constPool>

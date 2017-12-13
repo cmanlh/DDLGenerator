@@ -115,7 +115,7 @@
                                     </sequence>
                                     <attribute name="name" type="string" use="required"/>
                                     <attribute name="note" type="string"/>
-                                    <attribute name="addDBFields" type="boolean" default="true"/>
+                                    <attribute name="addDBFields" type="boolean" use="required"/>
                                     <attribute name="alias" type="string"/>
                                 </complexType>
                             </element>
@@ -173,7 +173,7 @@
         <attribute name="javaType" type="string"/>
         <attribute name="typeHandler" type="string"/>
         <attribute name="length" type="string"/>
-        <attribute name="required" type="boolean" default="false"/>
+        <attribute name="required" type="boolean"/>
         <attribute name="defaultVal" type="string"/>
         <attribute name="extra" type="string"/>
         <attribute name="note" type="string"/>

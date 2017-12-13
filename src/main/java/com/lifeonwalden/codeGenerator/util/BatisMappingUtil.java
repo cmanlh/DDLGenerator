@@ -67,7 +67,7 @@ public interface BatisMappingUtil {
 
     static XmlElement ifDirectSetFragment(Column column, String propertyName, String directFlagProperty) {
         XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
-        ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), directFlagProperty.concat(" != null")));
+        ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), directFlagProperty.concat(" != null AND ").concat(directFlagProperty).concat(" == true")));
         StringBuilder valueText = new StringBuilder();
         valueText.append(column.getName()).append(" = ");
         valueFragment(valueText, column, propertyName);
@@ -77,11 +77,11 @@ public interface BatisMappingUtil {
         return ifElement;
     }
 
-    static XmlElement ifSetConditionFragment(Column column, String propertyName, String start, String end, String operation) {
+    static XmlElement ifSetConditionFragment(Column column, String propertyName, String flagProperty, String start, String end, String operation) {
         XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
-        ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), propertyName.concat(" != null and ").concat(propertyName).concat(".size() > 0")));
+        ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), flagProperty.concat(" != null and ").concat(flagProperty).concat(".size() > 0")));
         ifElement.addElement(new TextElement(start.concat(propertyName).concat(operation)));
-        ifElement.addElement(setConditionFragment(column, propertyName));
+        ifElement.addElement(setConditionFragment(column, flagProperty));
 
         return ifElement;
     }

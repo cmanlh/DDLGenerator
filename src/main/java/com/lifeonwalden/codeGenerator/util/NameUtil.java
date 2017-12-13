@@ -9,7 +9,7 @@ public interface NameUtil {
     }
 
     static String getNamespace(Table table, Config config) {
-        return config.getDaoInfo().getPackageName().concat(getDaoName(table, config));
+        return config.getDaoInfo().getPackageName().concat(".").concat(getDaoName(table, config));
     }
 
     static String getParamBeanName(Table table, Config config) {
