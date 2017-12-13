@@ -41,7 +41,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
                 .initializer("$L$L", TableInfoUtil.getSerialVersionUID(table, BeanTypeEnum.HASH), "L").build());
 
         for (Column column : table.getColumns()) {
-            methodBuild(beanTypeBuilder, beanClass, column, true);
+            methodBuild(beanTypeBuilder, beanClass, column, true, true);
         }
 
         try {
@@ -90,7 +90,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         }
 
         for (Column column : table.getColumns()) {
-            methodBuild(beanTypeBuilder, _className, column, true);
+            methodBuild(beanTypeBuilder, _className, column, true, false);
         }
 
         try {
@@ -134,7 +134,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         }
 
         for (Column column : table.getExtProps()) {
-            methodBuild(beanTypeBuilder, _className, column, false);
+            methodBuild(beanTypeBuilder, _className, column, false, false);
         }
 
         try {
@@ -145,7 +145,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         }
     }
 
-    private void methodBuild(Builder beanBuilder, ClassName beanClass, Column column, boolean extension) {
+    private void methodBuild(Builder beanBuilder, ClassName beanClass, Column column, boolean advanced, boolean complicated) {
         String javaType = column.getJavaType();
         if (null == javaType) {
             JdbcTypeEnum jdbcType = JdbcTypeEnum.nameOf(column.getType().toUpperCase());
@@ -156,56 +156,59 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         }
         ClassName javaTypeClassName = ClassName.bestGuess(javaType);
         ParameterizedTypeName parameterizedTypeName = ParameterizedTypeName.get(ClassName.get(List.class), javaTypeClassName);
+        String propertyName = StringUtil.removeUnderline(column.getName());
 
-        buildSetMethod(beanBuilder, beanClass, javaTypeClassName, column.getName(), column);
-        buildGetMethod(beanBuilder, javaTypeClassName, column.getName(), column);
+        buildSetMethod(beanBuilder, beanClass, javaTypeClassName, propertyName, column);
+        buildGetMethod(beanBuilder, javaTypeClassName, propertyName, column);
 
-        if (extension) {
-            String pickedName = column.getName().concat(SpecialInnerSuffix.PICKED);
-            buildSetMethod(beanBuilder, beanClass, ClassName.get(Boolean.class), pickedName, column);
-            buildGetMethod(beanBuilder, ClassName.get(Boolean.class), pickedName, column);
-
-            if (javaTypeClassName.equals(ClassName.get(Date.class))) {
-                String dateStartName = column.getName().concat(SpecialInnerSuffix.START);
+        if (advanced) {
+            if (TableInfoUtil.allowedDateRange(column)) {
+                String dateStartName = propertyName.concat(SpecialInnerSuffix.START);
                 buildSetMethod(beanBuilder, beanClass, javaTypeClassName, dateStartName, column);
                 buildGetMethod(beanBuilder, javaTypeClassName, dateStartName, column);
 
-                String dateEndName = column.getName().concat(SpecialInnerSuffix.END);
+                String dateEndName = propertyName.concat(SpecialInnerSuffix.END);
                 buildSetMethod(beanBuilder, beanClass, javaTypeClassName, dateEndName, column);
                 buildGetMethod(beanBuilder, javaTypeClassName, dateEndName, column);
             }
+        }
+
+        if (complicated) {
+            String pickedName = propertyName.concat(SpecialInnerSuffix.PICKED);
+            buildSetMethod(beanBuilder, beanClass, ClassName.get(Boolean.class), pickedName, column);
+            buildGetMethod(beanBuilder, ClassName.get(Boolean.class), pickedName, column);
 
             if (column.isEnableIn()) {
-                String inName = column.getName().concat(SpecialInnerSuffix.IN);
+                String inName = propertyName.concat(SpecialInnerSuffix.IN);
                 buildSetMethod(beanBuilder, beanClass, parameterizedTypeName, inName, column);
                 buildGetMethod(beanBuilder, parameterizedTypeName, inName, column);
             }
 
             if (column.isEnableNotIn()) {
-                String notInName = column.getName().concat(SpecialInnerSuffix.NOT_IN);
+                String notInName = propertyName.concat(SpecialInnerSuffix.NOT_IN);
                 buildSetMethod(beanBuilder, beanClass, parameterizedTypeName, notInName, column);
                 buildGetMethod(beanBuilder, parameterizedTypeName, notInName, column);
             }
 
             if (column.isEnableLike() && TableInfoUtil.allowedLike(column)) {
-                String likeName = column.getName().concat(SpecialInnerSuffix.LIKE);
+                String likeName = propertyName.concat(SpecialInnerSuffix.LIKE);
                 buildSetMethod(beanBuilder, beanClass, javaTypeClassName, likeName, column);
                 buildGetMethod(beanBuilder, javaTypeClassName, likeName, column);
             }
 
             if (column.isEnableNotLike() && TableInfoUtil.allowedLike(column)) {
-                String notLikeName = column.getName().concat(SpecialInnerSuffix.NOT_LIKE);
+                String notLikeName = propertyName.concat(SpecialInnerSuffix.NOT_LIKE);
                 buildSetMethod(beanBuilder, beanClass, javaTypeClassName, notLikeName, column);
                 buildGetMethod(beanBuilder, javaTypeClassName, notLikeName, column);
             }
         }
     }
 
-    private void buildSetMethod(Builder beanBuilder, ClassName className, TypeName javaTypeClassName, String columnName, Column column) {
+    private void buildSetMethod(Builder beanBuilder, ClassName className, TypeName javaTypeClassName, String propertyName, Column column) {
         com.squareup.javapoet.MethodSpec.Builder setMethodBuilder =
-                MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(columnName))).returns(className)
-                        .addModifiers(Modifier.PUBLIC).addParameter(javaTypeClassName, StringUtil.removeUnderline(columnName))
-                        .addStatement("dataMap.put($S,$L)", StringUtil.removeUnderline(columnName), StringUtil.removeUnderline(columnName))
+                MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(propertyName)).returns(className)
+                        .addModifiers(Modifier.PUBLIC).addParameter(javaTypeClassName, propertyName)
+                        .addStatement("dataMap.put($S,$L)", propertyName, propertyName)
                         .addStatement("return this");
         if (column.getNote() != null && column.getNote().length() > 0) {
             setMethodBuilder.addJavadoc("$L", column.getNote());
@@ -213,11 +216,11 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         beanBuilder.addMethod(setMethodBuilder.build());
     }
 
-    private void buildGetMethod(Builder beanBuilder, TypeName javaTypeClassName, String columnName, Column column) {
+    private void buildGetMethod(Builder beanBuilder, TypeName javaTypeClassName, String propertyName, Column column) {
         com.squareup.javapoet.MethodSpec.Builder getMethodBuilder =
-                MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(columnName))).addModifiers(Modifier.PUBLIC)
+                MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(propertyName)).addModifiers(Modifier.PUBLIC)
                         .returns(javaTypeClassName)
-                        .addCode(CodeBlock.builder().addStatement("Object val = dataMap.get($S)", StringUtil.removeUnderline(columnName))
+                        .addCode(CodeBlock.builder().addStatement("Object val = dataMap.get($S)", propertyName)
                                 .beginControlFlow("if (null == val)").addStatement("return null").endControlFlow().addStatement("return ($T)val", javaTypeClassName)
                                 .build());
         if (column.getNote() != null && column.getNote().length() > 0) {

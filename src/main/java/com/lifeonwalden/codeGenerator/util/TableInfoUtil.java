@@ -46,4 +46,10 @@ public interface TableInfoUtil {
 
         return "String".equalsIgnoreCase(javaType) || "java.lang.String".equalsIgnoreCase(javaType);
     }
+
+    static boolean allowedDateRange(Column column) {
+        JdbcTypeEnum jdbcType = JdbcTypeEnum.nameOf(column.getType().toUpperCase());
+        return jdbcType.equals(JdbcTypeEnum.DATE) || jdbcType.equals(JdbcTypeEnum.DATETIME) || jdbcType.equals(JdbcTypeEnum.TIME)
+                || jdbcType.equals(JdbcTypeEnum.TIMESTAMP);
+    }
 }

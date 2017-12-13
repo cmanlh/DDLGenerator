@@ -4,15 +4,14 @@ import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.DefinedMappingID;
-import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
 import com.lifeonwalden.codeGenerator.constant.SpecialInnerSuffix;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
 import com.lifeonwalden.codeGenerator.util.BatisMappingUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
+import com.lifeonwalden.codeGenerator.util.TableInfoUtil;
 import org.mybatis.generator.dom.xml.Attribute;
-import org.mybatis.generator.dom.xml.TextElement;
 import org.mybatis.generator.dom.xml.XmlElement;
 
 public class SQLConditionElementGenerator implements TableElementGenerator {
@@ -25,9 +24,7 @@ public class SQLConditionElementGenerator implements TableElementGenerator {
             String propertyName = StringUtil.removeUnderline(column.getName());
             element.addElement(BatisMappingUtil.ifConditionFragment(column, propertyName, "AND ", "", " = "));
 
-            JdbcTypeEnum jdbcType = JdbcTypeEnum.nameOf(column.getType().toUpperCase());
-            if (jdbcType.equals(JdbcTypeEnum.DATE) || jdbcType.equals(JdbcTypeEnum.DATETIME) || jdbcType.equals(JdbcTypeEnum.TIME)
-                    || jdbcType.equals(JdbcTypeEnum.TIMESTAMP)) {
+            if (TableInfoUtil.allowedDateRange(column)) {
                 dateFieldExtension(column, element);
             }
         }
