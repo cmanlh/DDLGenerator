@@ -68,6 +68,7 @@ public class XMLMapperGenerator implements DomGenerator {
     private SelectWildElementGenerator selectWildElementGenerator = new SelectWildElementGenerator();
     private SQLDirectSelectElementGenerator sqlDirectSelectElementGenerator = new SQLDirectSelectElementGenerator();
     private SQLSelectElementGenerator sqlSelectElementGenerator = new SQLSelectElementGenerator();
+    private SQLOrderByElementGenerator sqlOrderByElementGenerator = new SQLOrderByElementGenerator();
 
     // update
     private DirectUpdateElementGenerator directUpdateElementGenerator = new DirectUpdateElementGenerator();
@@ -136,6 +137,7 @@ public class XMLMapperGenerator implements DomGenerator {
         root.addElement(selectAllElementGenerator.getElement(table, config));
         root.addElement(directSelectElementGenerator.getElement(table, config));
         root.addElement(selectElementGenerator.getElement(table, config));
+        root.addElement(sqlOrderByElementGenerator.getElement(table, config));
         if (supportWildCondition) {
             root.addElement(selectWildElementGenerator.getElement(table, config));
             root.addElement(directSelectWildElementGenerator.getElement(table, config));

@@ -23,6 +23,10 @@ public class DirectSelectAllElementGenerator implements TableElementGenerator {
         includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), DefinedMappingID.DIRECT_QUERY_SQL));
         element.addElement(includeElement);
 
+        includeElement = new XmlElement(XMLTag.INCLUDE.getName());
+        includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), DefinedMappingID.ORDER_BY_SQL));
+        element.addElement(includeElement);
+
         return element;
     }
 }

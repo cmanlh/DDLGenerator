@@ -26,6 +26,7 @@ public interface DefinedMappingID {
     String DIRECT_SELECT_All = "directSelectAll";
     String SELECT_WILD = "selectWild";
     String DIRECT_SELECT_WILD = "directSelectWild";
+    String ORDER_BY_SQL = "orderBySQL";
 
     String INSERT_SQL = "insertSQL";
     String INSERT = "insert";
