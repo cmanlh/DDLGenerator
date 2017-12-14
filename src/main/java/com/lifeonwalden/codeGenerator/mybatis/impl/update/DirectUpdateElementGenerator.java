@@ -21,7 +21,7 @@ public class DirectUpdateElementGenerator implements TableElementGenerator {
         element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), NameUtil.getClassName(table, config)));
 
         XmlElement includeElement = new XmlElement(XMLTag.INCLUDE.getName());
-        includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), DefinedMappingID.DIRECT_QUERY_SQL));
+        includeElement.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), DefinedMappingID.DIRECT_UPDATE_SQL));
         element.addElement(includeElement);
 
         element.addElement(new TextElement(BatisMappingUtil.primaryKeyFragment(table)));
