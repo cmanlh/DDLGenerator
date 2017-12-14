@@ -67,7 +67,7 @@ public interface BatisMappingUtil {
 
     static XmlElement ifDirectSetFragment(Column column, String propertyName, String directFlagProperty) {
         XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
-        ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), directFlagProperty.concat(" != null AND ").concat(directFlagProperty).concat(" == true")));
+        ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), directFlagProperty.concat(" != null and ").concat(directFlagProperty).concat(" == true")));
         StringBuilder valueText = new StringBuilder();
         valueText.append(column.getName()).append(" = ");
         valueFragment(valueText, column, propertyName);
