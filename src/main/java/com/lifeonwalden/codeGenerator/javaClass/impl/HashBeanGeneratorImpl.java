@@ -96,7 +96,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
         Builder beanTypeBuilder =
                 TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC)
-                        .addSuperinterface(AbstractParamMapBean.class);
+                        .superclass(AbstractParamMapBean.class);
 
         beanTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
                 .initializer("$L$L", TableInfoUtil.getSerialVersionUID(table, BeanTypeEnum.HASH_PARAM), "L").build());
