@@ -1,4 +1,4 @@
-package com.lifeonwalden.codeGenerator.mybatis.impl.select;
+package com.lifeonwalden.codeGenerator.mybatis.impl.orderby;
 
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
@@ -23,7 +23,7 @@ public class SQLOrderByElementGenerator implements TableElementGenerator {
         foreachElement.addAttribute(new Attribute(XMLAttribute.COLLECTION.getName(), orderByProperty));
         foreachElement.addAttribute(new Attribute(XMLAttribute.OPEN.getName(), " ORDER BY "));
         foreachElement.addAttribute(new Attribute(XMLAttribute.SEPARATOR.getName(), ","));
-        foreachElement.addElement(new TextElement("item.columnName item.order"));
+        foreachElement.addElement(new TextElement("${item.columnName} ${item.order}"));
 
         XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
         ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), orderByProperty.concat(" != null and ").concat(orderByProperty).concat(".size() > 0")));

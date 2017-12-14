@@ -11,6 +11,7 @@ import com.lifeonwalden.codeGenerator.mybatis.impl.condition.SQLWildConditionEle
 import com.lifeonwalden.codeGenerator.mybatis.impl.delete.*;
 import com.lifeonwalden.codeGenerator.mybatis.impl.insert.InsertElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.impl.insert.SQLInsertElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.orderby.SQLOrderByElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.impl.resultmap.BaseResultMapElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.impl.resultmap.ResultMapElementXcludeDBFieldGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.impl.select.*;
@@ -68,6 +69,8 @@ public class XMLMapperGenerator implements DomGenerator {
     private SelectWildElementGenerator selectWildElementGenerator = new SelectWildElementGenerator();
     private SQLDirectSelectElementGenerator sqlDirectSelectElementGenerator = new SQLDirectSelectElementGenerator();
     private SQLSelectElementGenerator sqlSelectElementGenerator = new SQLSelectElementGenerator();
+
+    // order by
     private SQLOrderByElementGenerator sqlOrderByElementGenerator = new SQLOrderByElementGenerator();
 
     // update
@@ -130,6 +133,9 @@ public class XMLMapperGenerator implements DomGenerator {
         root.addElement(sqlInsertElementGenerator.getElement(table, config));
         root.addElement(insertElementGenerator.getElement(table, config));
 
+        // order by
+        root.addElement(sqlOrderByElementGenerator.getElement(table, config));
+
         // select
         root.addElement(sqlDirectSelectElementGenerator.getElement(table, config));
         root.addElement(sqlSelectElementGenerator.getElement(table, config));
@@ -137,7 +143,6 @@ public class XMLMapperGenerator implements DomGenerator {
         root.addElement(selectAllElementGenerator.getElement(table, config));
         root.addElement(directSelectElementGenerator.getElement(table, config));
         root.addElement(selectElementGenerator.getElement(table, config));
-        root.addElement(sqlOrderByElementGenerator.getElement(table, config));
         if (supportWildCondition) {
             root.addElement(selectWildElementGenerator.getElement(table, config));
             root.addElement(directSelectWildElementGenerator.getElement(table, config));
