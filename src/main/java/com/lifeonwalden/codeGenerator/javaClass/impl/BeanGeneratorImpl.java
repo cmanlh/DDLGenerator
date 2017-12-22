@@ -4,55 +4,25 @@ import com.lifeonwalden.codeGenerator.TableBasedGenerator;
 import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
+import com.lifeonwalden.codeGenerator.constant.BeanTypeEnum;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
+import com.lifeonwalden.codeGenerator.util.TableInfoUtil;
+import com.lifeonwalden.forestbatis.biz.bean.BaseBean;
 import com.squareup.javapoet.*;
 import com.squareup.javapoet.TypeSpec.Builder;
 
 import javax.lang.model.element.Modifier;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 
 public class BeanGeneratorImpl implements TableBasedGenerator {
-
-    public static String getParamBeanName(Table table, Config config) {
-        String namePattern = config.getBeanInfo().getParamNamePattern(), name;
-        if (null == namePattern) {
-            name = StringUtil.removeUnderline(table.getName());
-        } else {
-            name = namePattern.replace("?", StringUtil.firstAlphToUpper(StringUtil.removeUnderline(table.getName())));
-        }
-
-        return StringUtil.firstAlphToUpper(name);
-    }
-
-    public static String getExtParamBeanName(Table table, Config config) {
-        String namePattern = config.getBeanInfo().getParamNamePattern(), name;
-        if (null == namePattern) {
-            name = StringUtil.removeUnderline(table.getName()) + "Ext";
-        } else {
-            name = namePattern.replace("?", StringUtil.firstAlphToUpper(StringUtil.removeUnderline(table.getName())) + "Ext");
-        }
-
-        return StringUtil.firstAlphToUpper(name);
-    }
-
-    public static String getResultBeanName(Table table, Config config) {
-        String namePattern = config.getBeanInfo().getResultNamePattern(), name;
-        if (null == namePattern) {
-            name = StringUtil.removeUnderline(table.getName());
-        } else {
-            name = namePattern.replace("?", StringUtil.firstAlphToUpper(StringUtil.removeUnderline(table.getName())));
-        }
-
-        return StringUtil.firstAlphToUpper(name);
-    }
 
     @Override
     public String generate(Table table, Config config) {
         generateParamBean(table, config);
-        if (!getParamBeanName(table, config).equals(getResultBeanName(table, config))) {
+        if (!NameUtil.getParamBeanName(table, config).equals(NameUtil.getResultBeanName(table, config))) {
             generateResultBean(table, config);
         }
 
@@ -60,12 +30,12 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
     }
 
     private void generateParamBean(Table table, Config config) {
-        String className = getParamBeanName(table, config);
+        String className = NameUtil.getParamBeanName(table, config);
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
-        Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(Serializable.class));
+        Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(BaseBean.class));
 
         dtoTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
-                .initializer("$L$L", System.currentTimeMillis(), "L").build());
+                .initializer("$L$L", TableInfoUtil.getSerialVersionUID(table, BeanTypeEnum.POJO_PARAM), "L").build());
 
         for (Column column : table.getColumns()) {
             String javaType = column.getJavaType();
@@ -78,17 +48,19 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
             }
 
             ClassName javaTypeClassName = ClassName.bestGuess(javaType);
-            dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, StringUtil.removeUnderline(column.getName()), Modifier.PRIVATE)
+            String propertyName = StringUtil.removeUnderline(column.getName());
+            String methodNameFragment = StringUtil.firstAlphToUpper(propertyName);
+            dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, propertyName, Modifier.PRIVATE)
                     .addJavadoc("$L", column.getNote()).build());
 
-            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + methodNameFragment)
                     .addModifiers(Modifier.PUBLIC).returns(javaTypeClassName)
-                    .addStatement("return this.$L", StringUtil.removeUnderline(column.getName())).addJavadoc("$L", column.getNote()).build());
+                    .addStatement("return this.$L", propertyName).addJavadoc("$L", column.getNote()).build());
 
-            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + methodNameFragment)
                     .returns(_className).addModifiers(Modifier.PUBLIC)
-                    .addParameter(javaTypeClassName, StringUtil.removeUnderline(column.getName()))
-                    .addStatement("this.$L = $L", StringUtil.removeUnderline(column.getName()), StringUtil.removeUnderline(column.getName()))
+                    .addParameter(javaTypeClassName, propertyName)
+                    .addStatement("this.$L = $L", propertyName, propertyName)
                     .addStatement("return this").addJavadoc("$L", column.getNote()).build());
         }
 
@@ -103,12 +75,12 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
     }
 
     private void generateResultBean(Table table, Config config) {
-        String className = getResultBeanName(table, config);
+        String className = NameUtil.getResultBeanName(table, config);
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
-        Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(Serializable.class));
+        Builder dtoTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).addSuperinterface(ClassName.get(BaseBean.class));
 
         dtoTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
-                .initializer("$L$L", System.currentTimeMillis(), "L").build());
+                .initializer("$L$L", TableInfoUtil.getSerialVersionUID(table, BeanTypeEnum.POJO), "L").build());
 
         for (Column column : table.getColumns()) {
             String javaType = column.getJavaType();
@@ -121,17 +93,19 @@ public class BeanGeneratorImpl implements TableBasedGenerator {
             }
 
             ClassName javaTypeClassName = ClassName.bestGuess(javaType);
-            dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, StringUtil.removeUnderline(column.getName()), Modifier.PRIVATE)
+            String propertyName = StringUtil.removeUnderline(column.getName());
+            String methodNameFragment = StringUtil.firstAlphToUpper(propertyName);
+            dtoTypeBuilder.addField(FieldSpec.builder(javaTypeClassName, propertyName, Modifier.PRIVATE)
                     .addJavadoc("$L", column.getNote()).build());
 
-            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + methodNameFragment)
                     .addModifiers(Modifier.PUBLIC).returns(javaTypeClassName)
-                    .addStatement("return this.$L", StringUtil.removeUnderline(column.getName())).addJavadoc("$L", column.getNote()).build());
+                    .addStatement("return this.$L", propertyName).addJavadoc("$L", column.getNote()).build());
 
-            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(column.getName())))
+            dtoTypeBuilder.addMethod(MethodSpec.methodBuilder("set" + methodNameFragment)
                     .returns(_className).addModifiers(Modifier.PUBLIC)
-                    .addParameter(javaTypeClassName, StringUtil.removeUnderline(column.getName()))
-                    .addStatement("this.$L = $L", StringUtil.removeUnderline(column.getName()), StringUtil.removeUnderline(column.getName()))
+                    .addParameter(javaTypeClassName, propertyName)
+                    .addStatement("this.$L = $L", propertyName, propertyName)
                     .addStatement("return this").addJavadoc("$L", column.getNote()).build());
         }
 

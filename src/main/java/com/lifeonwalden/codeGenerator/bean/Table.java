@@ -22,7 +22,7 @@ public class Table implements Serializable {
     private String note;
 
     @XStreamAsAttribute
-    private Boolean addDBFields = true;
+    private boolean addDBFields = true;
 
     private List<Column> columns;
 
@@ -123,11 +123,11 @@ public class Table implements Serializable {
         this.options = options;
     }
 
-    public Boolean getAddDBFields() {
+    public boolean getAddDBFields() {
         return addDBFields;
     }
 
-    public void setAddDBFields(Boolean addDBFields) {
+    public void setAddDBFields(boolean addDBFields) {
         this.addDBFields = addDBFields;
     }
 

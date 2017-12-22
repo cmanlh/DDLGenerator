@@ -3,16 +3,23 @@ package com.lifeonwalden.codeGenerator.javaClass.impl;
 import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
+import com.lifeonwalden.codeGenerator.constant.BeanTypeEnum;
 import com.lifeonwalden.codeGenerator.constant.JdbcTypeEnum;
+import com.lifeonwalden.codeGenerator.constant.SpecialInnerSuffix;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
+import com.lifeonwalden.codeGenerator.util.TableInfoUtil;
+import com.lifeonwalden.forestbatis.biz.bean.AbstractMapBean;
+import com.lifeonwalden.forestbatis.biz.bean.AbstractParamMapBean;
+import com.lifeonwalden.forestbatis.biz.support.OrderBean;
 import com.squareup.javapoet.*;
 import com.squareup.javapoet.TypeSpec.Builder;
 
 import javax.lang.model.element.Modifier;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
 
@@ -27,44 +34,30 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
     }
 
     private void generateResultBean(Table table, Config config) {
-        String className = getResultBeanName(table, config);
-        ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
+        String className = NameUtil.getResultBeanName(table, config);
+        ClassName beanClass = ClassName.get(config.getBeanInfo().getPackageName(), className);
         Builder beanTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC)
-                .addSuperinterface(ParameterizedTypeName.get(Map.class, String.class, Object.class))
-                .addField(FieldSpec.builder(ParameterizedTypeName.get(Map.class, String.class, Object.class), "dataMap", Modifier.PROTECTED)
-                        .initializer("new $T<String,Object>()", HashMap.class).build());
+                .superclass(AbstractMapBean.class);
+        beanTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
+                .initializer("$L$L", TableInfoUtil.getSerialVersionUID(table, BeanTypeEnum.HASH), "L").build());
 
-        beanTypeBuilder
-                .addMethod(MethodSpec.methodBuilder("size").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(int.class)
-                        .addStatement("return dataMap.size()").build())
-                .addMethod(MethodSpec.methodBuilder("isEmpty").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(boolean.class)
-                        .addStatement("return dataMap.isEmpty()").build())
-                .addMethod(MethodSpec.methodBuilder("containsKey").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(boolean.class)
-                        .addParameter(Object.class, "key").addStatement("return dataMap.containsKey($L)", "key").build())
-                .addMethod(MethodSpec.methodBuilder("containsValue").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(boolean.class)
-                        .addParameter(Object.class, "key").addStatement("return dataMap.containsValue($L)", "key").build())
-                .addMethod(MethodSpec.methodBuilder("get").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(Object.class)
-                        .addParameter(Object.class, "key").addStatement("return dataMap.get($L)", "key").build())
-                .addMethod(MethodSpec.methodBuilder("put").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(Object.class)
-                        .addParameter(String.class, "key").addParameter(Object.class, "value").addStatement("return dataMap.put($L, $L)", "key", "value").build())
-                .addMethod(MethodSpec.methodBuilder("remove").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(Object.class)
-                        .addParameter(Object.class, "key").addStatement("return dataMap.remove($L)", "key").build())
-                .addMethod(MethodSpec.methodBuilder("putAll").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(void.class)
-                        .addParameter(ParameterizedTypeName.get(ClassName.get(Map.class), WildcardTypeName.subtypeOf(String.class),
-                                WildcardTypeName.subtypeOf(Object.class)), "m")
-                        .addStatement("dataMap.putAll($L)", "m").build())
-                .addMethod(MethodSpec.methodBuilder("clear").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(void.class)
-                        .addStatement("dataMap.clear()").build())
-                .addMethod(MethodSpec.methodBuilder("keySet").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC)
-                        .returns(ParameterizedTypeName.get(Set.class, String.class)).addStatement("return dataMap.keySet()").build())
-                .addMethod(MethodSpec.methodBuilder("values").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC)
-                        .returns(ParameterizedTypeName.get(Collection.class, Object.class)).addStatement("return dataMap.values()").build())
-                .addMethod(MethodSpec.methodBuilder("entrySet").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC)
-                        .returns(ParameterizedTypeName.get(ClassName.get(Set.class), ParameterizedTypeName.get(Map.Entry.class, String.class, Object.class)))
-                        .addStatement("return dataMap.entrySet()").build());
+        String orderByProperty = "orderBy", orderByParameter = "orderList";
+        ParameterizedTypeName orderByParamType = ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(OrderBean.class));
+        beanTypeBuilder.addMethod(MethodSpec.methodBuilder("set".concat(StringUtil.firstAlphToUpper(orderByProperty))).returns(beanClass)
+                .addModifiers(Modifier.PUBLIC).addParameter(orderByParamType, orderByParameter)
+                .addStatement("dataMap.put($S,$L)", orderByProperty, orderByParameter)
+                .addStatement("return this").build());
+        beanTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(orderByProperty)).addModifiers(Modifier.PUBLIC)
+                .returns(orderByParamType)
+                .addCode(CodeBlock.builder().addStatement("Object val = dataMap.get($S)", orderByProperty)
+                        .beginControlFlow("if (null == val)").addStatement("return null").endControlFlow().addStatement("return ($T)val", orderByParamType)
+                        .build()).build());
 
         for (Column column : table.getColumns()) {
-            methodBuild(beanTypeBuilder, _className, column);
+            String propertyName = StringUtil.removeUnderline(column.getName());
+            beanTypeBuilder.addField(FieldSpec.builder(String.class, StringUtil.firstAlphToUpper(propertyName), Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC)
+                    .initializer("\"$L\"", propertyName).build());
+            methodBuild(beanTypeBuilder, beanClass, column, true, true);
         }
 
         try {
@@ -88,69 +81,33 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
                 javaType = jdbcType.getJavaType();
             }
             ClassName javaTypeClassName = ClassName.bestGuess(javaType);
+            String propertyName = StringUtil.removeUnderline(column.getName());
             if (!javaTypeClassName.equals(ClassName.get(String.class))) {
                 staticBlock = true;
-                codeBlockBuilder.addStatement("typeMap.put($S, $T.class)", StringUtil.removeUnderline(column.getName()), javaTypeClassName);
+                codeBlockBuilder.addStatement("typeMap.put($S, $T.class)", propertyName, javaTypeClassName);
                 if (javaTypeClassName.equals(ClassName.get(Date.class))) {
-                    codeBlockBuilder.addStatement("typeMap.put($S, $T.class)", StringUtil.removeUnderline(column.getName()).concat("Start"), javaTypeClassName);
-                    codeBlockBuilder.addStatement("typeMap.put($S, $T.class)", StringUtil.removeUnderline(column.getName()).concat("End"), javaTypeClassName);
+                    codeBlockBuilder.addStatement("typeMap.put($S, $T.class)", propertyName.concat(SpecialInnerSuffix.START), javaTypeClassName);
+                    codeBlockBuilder.addStatement("typeMap.put($S, $T.class)", propertyName.concat(SpecialInnerSuffix.END), javaTypeClassName);
                 }
             }
         }
 
-        String className = getParamBeanName(table, config);
+        String className = NameUtil.getParamBeanName(table, config);
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
         Builder beanTypeBuilder =
                 TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC)
-                        .addSuperinterface(
-                                ParameterizedTypeName.get(Map.class, String.class, Object.class))
-                        .addField(FieldSpec.builder(ParameterizedTypeName.get(Map.class, String.class, Object.class), "dataMap", Modifier.PROTECTED)
-                                .initializer("new $T<String,Object>()", HashMap.class).build())
-                        .addField(FieldSpec.builder(
-                                ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(String.class),
-                                        ParameterizedTypeName.get(ClassName.get(Class.class), WildcardTypeName.subtypeOf(Object.class))),
-                                "typeMap", Modifier.PROTECTED, Modifier.STATIC).initializer("new $T<String,Class<?>>()", HashMap.class).build());
+                        .superclass(AbstractParamMapBean.class);
+
+        beanTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
+                .initializer("$L$L", TableInfoUtil.getSerialVersionUID(table, BeanTypeEnum.HASH_PARAM), "L").build());
+
         if (staticBlock) {
             beanTypeBuilder.addStaticBlock(codeBlockBuilder.build());
         }
 
-        beanTypeBuilder
-                .addMethod(MethodSpec.methodBuilder("size").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(int.class)
-                        .addStatement("return dataMap.size()").build())
-                .addMethod(MethodSpec.methodBuilder("isEmpty").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(boolean.class)
-                        .addStatement("return dataMap.isEmpty()").build())
-                .addMethod(MethodSpec.methodBuilder("containsKey").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(boolean.class)
-                        .addParameter(Object.class, "key").addStatement("return dataMap.containsKey($L)", "key").build())
-                .addMethod(MethodSpec.methodBuilder("containsValue").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(boolean.class)
-                        .addParameter(Object.class, "key").addStatement("return dataMap.containsValue($L)", "key").build())
-                .addMethod(MethodSpec.methodBuilder("get").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(Object.class)
-                        .addParameter(Object.class, "key").addStatement("return dataMap.get($L)", "key").build())
-                .addMethod(MethodSpec.methodBuilder("remove").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(Object.class)
-                        .addParameter(Object.class, "key").addStatement("return dataMap.remove($L)", "key").build())
-                .addMethod(MethodSpec.methodBuilder("putAll").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(void.class)
-                        .addParameter(ParameterizedTypeName.get(ClassName.get(Map.class), WildcardTypeName.subtypeOf(String.class),
-                                WildcardTypeName.subtypeOf(Object.class)), "m")
-                        .addStatement("dataMap.putAll($L)", "m").build())
-                .addMethod(MethodSpec.methodBuilder("clear").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(void.class)
-                        .addStatement("dataMap.clear()").build())
-                .addMethod(MethodSpec.methodBuilder("keySet").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC)
-                        .returns(ParameterizedTypeName.get(Set.class, String.class)).addStatement("return dataMap.keySet()").build())
-                .addMethod(MethodSpec.methodBuilder("values").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC)
-                        .returns(ParameterizedTypeName.get(Collection.class, Object.class)).addStatement("return dataMap.values()").build())
-                .addMethod(MethodSpec.methodBuilder("entrySet").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC)
-                        .returns(ParameterizedTypeName.get(ClassName.get(Set.class), ParameterizedTypeName.get(Map.Entry.class, String.class, Object.class)))
-                        .addStatement("return dataMap.entrySet()").build());
-
         for (Column column : table.getColumns()) {
-            methodBuild(beanTypeBuilder, _className, column);
+            methodBuild(beanTypeBuilder, _className, column, true, false);
         }
-
-        beanTypeBuilder.addMethod(MethodSpec.methodBuilder("put").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(Object.class)
-                .addParameter(String.class, "key").addParameter(Object.class, "value")
-                .addCode(
-                        "if (null == value) { return dataMap.remove(key); } Class<?> clazz = typeMap.get(key);Object _value = null;if (null == clazz || clazz.isInstance(value)) {_value = value;} else if ($T.class.isInstance(value)) { if ($T.class.equals(clazz)) { _value = Integer.valueOf((String) value);} else if ($T.class.equals(clazz)) { _value = new BigDecimal((String) value); } else if ($T.class.equals(clazz)) { _value = new Boolean((String) value); } else if ($T.class.equals(clazz)) { _value = new Date($T.parseLong((String) value)); } else if ($T.class.equals(clazz)) { _value = Long.parseLong((String) value); } else { throw new RuntimeException(\"Invalid data format : \" + key); }} else {throw new RuntimeException(\"Invalid data format : \" + key);} return dataMap.put(key, _value);",
-                        String.class, Integer.class, BigDecimal.class, Boolean.class, Date.class, Long.class, Long.class)
-                .build());
 
         try {
             JavaFileTmp.builder(config.getBeanInfo().getPackageName(), beanTypeBuilder.build()).build().writeTo(
@@ -179,17 +136,21 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
             }
         }
 
-        String parentClassName = getParamBeanName(table, config);
-        String className = getExtParamBeanName(table, config);
+        String parentClassName = NameUtil.getParamBeanName(table, config);
+        String className = NameUtil.getExtParamBeanName(table, config);
         ClassName _parentClassName = ClassName.get(config.getBeanInfo().getPackageName(), parentClassName);
         ClassName _className = ClassName.get(config.getBeanInfo().getPackageName(), className);
         Builder beanTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC).superclass(_parentClassName);
+
+        beanTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
+                .initializer("$L$L", TableInfoUtil.getSerialVersionUID(table, BeanTypeEnum.HASH_EXT_PARAM), "L").build());
+
         if (staticBlock) {
             beanTypeBuilder.addStaticBlock(codeBlockBuilder.build());
         }
 
         for (Column column : table.getExtProps()) {
-            methodBuild(beanTypeBuilder, _className, column);
+            methodBuild(beanTypeBuilder, _className, column, false, false);
         }
 
         try {
@@ -200,7 +161,7 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         }
     }
 
-    private void methodBuild(Builder beanBuilder, ClassName className, Column column) {
+    private void methodBuild(Builder beanBuilder, ClassName beanClass, Column column, boolean advanced, boolean complicated) {
         String javaType = column.getJavaType();
         if (null == javaType) {
             JdbcTypeEnum jdbcType = JdbcTypeEnum.nameOf(column.getType().toUpperCase());
@@ -209,27 +170,61 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
             }
             javaType = jdbcType.getJavaType();
         }
-
         ClassName javaTypeClassName = ClassName.bestGuess(javaType);
-        buildSetMethod(beanBuilder, className, javaTypeClassName, column.getName(), column);
-        buildGetMethod(beanBuilder, javaTypeClassName, column.getName(), column);
+        ParameterizedTypeName parameterizedTypeName = ParameterizedTypeName.get(ClassName.get(List.class), javaTypeClassName);
+        String propertyName = StringUtil.removeUnderline(column.getName());
 
-        if (javaTypeClassName.equals(ClassName.get(Date.class))) {
-            String dateStartName = column.getName().concat("Start");
-            buildSetMethod(beanBuilder, className, javaTypeClassName, dateStartName, column);
-            buildGetMethod(beanBuilder, javaTypeClassName, dateStartName, column);
+        buildSetMethod(beanBuilder, beanClass, javaTypeClassName, propertyName, column);
+        buildGetMethod(beanBuilder, javaTypeClassName, propertyName, column);
 
-            String dateEndName = column.getName().concat("End");
-            buildSetMethod(beanBuilder, className, javaTypeClassName, dateEndName, column);
-            buildGetMethod(beanBuilder, javaTypeClassName, dateEndName, column);
+        if (advanced) {
+            if (TableInfoUtil.allowedDateRange(column)) {
+                String dateStartName = propertyName.concat(SpecialInnerSuffix.START);
+                buildSetMethod(beanBuilder, beanClass, javaTypeClassName, dateStartName, column);
+                buildGetMethod(beanBuilder, javaTypeClassName, dateStartName, column);
+
+                String dateEndName = propertyName.concat(SpecialInnerSuffix.END);
+                buildSetMethod(beanBuilder, beanClass, javaTypeClassName, dateEndName, column);
+                buildGetMethod(beanBuilder, javaTypeClassName, dateEndName, column);
+            }
+        }
+
+        if (complicated) {
+            String pickedName = propertyName.concat(SpecialInnerSuffix.PICKED);
+            buildSetMethod(beanBuilder, beanClass, ClassName.get(Boolean.class), pickedName, column);
+            buildGetMethod(beanBuilder, ClassName.get(Boolean.class), pickedName, column);
+
+            if (column.isEnableIn()) {
+                String inName = propertyName.concat(SpecialInnerSuffix.IN);
+                buildSetMethod(beanBuilder, beanClass, parameterizedTypeName, inName, column);
+                buildGetMethod(beanBuilder, parameterizedTypeName, inName, column);
+            }
+
+            if (column.isEnableNotIn()) {
+                String notInName = propertyName.concat(SpecialInnerSuffix.NOT_IN);
+                buildSetMethod(beanBuilder, beanClass, parameterizedTypeName, notInName, column);
+                buildGetMethod(beanBuilder, parameterizedTypeName, notInName, column);
+            }
+
+            if (column.isEnableLike() && TableInfoUtil.allowedLike(column)) {
+                String likeName = propertyName.concat(SpecialInnerSuffix.LIKE);
+                buildSetMethod(beanBuilder, beanClass, javaTypeClassName, likeName, column);
+                buildGetMethod(beanBuilder, javaTypeClassName, likeName, column);
+            }
+
+            if (column.isEnableNotLike() && TableInfoUtil.allowedLike(column)) {
+                String notLikeName = propertyName.concat(SpecialInnerSuffix.NOT_LIKE);
+                buildSetMethod(beanBuilder, beanClass, javaTypeClassName, notLikeName, column);
+                buildGetMethod(beanBuilder, javaTypeClassName, notLikeName, column);
+            }
         }
     }
 
-    private void buildSetMethod(Builder beanBuilder, ClassName className, ClassName javaTypeClassName, String columnName, Column column) {
+    private void buildSetMethod(Builder beanBuilder, ClassName className, TypeName javaTypeClassName, String propertyName, Column column) {
         com.squareup.javapoet.MethodSpec.Builder setMethodBuilder =
-                MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(columnName))).returns(className)
-                        .addModifiers(Modifier.PUBLIC).addParameter(javaTypeClassName, StringUtil.removeUnderline(columnName))
-                        .addStatement("dataMap.put($S,$L)", StringUtil.removeUnderline(columnName), StringUtil.removeUnderline(columnName))
+                MethodSpec.methodBuilder("set" + StringUtil.firstAlphToUpper(propertyName)).returns(className)
+                        .addModifiers(Modifier.PUBLIC).addParameter(javaTypeClassName, propertyName)
+                        .addStatement("dataMap.put($S,$L)", propertyName, propertyName)
                         .addStatement("return this");
         if (column.getNote() != null && column.getNote().length() > 0) {
             setMethodBuilder.addJavadoc("$L", column.getNote());
@@ -237,11 +232,11 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         beanBuilder.addMethod(setMethodBuilder.build());
     }
 
-    private void buildGetMethod(Builder beanBuilder, ClassName javaTypeClassName, String columnName, Column column) {
+    private void buildGetMethod(Builder beanBuilder, TypeName javaTypeClassName, String propertyName, Column column) {
         com.squareup.javapoet.MethodSpec.Builder getMethodBuilder =
-                MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(StringUtil.removeUnderline(columnName))).addModifiers(Modifier.PUBLIC)
+                MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(propertyName)).addModifiers(Modifier.PUBLIC)
                         .returns(javaTypeClassName)
-                        .addCode(CodeBlock.builder().addStatement("Object val = dataMap.get($S)", StringUtil.removeUnderline(columnName))
+                        .addCode(CodeBlock.builder().addStatement("Object val = dataMap.get($S)", propertyName)
                                 .beginControlFlow("if (null == val)").addStatement("return null").endControlFlow().addStatement("return ($T)val", javaTypeClassName)
                                 .build());
         if (column.getNote() != null && column.getNote().length() > 0) {
