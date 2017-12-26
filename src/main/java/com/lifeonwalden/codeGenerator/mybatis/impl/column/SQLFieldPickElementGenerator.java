@@ -4,7 +4,6 @@ import com.lifeonwalden.codeGenerator.bean.Column;
 import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.constant.DefinedMappingID;
-import com.lifeonwalden.codeGenerator.constant.SpecialInnerSuffix;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
@@ -16,36 +15,29 @@ import org.mybatis.generator.dom.xml.XmlElement;
 public class SQLFieldPickElementGenerator implements TableElementGenerator {
 
     public static XmlElement setupTrimElement(Table table, String columnPrefix) {
-        XmlElement trimElement = new XmlElement(XMLTag.TRIM.getName());
-        trimElement.addAttribute(new Attribute(XMLAttribute.SUFFIX_OVERRIDES.getName(), ","));
+        final String PICKED_COLUMN_LIST = "pickedColumnList";
+        XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
+        ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), PICKED_COLUMN_LIST.concat(" != null and ").concat(PICKED_COLUMN_LIST).concat(".size() > 0")));
 
-        if (StringUtil.isNotBlank(columnPrefix)) {
-            for (Column column : table.getColumns()) {
-                String columnName = StringUtil.removeUnderline(column.getName());
-                XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
-                String pickedName = columnName.concat(SpecialInnerSuffix.PICKED);
-                ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), pickedName.concat(" != null and ").concat(pickedName).concat(" == true")));
+        XmlElement foreachElement = new XmlElement(XMLTag.FOR_EACH.getName());
+        foreachElement.addAttribute(new Attribute(XMLAttribute.ITEM.getName(), "item"));
+        foreachElement.addAttribute(new Attribute(XMLAttribute.COLLECTION.getName(), PICKED_COLUMN_LIST));
+        foreachElement.addAttribute(new Attribute(XMLAttribute.SEPARATOR.getName(), ","));
+        ifElement.addElement(foreachElement);
 
-                TextElement fieldText = new TextElement(columnPrefix.concat(column.getName().concat(",")));
-                ifElement.addElement(fieldText);
+        for (Column column : table.getColumns()) {
+            String columnName = StringUtil.removeUnderline(column.getName());
+            XmlElement ifColElement = new XmlElement(XMLTag.IF.getName());
+            ifColElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), "item".concat(" == '").concat(columnName).concat("'")));
 
-                trimElement.addElement(ifElement);
-            }
-        } else {
-            for (Column column : table.getColumns()) {
-                String columnName = StringUtil.removeUnderline(column.getName());
-                String pickedName = columnName.concat(SpecialInnerSuffix.PICKED);
-                XmlElement ifElement = new XmlElement(XMLTag.IF.getName());
-                ifElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), pickedName.concat(" != null and ").concat(pickedName).concat(" == true")));
+            String _columnPrefix = StringUtil.isNotBlank(columnPrefix) ? columnPrefix : "";
+            TextElement fieldText = new TextElement(_columnPrefix.concat(column.getName()));
+            ifColElement.addElement(fieldText);
 
-                TextElement fieldText = new TextElement(column.getName().concat(","));
-                ifElement.addElement(fieldText);
-
-                trimElement.addElement(ifElement);
-            }
+            foreachElement.addElement(ifColElement);
         }
 
-        return trimElement;
+        return ifElement;
     }
 
     public XmlElement getElement(Table table, Config config) {

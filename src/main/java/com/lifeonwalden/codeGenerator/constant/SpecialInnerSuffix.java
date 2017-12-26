@@ -1,7 +1,7 @@
 package com.lifeonwalden.codeGenerator.constant;
 
 public interface SpecialInnerSuffix {
-
+    @Deprecated
     String PICKED = "Picked";
 
     String START = "Start";

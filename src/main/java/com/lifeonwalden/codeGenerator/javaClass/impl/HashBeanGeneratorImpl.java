@@ -9,9 +9,8 @@ import com.lifeonwalden.codeGenerator.constant.SpecialInnerSuffix;
 import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import com.lifeonwalden.codeGenerator.util.TableInfoUtil;
-import com.lifeonwalden.forestbatis.biz.bean.AbstractMapBean;
+import com.lifeonwalden.forestbatis.biz.bean.AbstractDTOMapBean;
 import com.lifeonwalden.forestbatis.biz.bean.AbstractParamMapBean;
-import com.lifeonwalden.forestbatis.biz.support.OrderBean;
 import com.squareup.javapoet.*;
 import com.squareup.javapoet.TypeSpec.Builder;
 
@@ -37,21 +36,9 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         String className = NameUtil.getResultBeanName(table, config);
         ClassName beanClass = ClassName.get(config.getBeanInfo().getPackageName(), className);
         Builder beanTypeBuilder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC)
-                .superclass(AbstractMapBean.class);
+                .superclass(ParameterizedTypeName.get(ClassName.get(AbstractDTOMapBean.class), beanClass));
         beanTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
                 .initializer("$L$L", TableInfoUtil.getSerialVersionUID(table, BeanTypeEnum.HASH), "L").build());
-
-        String orderByProperty = "orderBy", orderByParameter = "orderList";
-        ParameterizedTypeName orderByParamType = ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(OrderBean.class));
-        beanTypeBuilder.addMethod(MethodSpec.methodBuilder("set".concat(StringUtil.firstAlphToUpper(orderByProperty))).returns(beanClass)
-                .addModifiers(Modifier.PUBLIC).addParameter(orderByParamType, orderByParameter)
-                .addStatement("dataMap.put($S,$L)", orderByProperty, orderByParameter)
-                .addStatement("return this").build());
-        beanTypeBuilder.addMethod(MethodSpec.methodBuilder("get" + StringUtil.firstAlphToUpper(orderByProperty)).addModifiers(Modifier.PUBLIC)
-                .returns(orderByParamType)
-                .addCode(CodeBlock.builder().addStatement("Object val = dataMap.get($S)", orderByProperty)
-                        .beginControlFlow("if (null == val)").addStatement("return null").endControlFlow().addStatement("return ($T)val", orderByParamType)
-                        .build()).build());
 
         for (Column column : table.getColumns()) {
             String propertyName = StringUtil.removeUnderline(column.getName());
@@ -190,10 +177,6 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         }
 
         if (complicated) {
-            String pickedName = propertyName.concat(SpecialInnerSuffix.PICKED);
-            buildSetMethod(beanBuilder, beanClass, ClassName.get(Boolean.class), pickedName, column);
-            buildGetMethod(beanBuilder, ClassName.get(Boolean.class), pickedName, column);
-
             if (column.isEnableIn()) {
                 String inName = propertyName.concat(SpecialInnerSuffix.IN);
                 buildSetMethod(beanBuilder, beanClass, parameterizedTypeName, inName, column);
