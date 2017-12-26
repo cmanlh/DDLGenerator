@@ -24,7 +24,6 @@ import java.util.List;
 /**
  * work with below mapping generator class, it's deprecated.
  *
- * @see com.lifeonwalden.codeGenerator.mybatis.impl.select.SQLDirectSelectElementGeneratorDeprecated
  * @see com.lifeonwalden.codeGenerator.mybatis.impl.update.SQLDirectUpdateElementGeneratorDeprecated
  * <p>
  * Please use below version
