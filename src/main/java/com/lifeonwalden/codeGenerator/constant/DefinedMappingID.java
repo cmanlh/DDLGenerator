@@ -13,6 +13,7 @@ public interface DefinedMappingID {
 
     String CONDITION = "condition";
     String WILD_CONDITION = "wildCondition";
+    String DELETE_CONDITION = "deleteCondition";
     String QUERY_CONDITION = "queryCondition";
     String QUERY_WILD_CONDITION = "queryWildCondition";
 

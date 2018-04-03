@@ -4,10 +4,7 @@ import com.lifeonwalden.codeGenerator.bean.Table;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.mybatis.DomGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.impl.column.*;
-import com.lifeonwalden.codeGenerator.mybatis.impl.condition.SQLConditionElementGenerator;
-import com.lifeonwalden.codeGenerator.mybatis.impl.condition.SQLQueryConditionElementGenerator;
-import com.lifeonwalden.codeGenerator.mybatis.impl.condition.SQLQueryWildConditionElementGenerator;
-import com.lifeonwalden.codeGenerator.mybatis.impl.condition.SQLWildConditionElementGenerator;
+import com.lifeonwalden.codeGenerator.mybatis.impl.condition.*;
 import com.lifeonwalden.codeGenerator.mybatis.impl.delete.*;
 import com.lifeonwalden.codeGenerator.mybatis.impl.insert.InsertElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.impl.insert.SQLInsertElementGenerator;
@@ -38,6 +35,7 @@ public class XMLMapperGenerator implements DomGenerator {
 
     // condition
     private SQLConditionElementGenerator sqlConditionElementGenerator = new SQLConditionElementGenerator();
+    private SQLDeleteConditionElementGenerator sqlDeleteConditionElementGenerator = new SQLDeleteConditionElementGenerator();
     private SQLQueryConditionElementGenerator sqlQueryConditionElementGenerator = new SQLQueryConditionElementGenerator();
     private SQLQueryWildConditionElementGenerator sqlQueryWildConditionElementGenerator = new SQLQueryWildConditionElementGenerator();
     private SQLWildConditionElementGenerator sqlWildConditionElementGenerator = new SQLWildConditionElementGenerator();
@@ -110,6 +108,7 @@ public class XMLMapperGenerator implements DomGenerator {
         // condition
         root.addElement(sqlConditionElementGenerator.getElement(table, config));
         root.addElement(sqlQueryConditionElementGenerator.getElement(table, config));
+        root.addElement(sqlDeleteConditionElementGenerator.getElement(table, config));
         if (supportWildCondition) {
             root.addElement(sqlWildConditionElementGenerator.getElement(table, config));
             root.addElement(sqlQueryWildConditionElementGenerator.getElement(table, config));

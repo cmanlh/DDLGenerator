@@ -25,16 +25,19 @@ public class SQLFieldPickElementGenerator implements TableElementGenerator {
         foreachElement.addAttribute(new Attribute(XMLAttribute.SEPARATOR.getName(), ","));
         ifElement.addElement(foreachElement);
 
+        XmlElement chooseElement = new XmlElement(XMLTag.CHOOSE.getName());
+        foreachElement.addElement(chooseElement);
+
         for (Column column : table.getColumns()) {
             String columnName = StringUtil.removeUnderline(column.getName());
-            XmlElement ifColElement = new XmlElement(XMLTag.IF.getName());
-            ifColElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), "item".concat(" == '").concat(columnName).concat("'")));
+            XmlElement whenElement = new XmlElement(XMLTag.WHEN.getName());
+            whenElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), "item".concat(" == '").concat(columnName).concat("'")));
 
             String _columnPrefix = StringUtil.isNotBlank(columnPrefix) ? columnPrefix : "";
             TextElement fieldText = new TextElement(_columnPrefix.concat(column.getName()));
-            ifColElement.addElement(fieldText);
+            whenElement.addElement(fieldText);
 
-            foreachElement.addElement(ifColElement);
+            chooseElement.addElement(whenElement);
         }
 
         return ifElement;

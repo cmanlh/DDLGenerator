@@ -37,6 +37,9 @@ public class SQLDirectUpdateElementGenerator implements TableElementGenerator {
         foreachElement.addAttribute(new Attribute(XMLAttribute.SEPARATOR.getName(), ","));
         ifElement.addElement(foreachElement);
 
+        XmlElement chooseElement = new XmlElement(XMLTag.CHOOSE.getName());
+        foreachElement.addElement(chooseElement);
+
         for (Column column : table.getColumns()) {
             if (column.getConstraintType() == ColumnConstraintEnum.PRIMARY_KEY
                     || column.getConstraintType() == ColumnConstraintEnum.UNION_PRIMARY_KEY) {
@@ -44,13 +47,13 @@ public class SQLDirectUpdateElementGenerator implements TableElementGenerator {
             }
 
             String propertyName = StringUtil.removeUnderline(column.getName());
-            XmlElement ifSetElement = new XmlElement(XMLTag.IF.getName());
-            ifSetElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), "item".concat(" == '").concat(propertyName).concat("'")));
+            XmlElement whenElement = new XmlElement(XMLTag.WHEN.getName());
+            whenElement.addAttribute(new Attribute(XMLAttribute.TEST.getName(), "item".concat(" == '").concat(propertyName).concat("'")));
             StringBuilder valueText = new StringBuilder();
             valueText.append(column.getName()).append(" = ");
             BatisMappingUtil.valueFragment(valueText, column, propertyName);
-            ifSetElement.addElement(new TextElement(valueText.toString()));
-            foreachElement.addElement(ifSetElement);
+            whenElement.addElement(new TextElement(valueText.toString()));
+            chooseElement.addElement(whenElement);
         }
 
         return element;
