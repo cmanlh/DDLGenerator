@@ -6,6 +6,7 @@ import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.TextElement;
 import org.mybatis.generator.dom.xml.XmlElement;
@@ -19,7 +20,7 @@ public class RemoveElementGenerator implements TableElementGenerator {
         element.addAttribute(new Attribute(XMLAttribute.ID.getName(), "remove"));
         element.addAttribute(new Attribute(XMLAttribute.PARAMETER_TYPE.getName(), className));
 
-        TextElement fromElement = new TextElement("delete from ".concat(table.getName()));
+        TextElement fromElement = new TextElement("delete from ".concat(NameUtil.getTableName(table,config)));
         element.addElement(fromElement);
 
         XmlElement includeElement = new XmlElement(XMLTag.INCLUDE.getName());

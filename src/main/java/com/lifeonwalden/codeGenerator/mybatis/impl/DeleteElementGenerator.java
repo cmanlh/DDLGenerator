@@ -8,6 +8,7 @@ import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.TextElement;
@@ -28,7 +29,7 @@ public class DeleteElementGenerator implements TableElementGenerator {
 
         List<Column> primaryKey = table.getPrimaryColumns();
         if (null != primaryKey && primaryKey.size() > 0) {
-            sb.append("delete from ").append(table.getName()).append(" where ");
+            sb.append("delete from ").append(NameUtil.getTableName(table,config)).append(" where ");
             for (Column column : primaryKey) {
                 sb.append(column.getName()).append(" = ");
                 sb.append("#{").append(StringUtil.removeUnderline(column.getName())).append(", jdbcType=")

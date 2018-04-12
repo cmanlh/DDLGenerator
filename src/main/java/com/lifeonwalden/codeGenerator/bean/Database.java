@@ -25,6 +25,9 @@ public class Database implements Serializable {
     @XStreamAsAttribute
     private String generator;
 
+    @XStreamAsAttribute
+    private boolean withSchema;
+
     @XStreamOmitField
     private Map<String, EnumConst> constMapping;
 
@@ -98,5 +101,13 @@ public class Database implements Serializable {
 
     public void setGeneratorNode(Generator generatorNode) {
         this.generatorNode = generatorNode;
+    }
+
+    public boolean isWithSchema() {
+        return withSchema;
+    }
+
+    public void setWithSchema(boolean withSchema) {
+        this.withSchema = withSchema;
     }
 }

@@ -6,6 +6,7 @@ import com.lifeonwalden.codeGenerator.javaClass.impl.DAOGeneratorImpl;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.TextElement;
 import org.mybatis.generator.dom.xml.XmlElement;
@@ -25,7 +26,7 @@ public class SQLSelectElementGenerator implements TableElementGenerator {
         element.addElement(includeElement);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("FROM ").append(table.getName());
+        sb.append("FROM ").append(NameUtil.getTableName(table,config));
 
         TextElement fromElement = new TextElement(sb.toString());
         element.addElement(fromElement);

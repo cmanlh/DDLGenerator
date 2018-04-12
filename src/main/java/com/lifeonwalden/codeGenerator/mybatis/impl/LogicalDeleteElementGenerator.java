@@ -8,6 +8,7 @@ import com.lifeonwalden.codeGenerator.javaClass.impl.BeanGeneratorImpl;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.OutputUtilities;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import org.mybatis.generator.dom.xml.Attribute;
@@ -30,7 +31,7 @@ public class LogicalDeleteElementGenerator implements TableElementGenerator {
         List<Column> primaryKey = table.getPrimaryColumns();
         if (null != primaryKey && primaryKey.size() > 0) {
             sb.append("update ")
-                    .append(table.getName())
+                    .append(NameUtil.getTableName(table,config))
                     .append(" set logicalDel = 1, updateTime = #{updateTime, jdbcType=TIMESTAMP}, updateUser = #{updateUser, jdbcType=VARCHAR}")
                     .append(" where ");
             for (Column column : primaryKey) {
