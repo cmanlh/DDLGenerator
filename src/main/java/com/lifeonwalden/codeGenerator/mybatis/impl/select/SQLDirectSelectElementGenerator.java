@@ -25,7 +25,7 @@ public class SQLDirectSelectElementGenerator implements TableElementGenerator {
         element.addElement(includeColumnList);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("FROM ").append(table.getName());
+        sb.append("FROM ").append(NameUtil.getTableName(table,config));
 
         TextElement fromElement = new TextElement(sb.toString());
         element.addElement(fromElement);

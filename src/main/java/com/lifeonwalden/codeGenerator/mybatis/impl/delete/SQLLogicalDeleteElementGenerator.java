@@ -6,6 +6,7 @@ import com.lifeonwalden.codeGenerator.constant.DefinedMappingID;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.TextElement;
 import org.mybatis.generator.dom.xml.XmlElement;
@@ -19,7 +20,7 @@ public class SQLLogicalDeleteElementGenerator implements TableElementGenerator {
 
         StringBuilder sb = new StringBuilder();
         sb.append("update ")
-                .append(table.getName())
+                .append(NameUtil.getTableName(table,config))
                 .append(" set logicalDel = 1, updateTime = #{updateTime, jdbcType=TIMESTAMP}, updateUser = #{updateUser, jdbcType=VARCHAR}");
         element.addElement(new TextElement(sb.toString()));
 

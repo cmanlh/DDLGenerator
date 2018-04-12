@@ -141,7 +141,7 @@
 
             <table name="Enable" addDBFields="false">
                 <columns>
-                    <column name="like1" type="varchar" length="32" enableLike="true" />
+                    <column name="like1" type="varchar" length="32" enableLike="true"/>
                     <column name="like0" type="varchar" length="32" enableLike="false"/>
                     <column name="notLike1" type="varchar" length="32" enableNotLike="true"/>
                     <column name="notLike0" type="varchar" length="32" enableNotLike="false"/>

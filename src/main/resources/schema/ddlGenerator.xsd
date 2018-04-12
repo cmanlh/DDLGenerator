@@ -127,6 +127,7 @@
             <attribute name="schema" type="string"/>
             <attribute name="note" type="string"/>
             <attribute name="generator" type="string"/>
+            <attribute name="withSchema" type="boolean"/>
         </complexType>
     </element>
 

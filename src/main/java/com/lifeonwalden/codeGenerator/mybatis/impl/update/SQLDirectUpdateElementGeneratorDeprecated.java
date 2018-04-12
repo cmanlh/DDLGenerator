@@ -10,6 +10,7 @@ import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
 import com.lifeonwalden.codeGenerator.util.BatisMappingUtil;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.TextElement;
@@ -24,7 +25,7 @@ public class SQLDirectUpdateElementGeneratorDeprecated implements TableElementGe
         element.addAttribute(new Attribute(XMLAttribute.ID.getName(), DefinedMappingID.DIRECT_UPDATE_SQL));
 
         StringBuilder sb = new StringBuilder();
-        sb.append("update ").append(table.getName());
+        sb.append("update ").append(NameUtil.getTableName(table,config));
         element.addElement(new TextElement(sb.toString()));
 
         XmlElement trimElement = new XmlElement(XMLTag.TRIM.getName());

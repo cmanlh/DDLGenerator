@@ -8,6 +8,7 @@ import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
 import com.lifeonwalden.codeGenerator.util.BatisMappingUtil;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import com.lifeonwalden.codeGenerator.util.StringUtil;
 import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.TextElement;
@@ -21,7 +22,7 @@ public class SQLInsertElementGenerator implements TableElementGenerator {
         element.addAttribute(new Attribute(XMLAttribute.ID.getName(), DefinedMappingID.INSERT_SQL));
 
         StringBuilder sb = new StringBuilder();
-        sb.append("insert into ").append(table.getName()).append(" (");
+        sb.append("insert into ").append(NameUtil.getTableName(table,config)).append(" (");
 
         int tmpSize = sb.length();
         for (Column column : table.getColumns()) {

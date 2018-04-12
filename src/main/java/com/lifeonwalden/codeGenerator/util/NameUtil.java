@@ -55,4 +55,17 @@ public interface NameUtil {
     static String getColumnPrefix(Table table) {
         return "pre_".concat(table.getName().toLowerCase()).concat(".");
     }
+
+    static String getTableName(Table table, Config config) {
+        if (table.getDatabase().isWithSchema()) {
+            String schema = table.getDatabase().getSchema();
+            if (StringUtil.isNotBlank(schema)) {
+                return schema.concat(".").concat(table.getName());
+            } else {
+                throw new RuntimeException("Schema is required.");
+            }
+        } else {
+            return table.getName();
+        }
+    }
 }
