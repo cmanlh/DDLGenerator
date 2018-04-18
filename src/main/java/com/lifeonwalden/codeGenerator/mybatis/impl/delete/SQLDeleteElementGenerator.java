@@ -6,6 +6,7 @@ import com.lifeonwalden.codeGenerator.constant.DefinedMappingID;
 import com.lifeonwalden.codeGenerator.mybatis.TableElementGenerator;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLAttribute;
 import com.lifeonwalden.codeGenerator.mybatis.constant.XMLTag;
+import com.lifeonwalden.codeGenerator.util.NameUtil;
 import org.mybatis.generator.dom.xml.Attribute;
 import org.mybatis.generator.dom.xml.TextElement;
 import org.mybatis.generator.dom.xml.XmlElement;
@@ -18,7 +19,7 @@ public class SQLDeleteElementGenerator implements TableElementGenerator {
         element.addAttribute(new Attribute(XMLAttribute.ID.getName(), DefinedMappingID.DELETE_SQL));
 
         StringBuilder sb = new StringBuilder();
-        sb.append("delete from ").append(table.getName());
+        sb.append("delete from ").append(NameUtil.getTableName(table,config));
         element.addElement(new TextElement(sb.toString()));
 
         return element;

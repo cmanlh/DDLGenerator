@@ -23,7 +23,7 @@ public class LogicalRemoveElementGenerator implements TableElementGenerator {
         element.addElement(logicalDeleteSQL);
 
         XmlElement queryCondition = new XmlElement(XMLTag.INCLUDE.getName());
-        queryCondition.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), DefinedMappingID.QUERY_CONDITION));
+        queryCondition.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), DefinedMappingID.DELETE_CONDITION));
         element.addElement(queryCondition);
 
         return element;

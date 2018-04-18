@@ -23,7 +23,7 @@ public class RemoveElementGenerator implements TableElementGenerator {
         element.addElement(deleteSQL);
 
         XmlElement queryCondition = new XmlElement(XMLTag.INCLUDE.getName());
-        queryCondition.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), DefinedMappingID.QUERY_CONDITION));
+        queryCondition.addAttribute(new Attribute(XMLAttribute.REF_ID.getName(), DefinedMappingID.DELETE_CONDITION));
         element.addElement(queryCondition);
 
         return element;
