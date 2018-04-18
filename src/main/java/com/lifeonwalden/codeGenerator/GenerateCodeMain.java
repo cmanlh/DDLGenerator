@@ -208,9 +208,26 @@ public class GenerateCodeMain {
                 return;
             }
             if (null != config.getDaoInfo()) {
-                generatorList.add(new DAOGeneratorImpl());
+                String generatorClass = null;
+                TableBasedGenerator generator1;
+                try {
+                    generatorClass = config.getDaoInfo().getGenerator();
+                    generator1 = (generatorClass == null || generatorClass.length() == 0) ?
+                            new DAOGeneratorImpl() : (TableBasedGenerator) Class.forName(generatorClass).newInstance();
+                    generatorList.add(generator1);
+                } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+                    System.err.println("Not an illegal generator : " + generatorClass);
+                }
+
                 if (null != config.getMybatisInfo()) {
-                    generatorList.add(new XMLMapperGenerator());
+                    try {
+                        generatorClass = config.getMybatisInfo().getGenerator();
+                        generator1 = (generatorClass == null || generatorClass.length() == 0) ?
+                                new XMLMapperGenerator() : (TableBasedGenerator) Class.forName(generatorClass).newInstance();
+                        generatorList.add(generator1);
+                    } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+                        System.err.println("Not an illegal generator : " + generatorClass);
+                    }
                 }
             }
         }

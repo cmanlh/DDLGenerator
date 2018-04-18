@@ -15,6 +15,9 @@ public class MybatisInfo implements Serializable {
     @XStreamAsAttribute
     private String folderName;
 
+    @XStreamAsAttribute
+    private String generator;
+
     public String getNamespace() {
         return namespace;
     }
@@ -29,5 +32,13 @@ public class MybatisInfo implements Serializable {
 
     public void setFolderName(String folderName) {
         this.folderName = folderName;
+    }
+
+    public String getGenerator() {
+        return generator;
+    }
+
+    public void setGenerator(String generator) {
+        this.generator = generator;
     }
 }
