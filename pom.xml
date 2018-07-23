@@ -127,8 +127,8 @@
     </build>
     <scm>
         <url>https://github.com/cmanlh/DDLGenerator.git</url>
-        <connection>scm:git:git@github.com:cmanlh/DDLGenerator.git</connection>
-        <developerConnection>scm:git:git@github.com:cmanlh/DDLGenerator.git</developerConnection>
+        <connection>scm:https://github.com/cmanlh/DDLGenerator.git</connection>
+        <developerConnection>scm:https://github.com/cmanlh/DDLGenerator.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
