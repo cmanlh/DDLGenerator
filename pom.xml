@@ -129,7 +129,7 @@
         <url>https://github.com/cmanlh/DDLGenerator.git</url>
         <connection>scm:git:git@github.com:cmanlh/DDLGenerator.git</connection>
         <developerConnection>scm:git:git@github.com:cmanlh/DDLGenerator.git</developerConnection>
-        <tag>DDLGenerator-2.2.2</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
