@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.lifeonwalden</groupId>
     <artifactId>DDLGenerator</artifactId>
-    <version>2.2.2-SNAPSHOT</version>
+    <version>2.2.2</version>
     <name>DDLGenerator</name>
     <description>A tool to auto generate MyBatis mapping/DAO interface, DTO, and DDL based on the table definition
     </description>
@@ -129,7 +129,7 @@
         <url>https://gitee.com/lifeonwalden/DDLGenerator</url>
         <connection>scm:git:git@gitee.com:lifeonwalden/DDLGenerator.git</connection>
         <developerConnection>scm:git:git@gitee.com:lifeonwalden/DDLGenerator.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>DDLGenerator-2.2.2</tag>
     </scm>
 
     <distributionManagement>
