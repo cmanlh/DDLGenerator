@@ -127,8 +127,8 @@
     </build>
     <scm>
         <url>https://gitee.com/lifeonwalden/DDLGenerator</url>
-        <connection>scm:git@gitee.com:lifeonwalden/DDLGenerator.git</connection>
-        <developerConnection>scm:git@gitee.com:lifeonwalden/DDLGenerator.git</developerConnection>
+        <connection>scm:git:git@gitee.com:lifeonwalden/DDLGenerator.git</connection>
+        <developerConnection>scm:git:git@gitee.com:lifeonwalden/DDLGenerator.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
