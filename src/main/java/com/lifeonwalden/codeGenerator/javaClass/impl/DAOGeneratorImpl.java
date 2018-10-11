@@ -47,6 +47,12 @@ public class DAOGeneratorImpl implements TableBasedGenerator {
                     .addParameter(resultBeanClass, "param").returns(ParameterizedTypeName.get(ClassName.get(List.class), resultBeanClass)).build());
         }
 
+        // TODO
+        daoTypeBuilder.addMethod(MethodSpec.methodBuilder(DefinedMappingID.REMOVE_ALL).addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).addJavadoc("remove all data from table").returns(Integer.class)
+                .addAnnotation(Deprecated.class)
+                .addJavadoc("Not safe operation, please use remove() instead.")
+                .build());
+
         try {
             JavaFileTmp.builder(config.getDaoInfo().getPackageName(), daoTypeBuilder.build()).build().writeTo(
                     new File(new File(config.getOutputLocation()).getPath() + File.separator + config.getDaoInfo().getFolderName()), config.getEncoding());

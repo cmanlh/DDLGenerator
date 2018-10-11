@@ -37,6 +37,7 @@ public interface DefinedMappingID {
     String DELETE = "delete";
     String LOGICAL_DELETE = "logicalDelete";
     String REMOVE = "remove";
+    String REMOVE_ALL = "removeAll";
     String LOGICAL_REMOVE = "logicalRemove";
 
     String UPDATE_SQL = "updateSQL";

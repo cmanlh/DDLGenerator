@@ -40,6 +40,8 @@
             <attribute name="connectionURL" type="string" use="required"/>
             <attribute name="userId" type="string" use="required"/>
             <attribute name="password" type="string" use="required"/>
+            <attribute name="schema" type="string"/>
+            <attribute name="withSchema" type="boolean"/>
         </complexType>
     </element>
 

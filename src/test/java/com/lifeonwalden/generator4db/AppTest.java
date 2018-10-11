@@ -6,7 +6,7 @@ import org.junit.Test;
 public class AppTest {
     @Test
     public void generateCodeMainTest() {
-        String root_path = "D:\\ideaProjects\\DDLGenerator\\";
+        String root_path = "E:\\ideaProjects\\ddlgenerator\\";
         String[] param = {root_path + "resources\\xml2db", root_path + "target"};
 
         GenerateCodeMain.main(param);

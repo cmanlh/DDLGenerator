@@ -1,9 +1,6 @@
 package com.lifeonwalden.codeGenerator;
 
-import com.lifeonwalden.codeGenerator.bean.Column;
-import com.lifeonwalden.codeGenerator.bean.DB;
-import com.lifeonwalden.codeGenerator.bean.DBTable;
-import com.lifeonwalden.codeGenerator.bean.Table;
+import com.lifeonwalden.codeGenerator.bean.*;
 import com.lifeonwalden.codeGenerator.bean.config.Config;
 import com.lifeonwalden.codeGenerator.bean.config.DBSourceGenerator;
 import com.lifeonwalden.codeGenerator.bean.config.ExtentionGenerator;
@@ -20,7 +17,6 @@ import com.thoughtworks.xstream.XStream;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,35 +113,35 @@ public class DBSourceGenerateCodeMain {
 
     private static List<Table> fetchTables(DBSourceGenerator generator, String globalOutputFileLocation) {
         if (generator.getDb() != null) {
-            DB database = generator.getDb();
+            DB db = generator.getDb();
+            Database database = new Database();
+            database.setSchema(db.getSchema());
+            database.setWithSchema(db.isWithSchema());
 
             Map<String, DBTable> tableCache = new HashMap<>();
-            for (DBTable table : database.getTables()) {
-                tableCache.put(table.getName().toUpperCase(), table);
-            }
 
             JDBCConnectionConfiguration jdbcConfig = new JDBCConnectionConfiguration();
-            jdbcConfig.setConnectionURL(database.getConnectionURL());
-            jdbcConfig.setDriverClass(database.getDriverClass());
-            jdbcConfig.setPassword(database.getPassword());
-            jdbcConfig.setUserId(database.getUserId());
+            jdbcConfig.setConnectionURL(db.getConnectionURL());
+            jdbcConfig.setDriverClass(db.getDriverClass());
+            jdbcConfig.setPassword(db.getPassword());
+            jdbcConfig.setUserId(db.getUserId());
 
             ConnectionFactory connFactory = ConnectionFactory.getInstance();
-            try (Connection connection = connFactory.getConnection(jdbcConfig);
-                 PreparedStatement pps =
-                         connection.prepareStatement(DatabaseUserTable.getDatabaseUserTable(DBInfoUtil.getDBType(jdbcConfig))
-                                 .getUserTableRetrievalStatement())) {
-                ResultSet tableResult = pps.executeQuery();
+            try (Connection connection = connFactory.getConnection(jdbcConfig);) {
+                DatabaseMetaData metaData = connection.getMetaData();
                 List<Table> tableList = new ArrayList<Table>();
-                while (tableResult.next()) {
-                    String tableName = tableResult.getString(1);
-                    if (!tableCache.containsKey(tableName.toUpperCase())) {
-                        continue;
+                for (DBTable dbTable : db.getTables()) {
+                    String metaTableParam, tableName = dbTable.getName();
+                    switch (DatabaseUserTable.getDatabaseUserTable(DBInfoUtil.getDBType(jdbcConfig))) {
+                        case ORACLE: {
+                            metaTableParam = tableName.toUpperCase();
+                            break;
+                        }
+                        default:
+                            metaTableParam = tableName;
                     }
 
-                    DatabaseMetaData metaData = connection.getMetaData();
-                    ResultSet columnRS = metaData.getColumns(connection.getCatalog(), null, tableName, null);
-                    DBTable dbTable = tableCache.get(tableName.toUpperCase());
+                    ResultSet columnRS = metaData.getColumns(null, "%", metaTableParam, "%");
 
                     Table table = new Table();
                     table.setName(tableName);
@@ -168,7 +164,7 @@ public class DBSourceGenerateCodeMain {
                     table.setColumnMapping(columnMapping);
                     table.setColumns(columnList);
 
-                    ResultSet pkRS = metaData.getPrimaryKeys(connection.getCatalog(), null, tableName);
+                    ResultSet pkRS = metaData.getPrimaryKeys(null, "%", metaTableParam);
                     List<Column> pkList = new ArrayList<Column>();
                     while (pkRS.next()) {
                         String pk = pkRS.getString("COLUMN_NAME");
@@ -180,8 +176,8 @@ public class DBSourceGenerateCodeMain {
                     }
 
                     table.setExtProps(dbTable.getExtProps());
-
                     table.setPrimaryColumns(pkList);
+                    table.setDatabase(database);
 
                     tableList.add(table);
                 }

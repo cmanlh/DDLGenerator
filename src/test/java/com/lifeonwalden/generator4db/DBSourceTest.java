@@ -59,7 +59,7 @@ public class DBSourceTest {
 
     @Test
     public void generateCodeMainTest() {
-        String root_path = "D:\\ideaProjects\\DDLGenerator\\";
+        String root_path = "";
         String[] param = {root_path + "resources\\db2xml", root_path + "target"};
 
         DBSourceGenerateCodeMain.main(param);

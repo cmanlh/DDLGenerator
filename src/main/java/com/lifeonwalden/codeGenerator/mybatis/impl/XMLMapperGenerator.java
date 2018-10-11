@@ -45,6 +45,7 @@ public class XMLMapperGenerator implements DomGenerator {
     private LogicalDeleteElementGenerator logicalDeleteElementGenerator1 = new LogicalDeleteElementGenerator();
     private LogicalRemoveElementGenerator logicalRemoveElementGenerator = new LogicalRemoveElementGenerator();
     private RemoveElementGenerator removeElementGenerator = new RemoveElementGenerator();
+    private RemoveAllElementGenerator removeAllElementGenerator = new RemoveAllElementGenerator();
     private SQLDeleteElementGenerator sqlDeleteElementGenerator = new SQLDeleteElementGenerator();
     private SQLLogicalDeleteElementGenerator sqlLogicalDeleteElementGenerator = new SQLLogicalDeleteElementGenerator();
 
@@ -117,6 +118,7 @@ public class XMLMapperGenerator implements DomGenerator {
         // delete
         root.addElement(sqlDeleteElementGenerator.getElement(table, config));
         root.addElement(removeElementGenerator.getElement(table, config));
+        root.addElement(removeAllElementGenerator.getElement(table, config));
         if (hasPrimaryKey) {
             root.addElement(deleteElementGenerator.getElement(table, config));
         }
