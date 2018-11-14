@@ -35,7 +35,7 @@ public interface TableInfoUtil {
         }
         hashString.append(beanType.value);
 
-        return hashString.hashCode();
+        return hashString.toString().hashCode();
     }
 
     static boolean allowedLike(Column column) {
