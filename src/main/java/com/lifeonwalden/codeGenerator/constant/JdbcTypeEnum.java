@@ -53,6 +53,21 @@ public enum JdbcTypeEnum {
     /**
      *
      */
+    TEXT("TEXT", -1, "", "java.lang.String"),
+
+    /**
+     *
+     */
+    MEDIUMTEXT("MEDIUMTEXT", -1, "", "java.lang.String"),
+
+    /**
+     *
+     */
+    LONGTEXT("LONGTEXT", -1, "", "java.lang.String"),
+
+    /**
+     *
+     */
     NULL("NULL", 0, "", "java.lang.Object"),
 
     /**
