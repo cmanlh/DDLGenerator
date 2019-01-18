@@ -60,7 +60,7 @@ public class DBSourceTest {
     @Test
     public void generateCodeMainTest() {
         String root_path = "";
-        String[] param = {root_path + "resources\\db2xml", root_path + "target"};
+        String[] param = {"E:\\git\\devtools\\etlConfigNew", root_path + "target"};
 
         DBSourceGenerateCodeMain.main(param);
     }

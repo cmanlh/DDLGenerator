@@ -15,7 +15,7 @@ package com.lifeonwalden.codeGenerator.mybatis.constant;
 
 public enum DatabaseUserTable {
     SQLSERVER("select name from sys.objects where type_desc='USER_TABLE' or type_desc='VIEW' order by name"), HSQLDB(
-            "SELECT table_name FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'"),ORACLE("");
+            "SELECT table_name FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'"),ORACLE(""),MYSQL("");
 
     private String userTableRetrievalStatement;
 
@@ -36,6 +36,8 @@ public enum DatabaseUserTable {
             return returnValue = HSQLDB;
         } else if ("oracle".equalsIgnoreCase(database)) {
             return returnValue = ORACLE;
+        } else if ("mysql".equalsIgnoreCase(database)) {
+            return returnValue = MYSQL;
         }
 
         return returnValue;

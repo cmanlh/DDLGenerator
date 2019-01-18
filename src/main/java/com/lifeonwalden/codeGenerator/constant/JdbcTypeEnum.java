@@ -53,17 +53,17 @@ public enum JdbcTypeEnum {
     /**
      *
      */
-    TEXT("TEXT", -1, "", "java.lang.String"),
+    TEXT("TEXT", -1, "", "java.lang.String", LONGVARCHAR.name),
 
     /**
      *
      */
-    MEDIUMTEXT("MEDIUMTEXT", -1, "", "java.lang.String"),
+    MEDIUMTEXT("MEDIUMTEXT", -1, "", "java.lang.String", LONGVARCHAR.name),
 
     /**
      *
      */
-    LONGTEXT("LONGTEXT", -1, "", "java.lang.String"),
+    LONGTEXT("LONGTEXT", -1, "", "java.lang.String", LONGVARCHAR.name),
 
     /**
      *
@@ -215,11 +215,30 @@ public enum JdbcTypeEnum {
 
     private String javaType;
 
-    private JdbcTypeEnum(String name, int value, String desc, String javaType) {
+    private String jdbcType;
+
+    JdbcTypeEnum(String name, int value, String desc, String javaType) {
         this.name = name;
         this.value = value;
         this.desc = desc;
         this.javaType = javaType;
+        this.jdbcType = name;
+    }
+
+    JdbcTypeEnum(String name, int value, String desc, String javaType, String jdbcType) {
+        this.name = name;
+        this.value = value;
+        this.desc = desc;
+        this.javaType = javaType;
+        this.jdbcType = jdbcType;
+    }
+
+    public static JdbcTypeEnum valueOf(int value) {
+        return valueMapping.get(value);
+    }
+
+    public static JdbcTypeEnum nameOf(String name) {
+        return nameMapping.get(name);
     }
 
     public String getName() {
@@ -242,11 +261,7 @@ public enum JdbcTypeEnum {
         return this.javaType;
     }
 
-    public static JdbcTypeEnum valueOf(int value) {
-        return valueMapping.get(value);
-    }
-
-    public static JdbcTypeEnum nameOf(String name) {
-        return nameMapping.get(name);
+    public String getJdbcType() {
+        return jdbcType;
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public interface BatisMappingUtil {
     static void valueFragment(StringBuilder sb, Column column, String propertyName) {
         sb.append("#{").append(propertyName).append(", jdbcType=")
-                .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getName());
+                .append(JdbcTypeEnum.nameOf(column.getType().toUpperCase()).getJdbcType());
         if (null != column.getTypeHandler()) {
             sb.append(", typeHandler=").append(column.getTypeHandler());
         }

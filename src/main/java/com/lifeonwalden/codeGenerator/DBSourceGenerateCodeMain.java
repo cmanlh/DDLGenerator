@@ -164,7 +164,7 @@ public class DBSourceGenerateCodeMain {
                     table.setColumnMapping(columnMapping);
                     table.setColumns(columnList);
 
-                    ResultSet pkRS = metaData.getPrimaryKeys(null, "%", metaTableParam);
+                    ResultSet pkRS = metaData.getPrimaryKeys(db.getName(), "%", metaTableParam);
                     List<Column> pkList = new ArrayList<Column>();
                     while (pkRS.next()) {
                         String pk = pkRS.getString("COLUMN_NAME");
