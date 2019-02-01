@@ -18,7 +18,9 @@ import javax.lang.model.element.Modifier;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
 
@@ -87,6 +89,10 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
 
         beanTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
                 .initializer("$L$L", TableInfoUtil.getSerialVersionUID(table, BeanTypeEnum.HASH_PARAM), "L").build());
+        beanTypeBuilder.addField(FieldSpec
+                .builder(ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(String.class), ClassName.get(Object.class)), "typeMap", Modifier.PRIVATE,
+                        Modifier.STATIC, Modifier.FINAL)
+                .initializer(CodeBlock.builder().add("new $T()", HashMap.class).build()).build());
 
         if (staticBlock) {
             beanTypeBuilder.addStaticBlock(codeBlockBuilder.build());
