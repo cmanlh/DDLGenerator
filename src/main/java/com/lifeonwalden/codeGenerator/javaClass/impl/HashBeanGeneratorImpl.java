@@ -90,9 +90,13 @@ public class HashBeanGeneratorImpl extends BeanGeneratorImpl {
         beanTypeBuilder.addField(FieldSpec.builder(long.class, "serialVersionUID", Modifier.PRIVATE, Modifier.FINAL, Modifier.STATIC)
                 .initializer("$L$L", TableInfoUtil.getSerialVersionUID(table, BeanTypeEnum.HASH_PARAM), "L").build());
         beanTypeBuilder.addField(FieldSpec
-                .builder(ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(String.class), ClassName.get(Object.class)), "typeMap", Modifier.PRIVATE,
+                .builder(ParameterizedTypeName.get(ClassName.get(Map.class), ClassName.get(String.class), ParameterizedTypeName.get(ClassName.get(Class.class), TypeVariableName.get("?"))), "typeMap", Modifier.PROTECTED,
                         Modifier.STATIC, Modifier.FINAL)
                 .initializer(CodeBlock.builder().add("new $T()", HashMap.class).build()).build());
+
+        beanTypeBuilder.addMethod(MethodSpec.methodBuilder("_getType").returns(ParameterizedTypeName.get(ClassName.get(Class.class), TypeVariableName.get("?")))
+                .addParameter(ClassName.get(String.class), "key").addAnnotation(AnnotationSpec.builder(Override.class).build())
+                .addModifiers(Modifier.PUBLIC).addCode("return typeMap.get(key);").build());
 
         if (staticBlock) {
             beanTypeBuilder.addStaticBlock(codeBlockBuilder.build());
