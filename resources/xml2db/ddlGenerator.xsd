@@ -9,21 +9,7 @@
                 <element name="constPool" minOccurs="0">
                     <complexType>
                         <sequence>
-                            <element name="enumConst" maxOccurs="unbounded">
-                                <complexType>
-                                    <sequence>
-                                        <element name="options" minOccurs="0">
-                                            <complexType>
-                                                <sequence>
-                                                    <element ref="ddl:valueEnum" maxOccurs="unbounded"/>
-                                                </sequence>
-                                            </complexType>
-                                        </element>
-                                    </sequence>
-                                    <attribute name="name" type="string" use="required"/>
-                                    <attribute name="note" type="string"/>
-                                </complexType>
-                            </element>
+                            <element ref="ddl:enumConst" maxOccurs="unbounded"/>
                         </sequence>
                     </complexType>
                 </element>
@@ -160,8 +146,33 @@
         </complexType>
     </element>
 
+    <element name="enumConst">
+        <complexType>
+            <sequence>
+                <element name="options" minOccurs="0">
+                    <complexType>
+                        <sequence>
+                            <element ref="ddl:valueEnum" maxOccurs="unbounded"/>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
+            <attribute name="name" type="string" use="required"/>
+            <attribute name="note" type="string"/>
+        </complexType>
+    </element>
+
     <element name="valueEnum">
         <complexType>
+            <sequence>
+                <element name="subEnum" minOccurs="0">
+                    <complexType>
+                        <sequence>
+                            <element ref="ddl:enumConst" maxOccurs="unbounded"/>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
             <attribute name="value" type="string"/>
             <attribute name="name" type="string"/>
             <attribute name="alias" type="string"/>
