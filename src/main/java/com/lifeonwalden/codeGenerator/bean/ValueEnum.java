@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import java.io.Serializable;
+import java.util.List;
 
 @XStreamAlias(value = "valueEnum")
 public class ValueEnum implements Serializable {
@@ -20,6 +21,18 @@ public class ValueEnum implements Serializable {
 
     @XStreamAsAttribute
     private String desc;
+
+    private List<EnumConst> subEnum;
+
+    public List<EnumConst> getSubEnum() {
+        return subEnum;
+    }
+
+    public ValueEnum setSubEnum(List<EnumConst> subEnum) {
+        this.subEnum = subEnum;
+
+        return this;
+    }
 
     public String getName() {
         return name;

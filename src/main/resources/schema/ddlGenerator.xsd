@@ -165,10 +165,10 @@
     <element name="valueEnum">
         <complexType>
             <sequence>
-                <element name="subEnum" minOccurs="0">
+                <element name="subEnum" minOccurs="0" maxOccurs="1">
                     <complexType>
                         <sequence>
-                            <element ref="ddl:enumConst" maxOccurs="unbounded"/>
+                            <element ref="ddl:enumConst" maxOccurs="1"/>
                         </sequence>
                     </complexType>
                 </element>

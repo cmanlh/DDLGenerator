@@ -26,17 +26,7 @@ public class JsEnumGeneratorImpl implements ConstBasedGenerator {
         OutputUtilities.newLine(sb);
 
         for (EnumConst enumConst : enumConstList) {
-            if (null != enumConst.getNote() && enumConst.getNote().length() > 0) {
-                OutputUtilities.newLine(sb.append("// ").append(enumConst.getNote()));
-            }
-
-            sb.append("var ").append(enumConst.getName()).append(" = Object.assign(new Enum(), {");
-            for (ValueEnum value : enumConst.getOptions()) {
-                sb.append(value.getName()).append(" : { name : '").append(value.getName()).append("', value :").append(value.getValue())
-                        .append(", alias :'").append(value.getAlias()).append("',desc:'").append(value.getDesc()).append("'},");
-            }
-            sb.deleteCharAt(sb.length() - 1).append("});");
-            OutputUtilities.newLine(sb);
+            generateEnum(enumConst, sb);
         }
 
         try {
@@ -51,5 +41,33 @@ public class JsEnumGeneratorImpl implements ConstBasedGenerator {
         }
 
         return null;
+    }
+
+    private void generateEnum(EnumConst enumConst, StringBuilder sb) {
+        for (ValueEnum value : enumConst.getOptions()) {
+            if (null != value.getSubEnum() && value.getSubEnum().size() == 1) {
+                EnumConst subEnumConst = value.getSubEnum().get(0);
+                generateEnum(subEnumConst,sb);
+            }
+        }
+
+        if (null != enumConst.getNote() && enumConst.getNote().length() > 0) {
+            OutputUtilities.newLine(sb.append("// ").append(enumConst.getNote()));
+        }
+
+        sb.append("var ").append(enumConst.getName()).append(" = Object.assign(new Enum(), {");
+        for (ValueEnum value : enumConst.getOptions()) {
+            sb.append(value.getName()).append(" : { name : '").append(value.getName()).append("', value :").append(value.getValue())
+                    .append(", alias :'").append(value.getAlias()).append("',desc:'").append(value.getDesc());
+
+            if (null != value.getSubEnum() && value.getSubEnum().size() == 1) {
+                EnumConst subEnumConst = value.getSubEnum().get(0);
+                sb.append("', subEnum :").append(subEnumConst.getName()).append("},");
+            }else {
+                sb.append("'},");
+            }
+        }
+        sb.deleteCharAt(sb.length() - 1).append("});");
+        OutputUtilities.newLine(sb);
     }
 }
